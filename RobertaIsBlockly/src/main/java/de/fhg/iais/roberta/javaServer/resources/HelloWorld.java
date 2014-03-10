@@ -1,5 +1,7 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import de.fhg.iais.roberta.javaServer.util.KeyVal;
 
 @Path("/hello")
-public class HelloWorld
-{
+public class HelloWorld {
     private static final Logger LOG = LoggerFactory.getLogger(HelloWorld.class);
+    private static AtomicInteger hwCounter = new AtomicInteger(0);
 
     @Path("/json1")
     @GET
@@ -39,8 +41,9 @@ public class HelloWorld
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response handleHw() {
-        LOG.info("somebody wants to see HW");
-        return Response.ok("Hello World").build();
+        int cnt = hwCounter.addAndGet(1);
+        LOG.info("somebody wants to see HW " + cnt);
+        return Response.ok("Hello World " + cnt).build();
     }
 
 }
