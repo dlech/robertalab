@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<block type="controls_repeat_ext" id="8" inline="true" x="69" y="109"
+       xmlns="http://de.fhg.iais.roberta.blockly"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       schemaLocation="http://de.fhg.iais.roberta.blockly file:///C:/downloads/doc/android/roberta/workspace/blockly.xsd"
+>
+    <value name="TIMES">
+        <block id="21" type="math_number">
+            <field name="NUM">5</field>
+        </block>
+    </value>
+    <statement name="DO">
+        <block type="controls_repeat_ext" id="9" inline="true">
+            <value name="TIMES">
+                <block id="22" type="math_number">
+                    <field name="NUM">0</field>
+                </block>
+            </value>
+            <statement name="DO">
+                <block type="controls_if" id="10" inline="false">
+                    <value name="IF0">
+                        <block id="23" type="logic_compare" inline="true">
+                            <field name="OP">LT</field>
+                            <value name="A">
+                                <block id="24" type="math_number">
+                                    <field name="NUM">0</field>
+                                </block>
+                            </value>
+                            <value name="B">
+                                <block id="25" type="math_number">
+                                    <field name="NUM">0</field>
+                                </block>
+                            </value>
+                        </block>
+                        <statement name="DO0">
+                            <block id="16" type="text_print" inline="false">
+                                <value name="TEXT">
+                                    <block id="17" type="math_arithmetic" inline="true">
+                                        <field name="OP">ADD</field>
+                                        <value name="A">
+                                            <block id="18" type="math_number">
+                                                <field name="NUM">0</field>
+                                            </block>
+                                        </value>
+                                        <value name="B">
+                                            <block id="19" type="math_number">
+                                                <field name="NUM">0</field>
+                                            </block>
+                                        </value>
+                                    </block>
+                                </value>
+                            </block>
+                        </statement>
+                    </value>
+                </block>
+            </statement>
+        </block>
+    </statement>
+</block>
