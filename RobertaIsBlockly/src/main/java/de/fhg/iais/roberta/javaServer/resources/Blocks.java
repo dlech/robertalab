@@ -23,15 +23,110 @@ public class Blocks {
 
     static {
         String eins = "" //
-            + "<xml>" //
-            + "  <block type='controls_if'></block>" //
-            + "  <block type='controls_repeat_ext'></block>" //
-            + "  <block type='logic_compare'></block>" //
-            + "  <block type='math_number'></block>" //
-            + "  <block type='math_arithmetic'></block>" //
-            + "  <block type='text'></block>" //
-            + "  <block type='text_print'></block>" //
-            + "  </xml>";
+            + "<xml id='toolbox' style='display: none'>" //
+            + "  <category name='Aktion'>" //
+            + "    <block type='robActions_motorDiff_on'>" //
+            + "      <value name='POWER'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>30</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "    </block>" //
+            + "    <block type='robActions_motorDiff_on_for'>" //
+            + "      <value name='POWER'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>30</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "      <value name='DISTANCE'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>10</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "    </block>" //
+            + "    <block type='robActions_motorDiff_stop'></block>" //
+            + "    <block type='robActions_motorDiff_turn'>" //
+            + "      <value name='POWER'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>30</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "    </block>" //
+            + "    <block type='robActions_motorDiff_turn_for'>" //
+            + "      <value name='POWER'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>30</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "      <value name='DISTANCE'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>10</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "    </block>" //
+            + "    <block type='robActions_display'>" //
+            + "      <value name='OUT'>" //
+            + "        <block type='text'>" //
+            + "          <field name='TEXT'>Hallo</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "      <value name='COL'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>0</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "      <value name='ROW'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>0</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "    </block>" //
+            + "    <block type='robActions_playTone'>" //
+            + "      <value name='FREQUENZ'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>300</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "      <value name='DURATION'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>100</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "    </block>" //
+            + "    <block type='robActions_brickLight'></block>" //
+            + "  </category>" //
+            + "  <category name='Kontrolle'>" //
+            + "    <block type='robControls_wait'>" //
+            + "      <value name='VALUE'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>25</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "    </block>" //
+            + "    <block type='robControls_loopUntil'>" //
+            + "      <value name='VALUE'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>25</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "    </block>" //
+            + "    <block type='robControls_ifElse'>" //
+            + "      <value name='VALUE'>" //
+            + "        <block type='math_number'>" //
+            + "          <field name='NUM'>25</field>" //
+            + "        </block>" //
+            + "      </value>" //
+            + "    </block>" //
+            + "  </category>" //
+            + "  <category name='Sensoren'>" //
+            + "    <block type='robSensors_ultrasonic'>" //
+            + "    </block>" //
+            + "    <block type='robSensors_touch'>" //
+            + "    </block>" //
+            + "    <block type='robSensors_colour'>" //
+            + "    </block>" //
+            + "  </category>" //
+            + "</xml>";
         String zwei = "" //
             + "<xml>" //
             + "  <block type='controls_if'></block>" //
@@ -39,7 +134,7 @@ public class Blocks {
             + "  <block type='math_number'></block>" //
             + "  <block type='math_arithmetic'></block>" //
             + "  <block type='text'></block>" //
-            + "  </xml>";
+            + "</xml>";
         templates.put("1", eins);
         templates.put("2", zwei);
     }
@@ -58,6 +153,7 @@ public class Blocks {
                 String name = request.getString("name");
                 String program = request.getString("program");
                 programs.put(name, program);
+                System.out.println(programs.get(name));
                 response.put("rc", "ok");
             } else if ( cmd.equals("loadP") ) {
                 String name = request.getString("name");
