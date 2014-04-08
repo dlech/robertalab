@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--W3C Schema erstellt mit XMLSpy v2011 rel. 3 sp1 (http://www.altova.com)-->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://de.fhg.iais.roberta.blockly" targetNamespace="http://de.fhg.iais.roberta.blockly"
-    elementFormDefault="qualified"
->
-    <xs:element name="value">
+    elementFormDefault="qualified">
+    <xs:element name="block">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="block" minOccurs="0"/>
-                <xs:element ref="statement" minOccurs="0"/>
+                <xs:element ref="mutation" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="field" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="value" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="statement" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="repetitions" minOccurs="0"/>
             </xs:sequence>
-            <xs:attribute name="name" use="required" type="xs:string"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="statement">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="block" minOccurs="0"/>
-            </xs:sequence>
-            <xs:attribute name="name" use="required" type="xs:string"/>
+            <xs:attribute name="x" type="xs:string" use="optional"/>
+            <xs:attribute name="y" type="xs:string" use="optional"/>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="type" type="xs:string" use="required"/>
+            <xs:attribute name="inline" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="field">
@@ -29,18 +27,53 @@
             </xs:simpleContent>
         </xs:complexType>
     </xs:element>
-    <xs:element name="block">
+    <xs:element name="value">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="field" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="block"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="statement">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="block" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="repetitions">
+        <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="value" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="statement" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
-            <xs:attribute name="x" use="optional" type="xs:integer"/>
-            <xs:attribute name="y" use="optional" type="xs:integer"/>
-            <xs:attribute name="type" use="required" type="xs:string"/>
-            <xs:attribute name="inline" type="xs:boolean"/>
-            <xs:attribute name="id" use="required" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="mutation">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="arg" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="elseif" type="xs:integer" use="optional"/>
+            <xs:attribute name="else" type="xs:integer" use="optional"/>
+            <xs:attribute name="value" type="xs:integer" use="optional"/>
+            <xs:attribute name="at" type="xs:boolean" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="top">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="block" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="x" type="xs:string"/>
+            <xs:attribute name="y" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="arg">
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string"/>
         </xs:complexType>
     </xs:element>
 </xs:schema>
