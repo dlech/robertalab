@@ -1,59 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<block type="controls_repeat_ext" id="8" inline="true" x="69" y="109"
-       xmlns="http://de.fhg.iais.roberta.blockly"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       schemaLocation="http://de.fhg.iais.roberta.blockly file:///C:/downloads/doc/android/roberta/workspace/blockly.xsd"
->
-    <value name="TIMES">
-        <block id="21" type="math_number">
-            <field name="NUM">5</field>
-        </block>
-    </value>
-    <statement name="DO">
-        <block type="controls_repeat_ext" id="9" inline="true">
-            <value name="TIMES">
-                <block id="22" type="math_number">
-                    <field name="NUM">0</field>
-                </block>
-            </value>
-            <statement name="DO">
-                <block type="controls_if" id="10" inline="false">
-                    <value name="IF0">
-                        <block id="23" type="logic_compare" inline="true">
-                            <field name="OP">LT</field>
-                            <value name="A">
-                                <block id="24" type="math_number">
-                                    <field name="NUM">0</field>
-                                </block>
-                            </value>
-                            <value name="B">
-                                <block id="25" type="math_number">
-                                    <field name="NUM">0</field>
-                                </block>
-                            </value>
-                        </block>
-                        <statement name="DO0">
-                            <block id="16" type="text_print" inline="false">
-                                <value name="TEXT">
-                                    <block id="17" type="math_arithmetic" inline="true">
-                                        <field name="OP">ADD</field>
-                                        <value name="A">
-                                            <block id="18" type="math_number">
-                                                <field name="NUM">0</field>
-                                            </block>
-                                        </value>
-                                        <value name="B">
-                                            <block id="19" type="math_number">
-                                                <field name="NUM">0</field>
-                                            </block>
-                                        </value>
-                                    </block>
-                                </value>
-                            </block>
-                        </statement>
-                    </value>
-                </block>
-            </statement>
-        </block>
-    </statement>
-</block>
+<xml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://de.fhg.iais.roberta.blockly file:///C:/installations/GitRepository/robertaisblockly/RobertaIsBlockly/src/main/resources/blockly.xsd" xmlns="http://de.fhg.iais.roberta.blockly">
+	<top x="113" y="12">
+		<block type="controls_if" id="254" inline="false">
+			<mutation elseif="1"/>
+			<repetitions>
+				<value name="IF0">
+					<block type="logic_compare" id="255" inline="true">
+						<field name="OP">EQ</field>
+					</block>
+				</value>
+				<statement name="DO0">
+					<block type="controls_repeat_ext" id="256" inline="true">
+						<value name="TIMES">
+							<block type="math_number" id="257">
+								<field name="NUM">10</field>
+							</block>
+						</value>
+						<statement name="DO">
+							<block type="text_print" id="258" inline="false"/>
+							<block type="text_print" id="259" inline="false"/>
+							<block type="variables_set" id="260" inline="true">
+								<field name="VAR">item</field>
+							</block>
+						</statement>
+					</block>
+				</statement>
+				<statement name="DO1">
+					<block type="controls_repeat_ext" id="262" inline="true">
+						<value name="TIMES">
+							<block type="math_number" id="263">
+								<field name="NUM">10</field>
+							</block>
+						</value>
+						<statement name="DO">
+							<block type="text_print" id="264" inline="false"/>
+							<block type="lists_setIndex" id="265" inline="true">
+								<mutation at="true"/>
+								<field name="MODE">SET</field>
+								<field name="WHERE">FROM_START</field>
+								<value name="LIST">
+									<block type="variables_get" id="266">
+										<field name="VAR">list</field>
+									</block>
+								</value>
+							</block>
+							<block type="text_print" id="267" inline="false"/>
+						</statement>
+					</block>
+				</statement>
+			</repetitions>
+		</block>
+		<block type="controls_forEach" id="268" inline="false">
+			<field name="VAR">i</field>
+			<value name="LIST">
+				<block type="lists_create_empty" id="269"/>
+			</value>
+			<statement name="DO">
+				<block type="lists_setIndex" id="270" inline="true">
+					<mutation at="true"/>
+					<field name="MODE">SET</field>
+					<field name="WHERE">FROM_START</field>
+					<value name="LIST">
+						<block type="variables_get" id="271">
+							<field name="VAR">list</field>
+						</block>
+					</value>
+				</block>
+			</statement>
+		</block>
+	</top>
+	<top x="493" y="112">
+		<block type="logic_compare" id="261" inline="true">
+			<field name="OP">EQ</field>
+		</block>
+	</top>
+</xml>
