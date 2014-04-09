@@ -44,7 +44,8 @@ public class Blocks {
             + "        </block>" //
             + "      </value>" //
             + "    </block>" //
-            + "    <block type='robActions_motorDiff_stop'></block>" //
+            + "    <block type='robActions_motorDiff_stop'>" //
+            + "    </block>" //
             + "    <block type='robActions_motorDiff_turn'>" //
             + "      <value name='POWER'>" //
             + "        <block type='math_number'>" //
@@ -106,9 +107,11 @@ public class Blocks {
             + "    <block type='robControls_loopUntil'>" //
             + "      <value name='VALUE'>" //
             + "        <block type='math_number'>" //
-            + "          <field name='NUM'>25</field>" //
+            + "          <field name='NUM'>30</field>" //
             + "        </block>" //
             + "      </value>" //
+            + "    </block>" //
+            + "    <block type='robControls_loopForever'>" //
             + "    </block>" //
             + "    <block type='robControls_ifElse'>" //
             + "      <value name='VALUE'>" //
@@ -126,6 +129,23 @@ public class Blocks {
             + "    <block type='robSensors_colour'>" //
             + "    </block>" //
             + "  </category>" //
+            + "  <category name='Tool1'>" //
+            + "  <block type='controls_if'></block>" //
+            + "  <block type='controls_repeat_ext'></block>" //
+            + "  <block type='logic_compare'></block>" //
+            + "  <block type='math_number'></block>" //
+            + "  <block type='math_arithmetic'></block>" //
+            + "  <block type='text'></block>" //
+            + "  <block type='text_print'></block>" //
+            + "  </category>" //
+            + "  <category name='Tool2'>" //
+            + "  <block type='controls_if'></block>" //
+            + "  <block type='logic_compare'></block>" //
+            + "  <block type='math_number'></block>" //
+            + "  <block type='math_arithmetic'></block>" //
+            + "  <block type='text'></block>" //
+            + "  </category>" //
+
             + "</xml>";
         String zwei = "" //
             + "<xml>" //
