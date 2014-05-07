@@ -20,19 +20,6 @@ import org.slf4j.LoggerFactory;
 public class DownloadleJOSJar {
     private static final Logger LOG = LoggerFactory.getLogger(DownloadleJOSJar.class);
 
-    /*
-    // old method without header fileName!
-    @POST
-    //@Consumes(MediaType.APPLICATION_OCTET_STREAM)
-    @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response handle(String request, HttpServletResponse response) throws Exception {
-        LOG.info("/download" + "," + "Code from Brick: " + request);
-        File file = new File("c:\\temp\\HelloWorld2.jar");
-        byte[] content = Files.readAllBytes(file.toPath());
-
-        return Response.ok(response).build();
-    }*/
-
     @POST
     //@Consumes(MediaType.WILDCARD)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
@@ -59,7 +46,7 @@ public class DownloadleJOSJar {
     }
 
     private String tokenHandler(String token) {
-        if ( token.equals("zxcv") ) {
+        if ( token.equals("ZXCV") ) {
             return "blurp.jar";
         } else {
             return null;
