@@ -15,10 +15,14 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.fhg.iais.roberta.business.ProgramProcessor;
+import de.fhg.iais.roberta.persistence.bo.Program;
+import de.fhg.iais.roberta.persistence.connector.SessionFactoryWrapper;
+import de.fhg.iais.roberta.persistence.connector.SessionWrapper;
+
 @Path("/blocks")
 public class Blocks {
     private static final Logger LOG = LoggerFactory.getLogger(Blocks.class);
-    private static final Map<String, String> programs = new ConcurrentHashMap<>();
     private static final Map<String, String> templates = new ConcurrentHashMap<>();
 
     static {
@@ -165,25 +169,28 @@ public class Blocks {
     public Response workWithBlocks(JSONObject fullRequest) throws Exception {
         LOG.info("/blocks got: " + fullRequest);
         JSONObject response = new JSONObject();
+        SessionWrapper session = SessionFactoryWrapper.getSession();
         try {
             JSONObject request = fullRequest.getJSONObject("data");
             String cmd = request.getString("cmd");
             response.put("cmd", cmd);
             if ( cmd.equals("saveP") ) {
-                String name = request.getString("name");
-                String program = request.getString("program");
-                programs.put(name, program);
-                System.out.println(programs.get(name));
-                response.put("rc", "ok");
+                String programName = request.getString("name");
+                String programText = request.getString("program");
+                Program program = new ProgramProcessor().updateProgram(session, "RobertaLabTest", programName, programText);
+                String rc = program == null ? "sucessful" : "ERROR - nothing persisted";
+                LOG.info(rc);
+                response.put("rc", rc);
             } else if ( cmd.equals("loadP") ) {
-                String name = request.getString("name");
-                String program = programs.get(name);
+                String projectName = "RobertaLabTest";
+                String programName = request.getString("name");
+                Program program = new ProgramProcessor().getProgram(session, projectName, programName);
                 if ( program == null ) {
                     response.put("rc", "error");
                     response.put("cause", "program not found");
                 } else {
                     response.put("rc", "ok");
-                    response.put("data", program);
+                    response.put("data", program.getProgramText());
                 }
             } else if ( cmd.equals("loadT") ) {
                 String name = request.getString("name");
@@ -199,11 +206,17 @@ public class Blocks {
                 response.put("rc", "error");
                 response.put("cause", "invalid command");
             }
+            session.commit();
         } catch ( Exception e ) {
+            session.rollback();
             LOG.error("/blocks exception", e);
             response.put("rc", "error");
             String msg = e.getMessage();
             response.put("cause", msg == null ? "no message" : msg);
+        } finally {
+            if ( session != null ) {
+                session.close();
+            }
         }
         response.put("serverTime", new Date());
         return Response.ok(response).build();
