@@ -15,7 +15,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fhg.iais.roberta.business.ProgramProcessor;
+import de.fhg.iais.roberta.persistence.ProgramProcessor;
 import de.fhg.iais.roberta.persistence.bo.Program;
 import de.fhg.iais.roberta.persistence.connector.SessionFactoryWrapper;
 import de.fhg.iais.roberta.persistence.connector.SessionWrapper;
@@ -178,7 +178,7 @@ public class Blocks {
                 String programName = request.getString("name");
                 String programText = request.getString("program");
                 Program program = new ProgramProcessor().updateProgram(session, "RobertaLabTest", programName, programText);
-                String rc = program == null ? "sucessful" : "ERROR - nothing persisted";
+                String rc = program != null ? "sucessful" : "ERROR - nothing persisted";
                 LOG.info(rc);
                 response.put("rc", rc);
             } else if ( cmd.equals("loadP") ) {

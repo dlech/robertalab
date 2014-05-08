@@ -13,7 +13,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fhg.iais.roberta.javaServer.util.ClientLogger;
+import de.fhg.iais.roberta.util.ClientLogger;
 
 @Path("/ping")
 public class Ping

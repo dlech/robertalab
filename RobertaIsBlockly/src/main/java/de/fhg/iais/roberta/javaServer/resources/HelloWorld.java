@@ -12,7 +12,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fhg.iais.roberta.javaServer.util.KeyVal;
+import de.fhg.iais.roberta.util.KeyVal;
 
 @Path("/hello")
 public class HelloWorld {
