@@ -101,6 +101,7 @@ public class Blocks {
             + "    <block type='robActions_brickLight'></block>" //
             + "  </category>" //
             + "  <category name='Kontrolle'>" //
+            + "    <block type='robControls_start'></block>"
             + "    <block type='robControls_wait'>" //
             + "      <value name='VALUE'>" //
             + "        <block type='math_number'>" //
@@ -133,31 +134,32 @@ public class Blocks {
             + "    <block type='robSensors_colour'>" //
             + "    </block>" //
             + "  </category>" //
-            + "  <category name='Tool1'>" //
-            + "  <block type='controls_if'></block>" //
-            + "  <block type='controls_repeat_ext'></block>" //
-            + "  <block type='logic_compare'></block>" //
-            + "  <block type='math_number'></block>" //
-            + "  <block type='math_arithmetic'></block>" //
-            + "  <block type='text'></block>" //
-            + "  <block type='text_print'></block>" //
-            + "  </category>" //
-            + "  <category name='Tool2'>" //
-            + "  <block type='controls_if'></block>" //
-            + "  <block type='logic_compare'></block>" //
-            + "  <block type='math_number'></block>" //
-            + "  <block type='math_arithmetic'></block>" //
-            + "  <block type='text'></block>" //
-            + "  </category>" //
-
             + "</xml>";
         String zwei = "" //
             + "<xml>" //
-            + "  <block type='controls_if'></block>" //
-            + "  <block type='logic_compare'></block>" //
-            + "  <block type='math_number'></block>" //
-            + "  <block type='math_arithmetic'></block>" //
-            + "  <block type='text'></block>" //
+            + "  <category name='Tool1'>" //
+            + "    <block type='controls_if'></block>" //
+            + "    <block type='controls_repeat_ext'></block>" //
+            + "    <block type='logic_compare'></block>" //
+            + "    <block type='math_number'></block>" //
+            + "    <block type='math_arithmetic'></block>" //
+            + "    <block type='text'></block>" //
+            + "    <block type='text_print'></block>" //
+            + "  </category>" //
+            + "  <category name='Tool2'>" //
+            + "    <block type='controls_if'></block>" //
+            + "    <block type='logic_compare'></block>" //
+            + "    <block type='math_number'></block>" //
+            + "    <block type='math_arithmetic'></block>" //
+            + "    <block type='text'></block>" //
+            + "  </category>" //
+            + "  <category name='Tool3'>" //
+            + "    <block type='controls_if'></block>" //
+            + "    <block type='logic_compare'></block>" //
+            + "    <block type='math_number'></block>" //
+            + "    <block type='math_arithmetic'></block>" //
+            + "    <block type='text'></block>" //
+            + "  </category>" //
             + "</xml>";
         templates.put("1", eins);
         templates.put("2", zwei);
