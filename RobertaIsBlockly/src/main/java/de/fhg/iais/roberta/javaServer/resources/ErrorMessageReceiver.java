@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// Displays error report from brick in log.
 @Path("/error")
 public class ErrorMessageReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(ErrorMessageReceiver.class);

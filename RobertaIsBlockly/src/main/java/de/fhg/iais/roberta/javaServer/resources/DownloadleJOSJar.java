@@ -21,14 +21,14 @@ public class DownloadleJOSJar {
     private static final Logger LOG = LoggerFactory.getLogger(DownloadleJOSJar.class);
 
     @POST
-    //@Consumes(MediaType.WILDCARD)
+    //@Consumes(MediaType.???)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response handle(String token) {
-        LOG.info("/download" + ", " + "Code from Brick: " + token);
+        LOG.info("/download" + ", " + "Token from Brick: " + token);
         ResponseBuilder builder = Response.status(Status.OK);
-        String fileName = tokenHandler(token); // this will be database access later, get fileName associated with token
+        String fileName = "HelloWorld.jar"; //in the root directory of RobertaIsBlockly project
         try {
-            File file = new File("c:\\temp", fileName); // thows nullpointer e with fileName=null (no token @EV3), TODO need to be handled -> infomessage to user
+            File file = new File(fileName);
             FileInputStream fis = new FileInputStream(file);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             byte[] buf = new byte[4096];
@@ -37,19 +37,10 @@ public class DownloadleJOSJar {
             }
             builder.header("fileName", fileName);
             builder.entity(bos.toByteArray());
-            fis.close(); // + finally?!
-
+            fis.close();
         } catch ( IOException ex ) {
             LOG.info("Error @FileInputStream(file)");
         }
         return builder.build();
-    }
-
-    private String tokenHandler(String token) {
-        if ( token.equals("ZXCV") ) {
-            return "blurp.jar";
-        } else {
-            return null;
-        }
     }
 }
