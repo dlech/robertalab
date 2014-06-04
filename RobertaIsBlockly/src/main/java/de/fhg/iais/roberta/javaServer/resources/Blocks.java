@@ -131,6 +131,76 @@ public class Blocks {
                 + " <xml id='toolbox' style='display: none'> "
                 + "  <category name='Aktion'> "
                 + "  <category name='Bewegung'> "
+                + "    <block type='robActions_motorBig_on'>" //
+                + "        <field name='MOTORPORT'>B</field> "
+                + "      <value name='POWER'>" //
+                + "        <block type='math_number'>" //
+                + "          <field name='NUM'>30</field>" //
+                + "        </block>" //
+                + "      </value>" //
+                + "    </block>" //
+                + "    <block type='robActions_motorBig_on_for'>" //
+                + "        <field name='MOTORPORT'>B</field> "
+                + "      <value name='POWER'>" //
+                + "        <block type='math_number'>" //
+                + "          <field name='NUM'>30</field>" //
+                + "        </block>" //
+                + "      </value>" //
+                + "      <value name='VALUE'>" //
+                + "        <block type='math_number'>" //
+                + "          <field name='NUM'>1</field>" //
+                + "        </block>" //
+                + "      </value>" //
+                + "    </block>" //
+                + "    <block type='robActions_motorBig_getPower'>" //
+                + "        <field name='MOTORPORT'>B</field> "
+                + "    </block>" //
+                + "    <block type='robActions_motorBig_setPower'>" //
+                + "        <field name='MOTORPORT'>B</field> "
+                + "      <value name='POWER'>" //
+                + "        <block type='math_number'>" //
+                + "          <field name='NUM'>30</field>" //
+                + "        </block>" //
+                + "      </value>" //
+                + "    </block>" //
+                + "    <block type='robActions_motorBig_stop'>" //
+                + "        <field name='MOTORPORT'>A</field> "
+                + "    </block>" //
+                + "    <block type='robActions_motorMiddle_on'>" //
+                + "        <field name='MOTORPORT'>A</field> "
+                + "      <value name='POWER'>" //
+                + "        <block type='math_number'>" //
+                + "          <field name='NUM'>30</field>" //
+                + "        </block>" //
+                + "      </value>" //
+                + "    </block>" //
+                + "    <block type='robActions_motorMiddle_on_for'>" //
+                + "        <field name='MOTORPORT'>A</field> "
+                + "      <value name='POWER'>" //
+                + "        <block type='math_number'>" //
+                + "          <field name='NUM'>30</field>" //
+                + "        </block>" //
+                + "      </value>" //
+                + "      <value name='VALUE'>" //
+                + "        <block type='math_number'>" //
+                + "          <field name='NUM'>1</field>" //
+                + "        </block>" //
+                + "      </value>" //
+                + "    </block>" //
+                + "    <block type='robActions_motorMiddle_getPower'>" //
+                + "        <field name='MOTORPORT'>A</field> "
+                + "    </block>" //
+                + "    <block type='robActions_motorMiddle_setPower'>" //
+                + "        <field name='MOTORPORT'>A</field> "
+                + "      <value name='POWER'>" //
+                + "        <block type='math_number'>" //
+                + "          <field name='NUM'>30</field>" //
+                + "        </block>" //
+                + "      </value>" //
+                + "    </block>" //
+                + "    <block type='robActions_motorMiddle_stop'>" //
+                + "        <field name='MOTORPORT'>A</field> "
+                + "    </block>" //
                 + "  </category> "
                 + "  <category name='Anzeige'> "
                 + "  </category> "
@@ -207,6 +277,13 @@ public class Blocks {
                 + "      </block>"
                 + "      <block type='robSensors_gyro_getSample'>"
                 + "        <field name='SENSORPORT'>2</field> "
+                + "      </block>"
+                + "    </category> "
+                + "    <category name='Zeitgeber'> "
+
+                + "      <block type='robSensors_timer_getSample'>"
+                + "      </block>"
+                + "      <block type='robSensors_timer_reset'>"
                 + "      </block>"
                 + "    </category> "
                 + "  </category> "
