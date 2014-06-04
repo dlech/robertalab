@@ -1,6 +1,7 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -511,7 +512,18 @@ public class Blocks {
                     response.put("rc", "ok");
                     response.put("data", template);
                 }
+            } else if ( cmd.equals("loadPN") ) {
+                List<String> programNames = new ProgramProcessor().getProgramNames(session);
+                response.put("rc", "ok");
+                response.put("programNames", programNames);
+            } else if ( cmd.equals("deletePN") ) {
+                String projectName = "RobertaLabTest";
+                String programName = request.getString("name");
+                int numberOfDeletedPrograms = new ProgramProcessor().deleteByName(session, projectName, programName);
+                response.put("rc", "ok");
+                response.put("deleted", numberOfDeletedPrograms);
             } else {
+                LOG.error("Invalid /blocks command: " + cmd);
                 response.put("rc", "error");
                 response.put("cause", "invalid command");
             }
