@@ -65,6 +65,7 @@
         <xs:attribute name="elseif" type="xs:integer" use="optional"/>
         <xs:attribute name="else" type="xs:integer" use="optional"/>
         <xs:attribute name="value" type="xs:integer" use="optional"/>
+        <xs:attribute name="items" type="xs:integer" use="optional"/>
         <xs:attribute name="at" type="xs:boolean" use="optional"/>
         <xs:attribute name="divisor_input" type="xs:boolean" use="optional"/>
     </xs:complexType>   
