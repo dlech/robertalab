@@ -9,4 +9,7 @@
 	<root level="info">
 		<appender-ref ref="STDOUT" />
 	</root>
+    
+    <logger name="de.fhg.iais.roberta.brick.BrickCommunicationState" level="debug" />
+    
 </configuration>

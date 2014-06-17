@@ -5,9 +5,9 @@
 
 <hibernate-configuration>
     <session-factory>
+<!-- 
         <property name="show_sql">true</property>
 		<property name="format_sql">true</property>
-<!-- 
 -->	
 		<property name="dialect">de.fhg.iais.roberta.persistence.connector.SQLiteDialect</property>
 		<property name="connection.driver_class">org.sqlite.JDBC</property>

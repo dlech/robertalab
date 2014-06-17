@@ -16,15 +16,29 @@ import javax.ws.rs.core.Response.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+import com.sun.jersey.api.core.InjectParam;
+
+import de.fhg.iais.roberta.brick.BrickCommunicator;
+
 @Path("/download")
 public class DownloadleJOSJar {
     private static final Logger LOG = LoggerFactory.getLogger(DownloadleJOSJar.class);
 
+    private final BrickCommunicator brickCommunicator;
+
+    @Inject
+    public DownloadleJOSJar(@InjectParam BrickCommunicator brickCommunicator) {
+        this.brickCommunicator = brickCommunicator;
+        LOG.info("created");
+    }
+
     @POST
-    //@Consumes(MediaType.???)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response handle(String token) {
-        LOG.info("/download" + ", " + "Token from Brick: " + token);
+    public Response handle() {
+        String token = "1Q2W3E4R";
+        LOG.info("/download - token from brick: " + token);
+        this.brickCommunicator.iAmABrickAndWantToWaitForARunButtonPress(token);
         ResponseBuilder builder = Response.status(Status.OK);
         String fileName = "HelloWorld.jar"; //in the root directory of RobertaIsBlockly project
         try {

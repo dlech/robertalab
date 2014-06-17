@@ -37,6 +37,7 @@ public class Blocks {
         this.sessionFactoryWrapper = sessionFactoryWrapper;
         this.templates = templates;
         this.brickCommunicator = brickCommunicator;
+        LOG.info("created");
     }
 
     @POST
@@ -70,16 +71,11 @@ public class Blocks {
                 }
             } else if ( cmd.equals("runP") ) {
                 String projectName = "RobertaLabTest";
+                String token = "1Q2W3E4R";
                 String programName = request.getString("name");
-                Program program = new ProgramProcessor().getProgram(session, projectName, programName);
-                if ( program == null ) {
-                    response.put("rc", "error");
-                    response.put("cause", "program not found");
-                } else {
-
-                    response.put("rc", "ok");
-                    response.put("data", program.getProgramText());
-                }
+                String commResult = this.brickCommunicator.theRunButtonWasPressed(token, programName);
+                response.put("rc", "ok");
+                response.put("data", commResult);
             } else if ( cmd.equals("loadT") ) {
                 String name = request.getString("name");
                 String template = this.templates.get(name);
