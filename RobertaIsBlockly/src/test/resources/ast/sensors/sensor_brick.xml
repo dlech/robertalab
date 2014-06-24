@@ -1,0 +1,29 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<instance x="-96" y="73">
+    <block type="controls_if" id="858" inline="false">
+      <value name="IF0">
+        <block type="robSensors_touch_isPressed" id="859">
+          <field name="SENSORPORT">1</field>
+        </block>
+      </value>
+      <statement name="DO0">
+        <block type="variables_set" id="866" inline="true">
+          <field name="VAR">item</field>
+          <value name="VALUE">
+            <block type="robSensors_key_isPressed" id="966">
+              <field name="KEY">ENTER</field>
+            </block>
+          </value>
+        </block>
+        <block type="variables_set" id="867" inline="true">
+          <field name="VAR">item</field>
+          <value name="VALUE">
+            <block type="robSensors_key_isPressedAndReleased" id="969">
+              <field name="KEY">LEFT</field>
+            </block>
+          </value>
+        </block>
+      </statement>
+    </block>
+  </instance>
+</project>
