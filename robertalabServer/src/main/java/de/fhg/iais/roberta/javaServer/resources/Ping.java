@@ -16,8 +16,7 @@ import org.slf4j.LoggerFactory;
 import de.fhg.iais.roberta.util.ClientLogger;
 
 @Path("/ping")
-public class Ping
-{
+public class Ping {
     private static final Logger LOG = LoggerFactory.getLogger(Ping.class);
 
     @POST
