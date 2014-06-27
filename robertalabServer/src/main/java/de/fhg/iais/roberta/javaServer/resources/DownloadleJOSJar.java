@@ -30,7 +30,6 @@ public class DownloadleJOSJar {
     @Inject
     public DownloadleJOSJar(@InjectParam BrickCommunicator brickCommunicator) {
         this.brickCommunicator = brickCommunicator;
-        LOG.info("created");
     }
 
     @POST

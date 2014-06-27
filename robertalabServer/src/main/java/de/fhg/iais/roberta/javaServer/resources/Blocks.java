@@ -37,7 +37,6 @@ public class Blocks {
         this.sessionFactoryWrapper = sessionFactoryWrapper;
         this.templates = templates;
         this.brickCommunicator = brickCommunicator;
-        LOG.info("created");
     }
 
     @POST
