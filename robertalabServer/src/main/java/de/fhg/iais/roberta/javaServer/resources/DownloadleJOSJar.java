@@ -39,7 +39,7 @@ public class DownloadleJOSJar {
         LOG.info("/download - token from brick: " + token);
         this.brickCommunicator.iAmABrickAndWantToWaitForARunButtonPress(token);
         ResponseBuilder builder = Response.status(Status.OK);
-        String fileName = "HelloWorld.jar"; //in the root directory of RobertaIsBlockly project
+        String fileName = "ExampleProject.jar"; //in the root directory of RobertaIsBlockly project
         try {
             File file = new File(fileName);
             FileInputStream fis = new FileInputStream(file);
