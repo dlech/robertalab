@@ -67,6 +67,8 @@
         <xs:attribute name="value" type="xs:integer" use="optional"/>
         <xs:attribute name="items" type="xs:integer" use="optional"/>
         <xs:attribute name="at" type="xs:boolean" use="optional"/>
+        <xs:attribute name="at1" type="xs:boolean" use="optional"/>
+        <xs:attribute name="at2" type="xs:boolean" use="optional"/>
         <xs:attribute name="divisor_input" type="xs:boolean" use="optional"/>
     </xs:complexType>   
     <xs:complexType name="arg">

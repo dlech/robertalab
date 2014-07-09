@@ -1,0 +1,11 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<instance x="82" y="100">
+    <block type="controls_if" id="220" inline="false">
+      <value name="IF0">
+        <block type="logic_boolean" id="227">
+          <field name="BOOL">TRUE</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</project>
