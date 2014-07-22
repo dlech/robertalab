@@ -1,12 +1,9 @@
 <project  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-78" y="63">
-    <block type="variables_set" id="111" inline="true">
-      <field name="VAR">item</field>
-      <value name="VALUE">
+    
         <block type="robActions_motor_getPower" id="93">
           <field name="MOTORPORT">B</field>
         </block>
-      </value>
-    </block>
+   
   </instance>
 </project>

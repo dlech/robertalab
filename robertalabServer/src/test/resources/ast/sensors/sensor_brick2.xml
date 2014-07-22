@@ -1,0 +1,7 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-26" y="51">
+    <block type="robSensors_key_isPressedAndReleased" id="66">
+      <field name="KEY">ENTER</field>
+    </block>
+  </instance>
+</project>

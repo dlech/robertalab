@@ -1,0 +1,8 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-33" y="1">
+    <block type="robSensors_encoder_setMode" id="73">
+      <field name="MOTORPORT">A</field>
+      <field name="MODE">ROTATION</field>
+    </block>
+  </instance>
+</project>

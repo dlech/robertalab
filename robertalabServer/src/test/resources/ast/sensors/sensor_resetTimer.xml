@@ -1,0 +1,8 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+    <instance x="-96" y="73">
+        <block type="robSensors_timer_reset" id="833">
+          <field name="SENSORNUM">1</field>
+        </block>
+
+  </instance>
+</project>
