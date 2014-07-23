@@ -1,0 +1,29 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-12" y="1">
+    <block type="controls_repeat_ext" id="319" inline="true">
+      <value name="TIMES">
+        <block type="math_number" id="320">
+          <field name="NUM">10</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+  <instance x="-8" y="119">
+    <block type="controls_repeat_ext" id="361" inline="true">
+      <value name="TIMES">
+        <block type="math_number" id="362">
+          <field name="NUM">10</field>
+        </block>
+      </value>
+      <statement name="DO">
+        <block type="text_print" id="363" inline="false">
+          <value name="TEXT">
+            <block type="text" id="364">
+              <field name="TEXT">15</field>
+            </block>
+          </value>
+        </block>
+      </statement>
+    </block>
+  </instance>
+</project>
