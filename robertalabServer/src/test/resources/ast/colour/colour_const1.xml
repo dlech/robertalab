@@ -1,0 +1,9 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-205" y="175">
+
+        <block type="robColour_picker" id="611">
+          <field name="COLOUR">#585858</field>
+        </block>
+
+  </instance>
+</project>
