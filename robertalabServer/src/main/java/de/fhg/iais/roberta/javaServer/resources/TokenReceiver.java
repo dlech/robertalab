@@ -8,16 +8,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 // Displays error report from brick in log.
-@Path("/error")
-public class ErrorMessageReceiver {
-    private static final Logger LOG = LoggerFactory.getLogger(ErrorMessageReceiver.class);
+@Path("/token")
+public class TokenReceiver {
+    private static final Logger LOG = LoggerFactory.getLogger(TokenReceiver.class);
 
     @POST
     //@Consumes(MediaType.TEXT_PLAIN)
     //@Produces(MediaType.TEXT_PLAIN)
-    public Response handle(String errorMessage) {
-        LOG.info("/error, " + errorMessage);
-        return Response.ok("test").build();
+    public Response handle(String token) {
+        LOG.info("/token, " + token);
+        return Response.ok("OK").build();
     }
 
 }
