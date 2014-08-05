@@ -72,7 +72,8 @@ public class Blocks {
                 String projectName = "RobertaLabTest";
                 String token = "1Q2W3E4R";
                 String programName = request.getString("name");
-                String commResult = this.brickCommunicator.theRunButtonWasPressed(token, programName);
+                String configurationName = ""; // TODO change frontend to supply us with the configuration name
+                String commResult = this.brickCommunicator.theRunButtonWasPressed(token, programName, configurationName);
                 response.put("rc", "ok");
                 response.put("data", commResult);
             } else if ( cmd.equals("loadT") ) {
