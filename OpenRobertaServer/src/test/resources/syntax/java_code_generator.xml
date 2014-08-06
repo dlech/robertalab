@@ -1,0 +1,21 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+     <instance x="45" y="122">
+    <block type="robActions_display_text" id="56" inline="false">
+      <value name="OUT">
+        <block type="text" id="57">
+          <field name="TEXT">Hallo</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="58">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="59">
+          <field name="NUM">3</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</project>
