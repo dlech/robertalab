@@ -7,7 +7,6 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// Displays error report from brick in log.
 @Path("/token")
 public class TokenReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(TokenReceiver.class);

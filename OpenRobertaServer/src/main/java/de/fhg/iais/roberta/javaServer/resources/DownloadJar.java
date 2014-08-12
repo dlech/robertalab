@@ -22,13 +22,13 @@ import com.sun.jersey.api.core.InjectParam;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 
 @Path("/download")
-public class DownloadleJOSJar {
-    private static final Logger LOG = LoggerFactory.getLogger(DownloadleJOSJar.class);
+public class DownloadJar {
+    private static final Logger LOG = LoggerFactory.getLogger(DownloadJar.class);
 
     private final BrickCommunicator brickCommunicator;
 
     @Inject
-    public DownloadleJOSJar(@InjectParam BrickCommunicator brickCommunicator) {
+    public DownloadJar(@InjectParam BrickCommunicator brickCommunicator) {
         this.brickCommunicator = brickCommunicator;
     }
 
