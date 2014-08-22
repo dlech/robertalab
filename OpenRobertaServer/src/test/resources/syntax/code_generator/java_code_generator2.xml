@@ -23,7 +23,7 @@
             <field name="OP">EQ</field>
             <value name="A">
               <block type="robColour_picker" id="227">
-                <field name="COLOUR">#585858</field>
+                <field name="COLOUR">rot</field>
               </block>
             </value>
             <value name="B">

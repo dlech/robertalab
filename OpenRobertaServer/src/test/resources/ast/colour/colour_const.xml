@@ -4,7 +4,7 @@
       <field name="VAR">item</field>
       <value name="VALUE">
         <block type="robColour_picker" id="611">
-          <field name="COLOUR">#585858</field>
+          <field name="COLOUR">rot</field>
         </block>
       </value>
     </block>

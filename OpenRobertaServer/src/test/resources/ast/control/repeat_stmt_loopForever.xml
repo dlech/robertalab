@@ -5,7 +5,7 @@
         <block type="text_print" id="29" inline="false">
           <value name="TEXT">
             <block type="robColour_picker" id="36">
-              <field name="COLOUR">#585858</field>
+              <field name="COLOUR">grün</field>
             </block>
           </value>
         </block>
