@@ -18,13 +18,14 @@ import com.google.inject.Inject;
 import com.sun.jersey.api.core.InjectParam;
 
 import de.fhg.iais.roberta.brick.BrickCommunicator;
+import de.fhg.iais.roberta.brick.CompilerWorkflow;
 import de.fhg.iais.roberta.brick.Templates;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
+import de.fhg.iais.roberta.persistence.UserProcessor;
+import de.fhg.iais.roberta.persistence.UserProgramProcessor;
 import de.fhg.iais.roberta.persistence.bo.Program;
 import de.fhg.iais.roberta.persistence.bo.User;
-import de.fhg.iais.roberta.persistence.UserProcessor;
 import de.fhg.iais.roberta.persistence.bo.UserProgram;
-import de.fhg.iais.roberta.persistence.UserProgramProcessor;
 import de.fhg.iais.roberta.persistence.connector.SessionFactoryWrapper;
 import de.fhg.iais.roberta.persistence.connector.SessionWrapper;
 
@@ -36,9 +37,9 @@ public class Blocks {
     private final Templates templates;
     private final BrickCommunicator brickCommunicator;
 
-    public static int signedIn = 0; 
+    public static int signedIn = 0;
     public static int userId;
-    
+
     @Inject
     public Blocks(@InjectParam SessionFactoryWrapper sessionFactoryWrapper, @InjectParam Templates templates, @InjectParam BrickCommunicator brickCommunicator) {
         this.sessionFactoryWrapper = sessionFactoryWrapper;
@@ -76,13 +77,17 @@ public class Blocks {
                     response.put("data", program.getProgramText());
                 }
             } else if ( cmd.equals("runP") ) {
-                String projectName = "RobertaLabTest";
                 String token = "1Q2W3E4R";
+                String projectName = "RobertaLabTest";
                 String programName = request.getString("name");
                 String configurationName = ""; // TODO change frontend to supply us with the configuration name
-                String commResult = this.brickCommunicator.theRunButtonWasPressed(token, programName, configurationName);
+                String message = CompilerWorkflow.execute(session, token, projectName, programName, configurationName);
+                if ( message == null ) {
+                    // everything is fine
+                    message = this.brickCommunicator.theRunButtonWasPressed(token, programName, configurationName);
+                }
                 response.put("rc", "ok");
-                response.put("data", commResult);
+                response.put("data", message);
             } else if ( cmd.equals("loadT") ) {
                 String name = request.getString("name");
                 String template = this.templates.get(name);
@@ -103,80 +108,80 @@ public class Blocks {
                 int numberOfDeletedPrograms = new ProgramProcessor().deleteByName(session, projectName, programName);
                 response.put("rc", "ok");
                 response.put("deleted", numberOfDeletedPrograms);
-            }             else if(cmd.equals("saveUser")){
-            	
-            	String userAccountName = request.getString("accountName");
-        		String userName = request.getString("userName");
-            	String userEmail = request.getString("userEmail");
-            	String pass = request.getString("password");
-            	String role = request.getString("role");
-     
-            	User user = new UserProcessor().saveUser(session, userAccountName, userName, userEmail, pass, role);
-            	
+            } else if ( cmd.equals("saveUser") ) {
+
+                String userAccountName = request.getString("accountName");
+                String userName = request.getString("userName");
+                String userEmail = request.getString("userEmail");
+                String pass = request.getString("password");
+                String role = request.getString("role");
+
+                User user = new UserProcessor().saveUser(session, userAccountName, userName, userEmail, pass, role);
+
                 String rc = user != null ? "sucessful" : "ERROR - nothing persisted";
                 LOG.info(rc);
                 response.put("rc", rc);
-                
-                if(user == null){
-                	response.put("created","False");
-                }else{
-                	response.put("userId", user.getId());
-                	response.put("created", "True");
+
+                if ( user == null ) {
+                    response.put("created", "False");
+                } else {
+                    response.put("userId", user.getId());
+                    response.put("created", "True");
                 }
-                
-            }else if (cmd.equals("signInUser") ){
-            	
-            	String userAccountName = request.getString("accountName");
-            	String pass = request.getString("password");
-            	User user = new UserProcessor().getUser(session, userAccountName, pass);               
-            	String rc = user != null ? "sucessful" : "ERROR - nothing persisted";
+
+            } else if ( cmd.equals("signInUser") ) {
+
+                String userAccountName = request.getString("accountName");
+                String pass = request.getString("password");
+                User user = new UserProcessor().getUser(session, userAccountName, pass);
+                String rc = user != null ? "sucessful" : "ERROR - nothing persisted";
                 LOG.info(rc);
                 response.put("rc", rc);
-                
-                if(user == null){
-                	response.put("exists","False");
-                }else{
-                	response.put("exists", "True");
-                	response.put("userId", user.getId());
-                	response.put("userRole", user.getRole());
-                	response.put("userAccountName",user.getAccountName());
-                	
-                	userId = user.getId();
-                	signedIn = 1;
-                	
-                	System.out.println("Signed in!");
+
+                if ( user == null ) {
+                    response.put("exists", "False");
+                } else {
+                    response.put("exists", "True");
+                    response.put("userId", user.getId());
+                    response.put("userRole", user.getRole());
+                    response.put("userAccountName", user.getAccountName());
+
+                    userId = user.getId();
+                    signedIn = 1;
+
+                    System.out.println("Signed in!");
                 }
-                
-            }else if (cmd.equals("deleteUser")){
-            	
-            	String userAccountName = request.getString("accountName");
-            	int deleteValue = new UserProcessor().deleteUserProgramByName(session,  userAccountName);
-            	String rc = deleteValue != 0 ? "sucessful" : "Nothing to delete";
+
+            } else if ( cmd.equals("deleteUser") ) {
+
+                String userAccountName = request.getString("accountName");
+                int deleteValue = new UserProcessor().deleteUserProgramByName(session, userAccountName);
+                String rc = deleteValue != 0 ? "sucessful" : "Nothing to delete";
                 LOG.info(rc);
                 response.put("rc", rc);
-                
-            }else if ( cmd.equals("saveUserP") ){
-            	
+
+            } else if ( cmd.equals("saveUserP") ) {
+
                 String programName = request.getString("name");
                 String programText = request.getString("program");
                 String rc;
-                
-                if(signedIn == 1){
-                	
-                    UserProgram userProgram = new UserProgramProcessor().updateUserProgram(session, userId, programName, programText);
-                     rc = userProgram != null ? "sucessful" : "ERROR - nothing persisted";
 
-                }else{
-                	 rc = "ERROR - nothing persisted";
+                if ( signedIn == 1 ) {
+
+                    UserProgram userProgram = new UserProgramProcessor().updateUserProgram(session, userId, programName, programText);
+                    rc = userProgram != null ? "sucessful" : "ERROR - nothing persisted";
+
+                } else {
+                    rc = "ERROR - nothing persisted";
                 }
                 LOG.info(rc);
                 response.put("rc", rc);
-                
-            }else if ( cmd.equals("loadUserP") ) {
-            	
+
+            } else if ( cmd.equals("loadUserP") ) {
+
                 String programName = request.getString("name");
                 UserProgram program = new UserProgramProcessor().getUserProgram(session, userId, programName);
-                if ( program == null || signedIn == 0) {
+                if ( program == null || signedIn == 0 ) {
                     response.put("rc", "error");
                     response.put("cause", "program not found");
                 } else {
