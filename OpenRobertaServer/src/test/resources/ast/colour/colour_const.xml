@@ -1,0 +1,12 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-205" y="175">
+    <block type="variables_set" id="614" inline="true">
+      <field name="VAR">item</field>
+      <value name="VALUE">
+        <block type="robColour_picker" id="611">
+          <field name="COLOUR">rot</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</project>

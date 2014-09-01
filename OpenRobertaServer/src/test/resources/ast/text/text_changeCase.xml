@@ -1,0 +1,12 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="22" y="324">
+    <block type="text_changeCase" id="256" inline="false">
+      <field name="CASE">UPPERCASE</field>
+      <value name="TEXT">
+        <block type="variables_get" id="203">
+          <field name="VAR">text</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</project>

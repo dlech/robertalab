@@ -1,0 +1,8 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+      <instance x="-47" y="1">
+    <block type="robSensors_infrared_setMode" id="131">
+      <field name="SENSORPORT">4</field>
+      <field name="MODE">DISTANCE</field>
+    </block>
+  </instance>
+</project>

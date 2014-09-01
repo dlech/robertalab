@@ -1,0 +1,7 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-11" y="105">
+    <block type="robSensors_infrared_getSample" id="75">
+      <field name="SENSORPORT">4</field>
+    </block>
+  </instance>
+</project>

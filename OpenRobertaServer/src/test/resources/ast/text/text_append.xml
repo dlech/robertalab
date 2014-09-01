@@ -1,0 +1,12 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="14" y="93">
+    <block type="text_append" id="74" inline="false">
+      <field name="VAR">item</field>
+      <value name="TEXT">
+        <block type="text" id="75">
+          <field name="TEXT">text</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</project>

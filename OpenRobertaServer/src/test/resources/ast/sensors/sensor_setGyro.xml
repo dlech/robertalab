@@ -1,0 +1,8 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+    <instance x="-6" y="1">
+    <block type="robSensors_gyro_setMode" id="35">
+      <field name="SENSORPORT">2</field>
+      <field name="MODE">ANGLE</field>
+    </block>
+  </instance>
+</project>

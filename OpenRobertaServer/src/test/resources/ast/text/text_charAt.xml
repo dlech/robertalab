@@ -1,0 +1,18 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+    <instance x="8" y="156">
+    <block type="text_charAt" id="202" inline="true">
+      <mutation at="true"></mutation>
+      <field name="WHERE">FROM_START</field>
+      <value name="VALUE">
+        <block type="variables_get" id="203">
+          <field name="VAR">text</field>
+        </block>
+      </value>
+      <value name="AT">
+        <block type="math_number" id="222">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</project>

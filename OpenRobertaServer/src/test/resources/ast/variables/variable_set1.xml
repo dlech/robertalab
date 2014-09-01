@@ -1,0 +1,7 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-23" y="-797">
+    <block type="variables_get" id="69">
+      <field name="VAR">item</field>
+    </block>
+  </instance>
+</project>

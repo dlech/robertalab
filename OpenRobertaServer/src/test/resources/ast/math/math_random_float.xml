@@ -1,0 +1,10 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-140" y="265">
+    <block type="variables_set" id="506" inline="true">
+      <field name="VAR">item</field>
+      <value name="VALUE">
+        <block type="math_random_float" id="500"></block>
+      </value>
+    </block>
+  </instance>
+</project>

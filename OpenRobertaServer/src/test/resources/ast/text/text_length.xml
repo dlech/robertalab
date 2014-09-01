@@ -1,0 +1,11 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-12" y="177">
+    <block type="text_length" id="91" inline="false">
+      <value name="VALUE">
+        <block type="text" id="107">
+          <field name="TEXT">Test</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</project>

@@ -1,0 +1,9 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-78" y="63">
+    
+        <block type="robActions_motor_getPower" id="93">
+          <field name="MOTORPORT">B</field>
+        </block>
+   
+  </instance>
+</project>

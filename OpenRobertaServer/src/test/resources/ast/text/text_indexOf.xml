@@ -1,0 +1,17 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="13" y="298">
+    <block type="text_indexOf" id="169" inline="true">
+      <field name="END">FIRST</field>
+      <value name="VALUE">
+        <block type="variables_get" id="170">
+          <field name="VAR">text</field>
+        </block>
+      </value>
+      <value name="FIND">
+        <block type="text" id="186">
+          <field name="TEXT">Test</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</project>

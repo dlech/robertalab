@@ -1,0 +1,12 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+    <instance x="-3" y="-422">
+    <block type="math_change" id="443" inline="true">
+      <field name="VAR">item</field>
+      <value name="DELTA">
+        <block type="math_number" id="444">
+          <field name="NUM">1</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</project>

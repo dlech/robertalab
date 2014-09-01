@@ -1,0 +1,11 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+    <instance x="-2" y="135">
+    <block type="robActions_play_setVolume" id="41" inline="false">
+      <value name="VOLUME">
+        <block type="math_number" id="42">
+          <field name="NUM">50</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</project>

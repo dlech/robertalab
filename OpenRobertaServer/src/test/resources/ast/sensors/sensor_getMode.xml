@@ -1,0 +1,53 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<instance x="-96" y="73">
+    <block type="controls_if" id="858" inline="false">
+      <value name="IF0">
+        <block type="robSensors_touch_isPressed" id="859">
+          <field name="SENSORPORT">1</field>
+        </block>
+      </value>
+      <statement name="DO0">
+        <block type="variables_set" id="866" inline="true">
+          <field name="VAR">item</field>
+          <value name="VALUE">
+            <block type="robSensors_ultrasonic_getMode" id="873">
+              <field name="SENSORPORT">4</field>
+            </block>
+          </value>
+        </block>
+        <block type="variables_set" id="867" inline="true">
+          <field name="VAR">item</field>
+          <value name="VALUE">
+            <block type="robSensors_colour_getMode" id="877">
+              <field name="SENSORPORT">3</field>
+            </block>
+          </value>
+        </block>
+        <block type="variables_set" id="868" inline="true">
+          <field name="VAR">item</field>
+          <value name="VALUE">
+            <block type="robSensors_infrared_getMode" id="888">
+              <field name="SENSORPORT">4</field>
+            </block>
+          </value>
+        </block>
+        <block type="variables_set" id="869" inline="true">
+          <field name="VAR">item</field>
+          <value name="VALUE">
+            <block type="robSensors_encoder_getMode" id="893">
+              <field name="MOTORPORT">A</field>
+            </block>
+          </value>
+        </block>
+        <block type="variables_set" id="911" inline="true">
+          <field name="VAR">item</field>
+          <value name="VALUE">
+            <block type="robSensors_gyro_getMode" id="904">
+              <field name="SENSORPORT">2</field>
+            </block>
+          </value>
+        </block>
+      </statement>
+    </block>
+  </instance>
+</project>

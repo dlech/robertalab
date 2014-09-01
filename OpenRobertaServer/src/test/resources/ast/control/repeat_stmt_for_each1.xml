@@ -1,0 +1,7 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-93" y="290">
+    <block type="controls_forEach" id="354" inline="false">
+      <field name="VAR">i</field>
+    </block>
+  </instance>
+</project>

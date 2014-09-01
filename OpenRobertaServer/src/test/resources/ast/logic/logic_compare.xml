@@ -1,0 +1,7 @@
+<project  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="1" y="1">
+    <block type="logic_compare" id="7" inline="true">
+      <field name="OP">EQ</field>
+    </block>
+  </instance>
+</project>
