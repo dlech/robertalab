@@ -20,6 +20,8 @@ import com.google.inject.Inject;
 import com.sun.jersey.api.core.InjectParam;
 
 import de.fhg.iais.roberta.brick.BrickCommunicator;
+import de.fhg.iais.roberta.brick.CompilerWorkflow;
+import de.fhg.iais.roberta.util.Pair;
 
 @Path("/download")
 public class DownloadJar {
@@ -37,11 +39,11 @@ public class DownloadJar {
     public Response handle() {
         String token = "1Q2W3E4R";
         LOG.info("/download - token from brick: " + token);
-        this.brickCommunicator.iAmABrickAndWantToWaitForARunButtonPress(token);
+        Pair<String, String> jarDescription = this.brickCommunicator.iAmABrickAndWantToWaitForARunButtonPress(token);
         ResponseBuilder builder = Response.status(Status.OK);
-        String fileName = "ExampleProject.jar"; //in the root directory of RobertaIsBlockly project
+        String fileName = jarDescription.getSecond() + ".jar";
         try {
-            File file = new File(fileName);
+            File file = new File(CompilerWorkflow.BASE_DIR + jarDescription.getFirst() + "/target/" + fileName);
             FileInputStream fis = new FileInputStream(file);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             byte[] buf = new byte[4096];
@@ -51,8 +53,8 @@ public class DownloadJar {
             builder.header("fileName", fileName);
             builder.entity(bos.toByteArray());
             fis.close();
-        } catch ( IOException ex ) {
-            LOG.info("Error @FileInputStream(file)");
+        } catch ( IOException e ) {
+            LOG.info("Error @FileInputStream(file)", e);
         }
         return builder.build();
     }
