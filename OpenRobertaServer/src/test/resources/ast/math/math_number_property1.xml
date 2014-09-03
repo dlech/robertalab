@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
     <instance x="64" y="-525">
     <block type="math_number_property" id="344" inline="true">
       <mutation divisor_input="true"></mutation>
@@ -15,4 +15,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

@@ -2,7 +2,7 @@
 <!--W3C Schema erstellt mit XMLSpy v2011 rel. 3 sp1 (http://www.altova.com)-->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://de.fhg.iais.roberta.blockly" targetNamespace="http://de.fhg.iais.roberta.blockly"
     elementFormDefault="qualified">
-   <xs:element name="project">
+   <xs:element name="block_set">
     <xs:complexType>
         <xs:sequence>
             <xs:element name="instance" maxOccurs="unbounded" type="instance"></xs:element>
@@ -20,7 +20,8 @@
 
     
     <xs:complexType name="block">
-        <xs:sequence>
+        <xs:sequence>       
+            <xs:element name="comment" minOccurs="0" type="comment" />
             <xs:element name="mutation" minOccurs="0" type="mutation" />
             <xs:element name="field" minOccurs="0" maxOccurs="unbounded" type="field"/>
             <xs:element name="value" minOccurs="0" maxOccurs="unbounded" type="value"/>
@@ -29,7 +30,8 @@
         </xs:sequence>
         <xs:attribute name="x" type="xs:string" use="optional"/>
         <xs:attribute name="y" type="xs:string" use="optional"/>
-        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="disabled" type="xs:boolean" use="optional"/>
+        <xs:attribute name="id" type="xs:string" use="required"/>        
         <xs:attribute name="type" type="xs:string" use="required"/>
         <xs:attribute name="inline" type="xs:string"/>
     </xs:complexType>
@@ -37,6 +39,15 @@
         <xs:simpleContent>
             <xs:extension base="xs:string">
                 <xs:attribute name="name" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="comment">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="pinned" type="xs:boolean" use="required"/>
+                <xs:attribute name="h" type="xs:string" use="required"/>
+                <xs:attribute name="w" type="xs:string" use="required"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>

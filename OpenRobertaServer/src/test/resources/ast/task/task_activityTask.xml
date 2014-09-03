@@ -1,0 +1,11 @@
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
+    <instance x="66" y="175">
+    <block type="robControls_activity" id="342" inline="true">
+      <value name="ACTIVITY">
+        <block type="variables_get" id="343">
+          <field name="VAR">zwei</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</block_set>

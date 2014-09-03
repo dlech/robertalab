@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
  <instance x="27" y="-575">
     <block type="math_arithmetic" id="189" inline="true">
       <field name="OP">ADD</field>
@@ -24,4 +24,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="34" y="-492">
     <block type="math_round" id="463" inline="false">
       <field name="OP">ROUNDUP</field>
@@ -9,4 +9,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

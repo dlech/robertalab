@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
    <instance x="9" y="47">
     <block type="robActions_play_tone" id="23" inline="false">
       <value name="FREQUENCE">
@@ -13,4 +13,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

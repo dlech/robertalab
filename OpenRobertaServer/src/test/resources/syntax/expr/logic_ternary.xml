@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
       <instance x="-61" y="180">
     <block type="logic_ternary" id="243" inline="false">
       <value name="IF">
@@ -28,4 +28,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

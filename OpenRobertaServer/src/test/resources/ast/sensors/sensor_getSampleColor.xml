@@ -1,7 +1,7 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
      <instance x="-65" y="105">
     <block type="robSensors_colour_getSample" id="170">
       <field name="SENSORPORT">3</field>
     </block>
   </instance>
-</project>
+</block_set>

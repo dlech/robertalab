@@ -1,7 +1,7 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
         <instance x="-86" y="1">
     <block type="robSensors_touch_isPressed" id="227">
       <field name="SENSORPORT">1</field>
     </block>
   </instance>
-</project>
+</block_set>

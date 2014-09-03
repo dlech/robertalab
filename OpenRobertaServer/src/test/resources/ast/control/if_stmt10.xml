@@ -1,5 +1,5 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
    <instance x="-93" y="179">
     <block type="robControls_ifElse" id="302" inline="false"></block>
   </instance>
-</project>
+</block_set>

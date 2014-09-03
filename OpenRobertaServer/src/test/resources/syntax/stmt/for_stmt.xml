@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="0" y="-75">
     <block type="controls_repeat_ext" id="97" inline="true">
       <value name="TIMES">
@@ -65,4 +65,4 @@
       </statement>
     </block>
   </instance>
-</project>
+</block_set>

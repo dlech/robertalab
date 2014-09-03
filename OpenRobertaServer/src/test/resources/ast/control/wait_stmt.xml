@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
     <instance x="1" y="1">
     <block type="robControls_wait" id="107" inline="false">
       <mutation wait="1"></mutation>
@@ -52,4 +52,4 @@
       </statement>
     </block>
   </instance>
-</project>
+</block_set>

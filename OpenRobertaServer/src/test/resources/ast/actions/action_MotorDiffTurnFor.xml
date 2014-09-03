@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
 <instance x="1" y="243">
     <block type="robActions_motorDiff_turn_for" id="186" inline="false">
       <field name="DIRECTION">RIGHT</field>
@@ -14,4 +14,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

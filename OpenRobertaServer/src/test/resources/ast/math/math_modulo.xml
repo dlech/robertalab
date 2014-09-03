@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
     <instance x="-36" y="424">
     <block type="math_modulo" id="201" inline="true">
       <value name="DIVIDEND">
@@ -13,4 +13,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

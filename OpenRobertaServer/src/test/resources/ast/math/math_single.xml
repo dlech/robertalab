@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-7" y="-604">
     <block type="math_single" id="287" inline="true">
       <field name="OP">LN</field>
@@ -19,4 +19,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

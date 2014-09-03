@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
  <instance x="-25" y="-449">
     <block type="math_on_list" id="576" inline="false">
       <field name="OP">AVERAGE</field>
@@ -7,4 +7,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

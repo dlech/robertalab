@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-97" y="351">
     <block type="lists_indexOf" id="541" inline="true">
       <field name="END">FIRST</field>
@@ -14,4 +14,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

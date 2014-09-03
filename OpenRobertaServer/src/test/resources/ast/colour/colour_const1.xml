@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-205" y="175">
 
         <block type="robColour_picker" id="611">
@@ -6,4 +6,4 @@
         </block>
 
   </instance>
-</project>
+</block_set>

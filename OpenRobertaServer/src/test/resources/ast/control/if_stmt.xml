@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
 <instance x="68" y="133">
     <block type="controls_if" id="75" inline="false">
       <value name="IF0">
@@ -18,4 +18,4 @@
       </statement>
     </block>
   </instance>
-</project>
+</block_set>

@@ -1,7 +1,7 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-3" y="127">
     <block type="robActions_play_file" id="33">
       <field name="FILE">SOUNDFILE2</field>
     </block>
   </instance>
-</project>
+</block_set>

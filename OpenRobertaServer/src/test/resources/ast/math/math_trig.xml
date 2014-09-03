@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
    <instance x="41" y="-491">
     <block type="math_trig" id="306" inline="false">
       <field name="OP">ATAN</field>
@@ -24,4 +24,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-616" y="42">
     <block type="text_join" id="192" inline="false">
       <mutation items="3"></mutation>
@@ -14,4 +14,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

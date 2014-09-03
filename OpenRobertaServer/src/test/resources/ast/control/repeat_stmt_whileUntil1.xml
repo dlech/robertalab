@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
         <instance x="-372" y="47">
     <block type="controls_whileUntil" id="66" inline="false">
       <field name="MODE">WHILE</field>
@@ -30,4 +30,4 @@
       </statement>
     </block>
   </instance>
-</project>
+</block_set>

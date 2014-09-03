@@ -1,7 +1,7 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-12" y="159">
     <block type="robSensors_gyro_getSample" id="50">
       <field name="SENSORPORT">2</field>
     </block>
   </instance>
-</project>
+</block_set>

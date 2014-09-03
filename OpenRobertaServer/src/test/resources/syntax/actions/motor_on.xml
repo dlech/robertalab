@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
     <instance x="1" y="1">
     <block type="robActions_motor_on" id="87" inline="false">
       <field name="MOTORPORT">B</field>
@@ -14,4 +14,4 @@
       <field name="MOTORPORT">C</field>
     </block>
   </instance>
-</project>
+</block_set>

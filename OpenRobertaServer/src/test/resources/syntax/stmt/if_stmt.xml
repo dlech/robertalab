@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="36" y="-9">
     <block type="robControls_if" id="42" inline="false">
       <value name="IF0">
@@ -286,4 +286,4 @@
       </repetitions>
     </block>
   </instance>
-</project>
+</block_set>

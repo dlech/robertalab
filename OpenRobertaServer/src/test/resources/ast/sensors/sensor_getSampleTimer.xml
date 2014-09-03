@@ -1,7 +1,7 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
    <instance x="1" y="1">
     <block type="robSensors_timer_getSample" id="23">
       <field name="SENSORNUM">1</field>
     </block>
   </instance>
-</project>
+</block_set>

@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="1" y="55">
     <block type="robActions_motorDiff_on_for" id="159" inline="false">
       <field name="DIRECTION">FOREWARD</field>
@@ -14,4 +14,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

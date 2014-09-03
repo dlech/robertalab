@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
 <instance x="9" y="-434">
     <block type="logic_negate" id="103" inline="false">
       <value name="BOOL">
@@ -18,4 +18,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

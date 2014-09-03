@@ -1,8 +1,8 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-12" y="379">
     <block type="text_prompt" id="288">
       <field name="TYPE">TEXT</field>
       <field name="TEXT">TEST</field>
     </block>
   </instance>
-</project>
+</block_set>

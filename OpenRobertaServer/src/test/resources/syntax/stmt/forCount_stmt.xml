@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="15" y="57">
     <block type="controls_for" id="501" inline="true">
       <field name="VAR">i</field>
@@ -48,4 +48,4 @@
       </statement>
     </block>
   </instance>
-  </project>
+  </block_set>

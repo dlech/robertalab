@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-78" y="63">
     
         <block type="robActions_motor_getPower" id="93">
@@ -6,4 +6,4 @@
         </block>
    
   </instance>
-</project>
+</block_set>

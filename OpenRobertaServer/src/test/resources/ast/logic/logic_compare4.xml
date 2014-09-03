@@ -1,4 +1,4 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
    <instance x="81" y="14">
     <block type="logic_compare" id="7" inline="true">
       <field name="OP">NEQ</field>
@@ -34,4 +34,4 @@
       </value>
     </block>
   </instance>
-</project>
+</block_set>

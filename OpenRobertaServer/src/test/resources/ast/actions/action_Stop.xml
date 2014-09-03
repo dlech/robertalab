@@ -1,5 +1,5 @@
-<project  xmlns="http://de.fhg.iais.roberta.blockly">
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="1" y="135">
     <block type="robActions_motorDiff_stop" id="256"></block>
   </instance>
-</project>
+</block_set>
