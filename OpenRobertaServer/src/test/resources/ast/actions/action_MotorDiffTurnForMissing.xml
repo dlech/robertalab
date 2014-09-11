@@ -5,7 +5,7 @@
     </block>
     <block type="robActions_motorDiff_turn_for" id="226" inline="false" disabled="true">
       <field name="DIRECTION">RIGHT</field>
-      <value name="DISTANCE">
+      <value name="DEGREE">
         <block type="math_number" id="228" disabled="true">
           <field name="NUM">20</field>
         </block>
