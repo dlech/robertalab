@@ -1,0 +1,62 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+    <instance x="50" y="47">
+        <block type="math_arithmetic" id="25" inline="true" disabled="true">
+            <field name="OP">ADD</field>
+            <value name="A">
+                <block type="math_arithmetic" id="142" inline="true" disabled="true">
+                    <field name="OP">ADD</field>
+                    <value name="A">
+                        <block type="math_constant" id="82" disabled="true">
+                            <field name="CONSTANT">PI</field>
+                        </block>
+                    </value>
+                    <value name="B">
+                        <block type="math_arithmetic" id="143" inline="true" disabled="true">
+                            <field name="OP">MULTIPLY</field>
+                            <value name="A">
+                                <block type="math_number" id="139" disabled="true">
+                                    <field name="NUM">30</field>
+                                </block>
+                            </value>
+                            <value name="B">
+                                <block type="math_trig" id="63" inline="false" disabled="true">
+                                    <field name="OP">SIN</field>
+                                    <value name="NUM">
+                                        <block type="math_arithmetic" id="144" inline="true" disabled="true">
+                                            <field name="OP">ADD</field>
+                                            <value name="A">
+                                                <block type="math_number" id="44" disabled="true">
+                                                    <field name="NUM">45</field>
+                                                </block>
+                                            </value>
+                                            <value name="B">
+                                                <block type="math_number" id="146" disabled="true">
+                                                    <field name="NUM">45</field>
+                                                </block>
+                                            </value>
+                                        </block>
+                                    </value>
+                                </block>
+                            </value>
+                        </block>
+                    </value>
+                </block>
+            </value>
+            <value name="B">
+                <block type="math_arithmetic" id="176" inline="true" disabled="true">
+                    <field name="OP">ADD</field>
+                    <value name="A">
+                        <block type="math_number" id="157" disabled="true">
+                            <field name="NUM">1</field>
+                        </block>
+                    </value>
+                    <value name="B">
+                        <block type="math_number" id="177" disabled="true">
+                            <field name="NUM">2</field>
+                        </block>
+                    </value>
+                </block>
+            </value>
+        </block>
+    </instance>
+</block_set>
