@@ -15,7 +15,7 @@ public class TokenReceiver {
     //@Consumes(MediaType.TEXT_PLAIN)
     //@Produces(MediaType.TEXT_PLAIN)
     public Response handle(String token) {
-        LOG.info("/token, " + token);
+        LOG.info("/token - " + token);
         return Response.ok("OK").build();
     }
 

@@ -36,9 +36,9 @@ public class DownloadJar {
 
     @POST
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response handle() {
+    public Response handle(String brickToken) {
         String token = "1Q2W3E4R";
-        LOG.info("/download - token from brick: " + token);
+        LOG.info("/download - brick token: " + brickToken + ", hardcoded token: " + token);
         Pair<String, String> jarDescription = this.brickCommunicator.iAmABrickAndWantToWaitForARunButtonPress(token);
         ResponseBuilder builder = Response.status(Status.OK);
         String fileName = jarDescription.getSecond() + ".jar";
