@@ -8,5 +8,13 @@
         </block>
       </value>
     </block>
+    <block type="robActions_motor_on" id="8" inline="false">
+      <field name="MOTORPORT">C</field>
+      <value name="POWER">
+        <block type="math_number" id="9">
+          <field name="NUM">50</field>
+        </block>
+      </value>
+    </block>
   </instance>
 </block_set>
