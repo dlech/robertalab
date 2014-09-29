@@ -1,0 +1,8 @@
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="113" y="23">
+    <block type="robSensors_getSample" id="29" disabled="true">
+      <field name="SENSORTYPE">TOUCH</field>
+      <field name="SENSORPORT">1</field>
+    </block>
+  </instance>
+</block_set>
