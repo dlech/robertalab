@@ -15,9 +15,7 @@
 		<property name="connection.username"></property>
 		<property name="connection.password"></property>
         
-        <mapping class="de.fhg.iais.roberta.persistence.bo.Project"/>
         <mapping class="de.fhg.iais.roberta.persistence.bo.Program"/>
         <mapping class="de.fhg.iais.roberta.persistence.bo.User" />
-        <mapping class="de.fhg.iais.roberta.persistence.bo.UserProgram" />
     </session-factory>
 </hibernate-configuration>

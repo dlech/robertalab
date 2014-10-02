@@ -22,10 +22,8 @@ import de.fhg.iais.roberta.brick.CompilerWorkflow;
 import de.fhg.iais.roberta.brick.Templates;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
 import de.fhg.iais.roberta.persistence.UserProcessor;
-import de.fhg.iais.roberta.persistence.UserProgramProcessor;
 import de.fhg.iais.roberta.persistence.bo.Program;
 import de.fhg.iais.roberta.persistence.bo.User;
-import de.fhg.iais.roberta.persistence.bo.UserProgram;
 import de.fhg.iais.roberta.persistence.connector.SessionFactoryWrapper;
 import de.fhg.iais.roberta.persistence.connector.SessionWrapper;
 
@@ -36,9 +34,6 @@ public class Blocks {
     private final SessionFactoryWrapper sessionFactoryWrapper;
     private final Templates templates;
     private final BrickCommunicator brickCommunicator;
-
-    public static int signedIn = 0;
-    public static int userId;
 
     @Inject
     public Blocks(@InjectParam SessionFactoryWrapper sessionFactoryWrapper, @InjectParam Templates templates, @InjectParam BrickCommunicator brickCommunicator) {
@@ -54,6 +49,7 @@ public class Blocks {
         LOG.info("/blocks got: " + fullRequest);
         JSONObject response = new JSONObject();
         SessionWrapper session = this.sessionFactoryWrapper.getSession();
+        final int userId = 1; // TODO: add session information about the user who logged in
         try {
             JSONObject request = fullRequest.getJSONObject("data");
             String cmd = request.getString("cmd");
@@ -61,14 +57,14 @@ public class Blocks {
             if ( cmd.equals("saveP") ) {
                 String programName = request.getString("name");
                 String programText = request.getString("program");
-                Program program = new ProgramProcessor().updateProgram(session, "RobertaLabTest", programName, programText);
+                Program program = new ProgramProcessor().updateProgram(session, programName, userId, programText);
                 String rc = program != null ? "sucessful" : "ERROR - nothing persisted";
                 LOG.info(rc);
                 response.put("rc", rc);
+
             } else if ( cmd.equals("loadP") ) {
-                String projectName = "RobertaLabTest";
                 String programName = request.getString("name");
-                Program program = new ProgramProcessor().getProgram(session, projectName, programName);
+                Program program = new ProgramProcessor().getProgram(session, programName, userId);
                 if ( program == null ) {
                     response.put("rc", "error");
                     response.put("cause", "program not found");
@@ -76,18 +72,22 @@ public class Blocks {
                     response.put("rc", "ok");
                     response.put("data", program.getProgramText());
                 }
+
             } else if ( cmd.equals("runP") ) {
                 String token = "1Q2W3E4R";
-                String projectName = "RobertaLabTest";
                 String programName = request.getString("name");
-                String configurationName = ""; // TODO change frontend to supply us with the configuration name
-                String message = CompilerWorkflow.execute(session, token, projectName, programName, configurationName);
+                String brickConfigurationName = "default"; // TODO: change frontend to supply us with the configuration name
+                String brickConfigurationAsXmlString = ""; // TODO: change frontend to supply us with the configuration name
+                Program program = new ProgramProcessor().getProgram(session, programName, userId);
+                LOG.info("compiler workflow started for program {} and brick configuration {}", programName, brickConfigurationName);
+                String message = CompilerWorkflow.execute(session, token, programName, program.getProgramText(), brickConfigurationAsXmlString);
                 if ( message == null ) {
                     // everything is fine
-                    message = this.brickCommunicator.theRunButtonWasPressed(token, programName, configurationName);
+                    message = this.brickCommunicator.theRunButtonWasPressed(token, programName, brickConfigurationName);
                 }
                 response.put("rc", "ok");
                 response.put("data", message);
+
             } else if ( cmd.equals("loadT") ) {
                 String name = request.getString("name");
                 String template = this.templates.get(name);
@@ -98,30 +98,28 @@ public class Blocks {
                     response.put("rc", "ok");
                     response.put("data", template);
                 }
+
             } else if ( cmd.equals("loadPN") ) {
-                List<String> programNames = new ProgramProcessor().getProgramNames(session);
+                List<String> programNames = new ProgramProcessor().getProgramNames(session, userId);
                 response.put("rc", "ok");
                 response.put("programNames", programNames);
+
             } else if ( cmd.equals("deletePN") ) {
-                String projectName = "RobertaLabTest";
                 String programName = request.getString("name");
-                int numberOfDeletedPrograms = new ProgramProcessor().deleteByName(session, projectName, programName);
+                int numberOfDeletedPrograms = new ProgramProcessor().deleteByName(session, programName, userId);
                 response.put("rc", "ok");
                 response.put("deleted", numberOfDeletedPrograms);
-            } else if ( cmd.equals("saveUser") ) {
 
-                String userAccountName = request.getString("accountName");
-                String userName = request.getString("userName");
-                String userEmail = request.getString("userEmail");
-                String pass = request.getString("password");
+            } else if ( cmd.equals("saveUser") ) {
+                String account = request.getString("accountName");
+                String password = request.getString("password");
+                String email = request.getString("userEmail");
                 String role = request.getString("role");
 
-                User user = new UserProcessor().saveUser(session, userAccountName, userName, userEmail, pass, role);
-
+                User user = new UserProcessor().saveUser(session, account, password, role, email, null);
                 String rc = user != null ? "sucessful" : "ERROR - nothing persisted";
                 LOG.info(rc);
                 response.put("rc", rc);
-
                 if ( user == null ) {
                     response.put("created", "False");
                 } else {
@@ -130,7 +128,6 @@ public class Blocks {
                 }
 
             } else if ( cmd.equals("signInUser") ) {
-
                 String userAccountName = request.getString("accountName");
                 String pass = request.getString("password");
                 User user = new UserProcessor().getUser(session, userAccountName, pass);
@@ -142,66 +139,26 @@ public class Blocks {
                     response.put("exists", "False");
                 } else {
                     response.put("exists", "True");
-                    response.put("userId", user.getId());
+                    int id = user.getId();
+                    String account = user.getAccount();
+                    response.put("userId", id);
                     response.put("userRole", user.getRole());
-                    response.put("userAccountName", user.getAccountName());
-
-                    userId = user.getId();
-                    signedIn = 1;
-
-                    System.out.println("Signed in!");
+                    response.put("userAccountName", account);
+                    LOG.info("user {} with id {} logged in", account, id);
                 }
 
             } else if ( cmd.equals("deleteUser") ) {
-
-                String userAccountName = request.getString("accountName");
-                int deleteValue = new UserProcessor().deleteUserProgramByName(session, userAccountName);
+                String account = request.getString("accountName");
+                int deleteValue = new UserProcessor().deleteUserProgramByName(session, account);
                 String rc = deleteValue != 0 ? "sucessful" : "Nothing to delete";
                 LOG.info(rc);
                 response.put("rc", rc);
 
-            } else if ( cmd.equals("saveUserP") ) {
-
-                String programName = request.getString("name");
-                String programText = request.getString("program");
-                String rc;
-
-                if ( signedIn == 1 ) {
-
-                    UserProgram userProgram = new UserProgramProcessor().updateUserProgram(session, userId, programName, programText);
-                    rc = userProgram != null ? "sucessful" : "ERROR - nothing persisted";
-
-                } else {
-                    rc = "ERROR - nothing persisted";
-                }
-                LOG.info(rc);
-                response.put("rc", rc);
-
-            } else if ( cmd.equals("loadUserP") ) {
-
-                String programName = request.getString("name");
-                UserProgram program = new UserProgramProcessor().getUserProgram(session, userId, programName);
-                if ( program == null || signedIn == 0 ) {
-                    response.put("rc", "error");
-                    response.put("cause", "program not found");
-                } else {
-                    response.put("rc", "ok");
-                    response.put("data", program.getProgramText());
-                }
-            } else if ( cmd.equals("deleteUserPN") ) {
-
-                String programName = request.getString("name");
-                int numberOfDeletedPrograms = new UserProgramProcessor().deleteByName(session, userId, programName);
-                response.put("rc", "ok");
-                response.put("deleted", numberOfDeletedPrograms);
-            } else if ( cmd.equals("loadPN") ) {
-                List<String> programNames = new ProgramProcessor().getProgramNames(session);
-                response.put("rc", "ok");
-                response.put("programNames", programNames);
             } else {
                 LOG.error("Invalid /blocks command: " + cmd);
                 response.put("rc", "error");
                 response.put("cause", "invalid command");
+
             }
             session.commit();
         } catch ( Exception e ) {
