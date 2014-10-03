@@ -34,6 +34,7 @@ import de.fhg.iais.roberta.persistence.connector.SessionWrapper;
 public class Blocks {
     private static final Logger LOG = LoggerFactory.getLogger(Blocks.class);
     private static final String OPEN_ROBERTA_STATE = "openRobertaState";
+    private static final boolean SHORT_LOG = true;
 
     private final SessionFactoryWrapper sessionFactoryWrapper;
     private final Templates templates;
@@ -50,7 +51,13 @@ public class Blocks {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response workWithBlocks(@Context HttpServletRequest req, JSONObject fullRequest) throws Exception {
-        LOG.info("/blocks got: " + fullRequest);
+        if ( LOG.isDebugEnabled() ) {
+            if ( SHORT_LOG ) {
+                LOG.debug("/blocks got: " + fullRequest.toString().substring(0, 120));
+            } else {
+                LOG.debug("/blocks got: " + fullRequest);
+            }
+        }
         HttpSession httpSession = req.getSession(true);
         OpenRobertaState openRobertaState = (OpenRobertaState) httpSession.getAttribute(OPEN_ROBERTA_STATE);
         if ( openRobertaState == null ) {
@@ -58,31 +65,32 @@ public class Blocks {
             httpSession.setAttribute(OPEN_ROBERTA_STATE, openRobertaState);
         }
         final int userId = openRobertaState.getUserId();
-        System.out.println("userId: " + userId);
         JSONObject response = new JSONObject();
         SessionWrapper session = this.sessionFactoryWrapper.getSession();
         try {
             JSONObject request = fullRequest.getJSONObject("data");
             String cmd = request.getString("cmd");
+            LOG.info("command is: " + cmd);
             response.put("cmd", cmd);
             if ( cmd.equals("saveP") ) {
                 String programName = request.getString("name");
                 String programText = request.getString("program");
                 Program program = new ProgramProcessor().updateProgram(session, programName, userId, programText);
-                String rc = program != null ? "sucessful" : "ERROR - nothing persisted";
-                LOG.info(rc);
+                String rc = program == null ? "ERROR" : "ok";
                 response.put("rc", rc);
+                LOG.info("saving program: " + rc);
 
             } else if ( cmd.equals("loadP") ) {
                 String programName = request.getString("name");
                 Program program = new ProgramProcessor().getProgram(session, programName, userId);
+                String rc = program == null ? "ERROR" : "ok";
+                response.put("rc", rc);
                 if ( program == null ) {
-                    response.put("rc", "error");
                     response.put("cause", "program not found");
                 } else {
-                    response.put("rc", "ok");
                     response.put("data", program.getProgramText());
                 }
+                LOG.info("loading program: " + rc);
 
             } else if ( cmd.equals("runP") ) {
                 String token = "1Q2W3E4R";
@@ -98,28 +106,32 @@ public class Blocks {
                 }
                 response.put("rc", "ok");
                 response.put("data", message);
+                LOG.info("running program: " + message);
 
             } else if ( cmd.equals("loadT") ) {
                 String name = request.getString("name");
                 String template = this.templates.get(name);
+                String rc = template == null ? "ERROR" : "ok";
+                response.put("rc", rc);
                 if ( template == null ) {
-                    response.put("rc", "error");
-                    response.put("cause", "program not found");
+                    response.put("cause", "toolbox not found");
                 } else {
-                    response.put("rc", "ok");
                     response.put("data", template);
                 }
+                LOG.info("loading toolbox: " + rc);
 
             } else if ( cmd.equals("loadPN") ) {
                 JSONArray programInfo = new ProgramProcessor().getProgramInfo(session, userId);
                 response.put("rc", "ok");
                 response.put("programNames", programInfo);
+                LOG.info("program info about " + programInfo.length() + " program(s)");
 
             } else if ( cmd.equals("deletePN") ) {
                 String programName = request.getString("name");
                 int numberOfDeletedPrograms = new ProgramProcessor().deleteByName(session, programName, userId);
                 response.put("rc", "ok");
                 response.put("deleted", numberOfDeletedPrograms);
+                LOG.info("deleted " + numberOfDeletedPrograms + " program(s)");
 
             } else if ( cmd.equals("saveUser") ) {
                 String account = request.getString("accountName");
@@ -128,12 +140,10 @@ public class Blocks {
                 String role = request.getString("role");
 
                 User user = new UserProcessor().saveUser(session, account, password, role, email, null);
-                String rc = user == null ? "ERROR" : "sucessful";
-                LOG.info("result of create a new user: " + rc);
+                String rc = user == null ? "ERROR" : "ok";
+                LOG.info("user created: " + rc);
                 response.put("rc", rc);
-                if ( user == null ) {
-                    response.put("created", "False");
-                } else {
+                if ( user != null ) {
                     openRobertaState.setUserId(user.getId());
                     response.put("userId", user.getId());
                     response.put("created", "True");
@@ -143,10 +153,10 @@ public class Blocks {
                 String userAccountName = request.getString("accountName");
                 String pass = request.getString("password");
                 User user = new UserProcessor().getUser(session, userAccountName, pass);
-                LOG.info("result of login: " + (user == null ? "ERROR" : "sucessful"));
 
                 if ( user == null ) {
                     response.put("exists", "False");
+                    LOG.info("login: ERROR");
                 } else {
                     response.put("exists", "True");
                     int id = user.getId();
@@ -156,18 +166,18 @@ public class Blocks {
                     response.put("userId", id);
                     response.put("userRole", user.getRole());
                     response.put("userAccountName", account);
-                    LOG.info("user {} with id {} logged in", account, id);
+                    LOG.info("logon: user {} with id {} logged in", account, id);
                 }
 
             } else if ( cmd.equals("deleteUser") ) {
                 String account = request.getString("accountName");
-                int deleteValue = new UserProcessor().deleteUserProgramByName(session, account);
-                String rc = deleteValue != 0 ? "sucessful" : "Nothing to delete";
-                LOG.info(rc);
+                int deletedUsers = new UserProcessor().deleteUserByAccount(session, userId, account);
+                String rc = deletedUsers == 1 ? "ok" : "ERROR";
                 response.put("rc", rc);
+                LOG.info("deleted " + deletedUsers + " user(s)");
 
             } else {
-                LOG.error("Invalid /blocks command: " + cmd);
+                LOG.error("Invalid command: " + cmd);
                 response.put("rc", "error");
                 response.put("cause", "invalid command");
 
@@ -175,7 +185,7 @@ public class Blocks {
             session.commit();
         } catch ( Exception e ) {
             session.rollback();
-            LOG.error("/blocks exception", e);
+            LOG.error("exception", e);
             response.put("rc", "error");
             String msg = e.getMessage();
             response.put("cause", msg == null ? "no message" : msg);
