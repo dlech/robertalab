@@ -1,15 +1,18 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
 import java.util.Date;
-import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +33,7 @@ import de.fhg.iais.roberta.persistence.connector.SessionWrapper;
 @Path("/blocks")
 public class Blocks {
     private static final Logger LOG = LoggerFactory.getLogger(Blocks.class);
+    private static final String OPEN_ROBERTA_STATE = "openRobertaState";
 
     private final SessionFactoryWrapper sessionFactoryWrapper;
     private final Templates templates;
@@ -45,11 +49,18 @@ public class Blocks {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response workWithBlocks(JSONObject fullRequest) throws Exception {
+    public Response workWithBlocks(@Context HttpServletRequest req, JSONObject fullRequest) throws Exception {
         LOG.info("/blocks got: " + fullRequest);
+        HttpSession httpSession = req.getSession(true);
+        OpenRobertaState openRobertaState = (OpenRobertaState) httpSession.getAttribute(OPEN_ROBERTA_STATE);
+        if ( openRobertaState == null ) {
+            openRobertaState = OpenRobertaState.init();
+            httpSession.setAttribute(OPEN_ROBERTA_STATE, openRobertaState);
+        }
+        final int userId = openRobertaState.getUserId();
+        System.out.println("userId: " + userId);
         JSONObject response = new JSONObject();
         SessionWrapper session = this.sessionFactoryWrapper.getSession();
-        final int userId = 1; // TODO: add session information about the user who logged in
         try {
             JSONObject request = fullRequest.getJSONObject("data");
             String cmd = request.getString("cmd");
@@ -100,9 +111,9 @@ public class Blocks {
                 }
 
             } else if ( cmd.equals("loadPN") ) {
-                List<String> programNames = new ProgramProcessor().getProgramNames(session, userId);
+                JSONArray programInfo = new ProgramProcessor().getProgramInfo(session, userId);
                 response.put("rc", "ok");
-                response.put("programNames", programNames);
+                response.put("programNames", programInfo);
 
             } else if ( cmd.equals("deletePN") ) {
                 String programName = request.getString("name");
@@ -117,12 +128,13 @@ public class Blocks {
                 String role = request.getString("role");
 
                 User user = new UserProcessor().saveUser(session, account, password, role, email, null);
-                String rc = user != null ? "sucessful" : "ERROR - nothing persisted";
-                LOG.info(rc);
+                String rc = user == null ? "ERROR" : "sucessful";
+                LOG.info("result of create a new user: " + rc);
                 response.put("rc", rc);
                 if ( user == null ) {
                     response.put("created", "False");
                 } else {
+                    openRobertaState.setUserId(user.getId());
                     response.put("userId", user.getId());
                     response.put("created", "True");
                 }
@@ -131,9 +143,7 @@ public class Blocks {
                 String userAccountName = request.getString("accountName");
                 String pass = request.getString("password");
                 User user = new UserProcessor().getUser(session, userAccountName, pass);
-                String rc = user != null ? "sucessful" : "ERROR - nothing persisted";
-                LOG.info(rc);
-                response.put("rc", rc);
+                LOG.info("result of login: " + (user == null ? "ERROR" : "sucessful"));
 
                 if ( user == null ) {
                     response.put("exists", "False");
@@ -141,6 +151,8 @@ public class Blocks {
                     response.put("exists", "True");
                     int id = user.getId();
                     String account = user.getAccount();
+                    openRobertaState.setUserId(id);
+                    user.setLastLogin();
                     response.put("userId", id);
                     response.put("userRole", user.getRole());
                     response.put("userAccountName", account);
@@ -175,5 +187,4 @@ public class Blocks {
         response.put("serverTime", new Date());
         return Response.ok(response).build();
     }
-
 }
