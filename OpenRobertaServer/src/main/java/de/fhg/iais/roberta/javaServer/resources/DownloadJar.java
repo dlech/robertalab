@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,6 +14,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,10 +38,12 @@ public class DownloadJar {
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response handle(String brickToken) {
+    public Response handle(JSONObject requestEntity) throws JSONException {
         String token = "1Q2W3E4R";
-        LOG.info("/download - brick token: " + brickToken + ", hardcoded token: " + token);
+        LOG.info("/download - " + requestEntity + ", hardcoded token: " + token);
+
         Pair<String, String> jarDescription = this.brickCommunicator.iAmABrickAndWantToWaitForARunButtonPress(token);
         ResponseBuilder builder = Response.status(Status.OK);
         String fileName = jarDescription.getSecond() + ".jar";
@@ -54,7 +59,7 @@ public class DownloadJar {
             builder.entity(bos.toByteArray());
             fis.close();
         } catch ( IOException e ) {
-            LOG.info("Error @FileInputStream(file)", e);
+            LOG.info("Error @FileInputStream", e);
         }
         return builder.build();
     }
