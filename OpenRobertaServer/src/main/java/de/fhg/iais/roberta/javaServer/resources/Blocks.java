@@ -23,8 +23,10 @@ import com.sun.jersey.api.core.InjectParam;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.brick.CompilerWorkflow;
 import de.fhg.iais.roberta.brick.Templates;
+import de.fhg.iais.roberta.persistence.ConfigurationProcessor;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
 import de.fhg.iais.roberta.persistence.UserProcessor;
+import de.fhg.iais.roberta.persistence.bo.Configuration;
 import de.fhg.iais.roberta.persistence.bo.Program;
 import de.fhg.iais.roberta.persistence.bo.User;
 import de.fhg.iais.roberta.persistence.connector.SessionFactoryWrapper;
@@ -75,12 +77,32 @@ public class Blocks {
             if ( cmd.equals("saveP") ) {
                 String programName = request.getString("name");
                 String programText = request.getString("program");
-                Program program = new ProgramProcessor().updateProgram(session, programName, userId, programText);
-                String rc = program == null ? "ERROR" : "ok";
-                response.put("rc", rc);
-                LOG.info("saving program: " + rc);
+                if ( openRobertaState.isUserLoggedIn() ) {
+                    Program program = new ProgramProcessor().updateProgram(session, programName, userId, programText);
+                    String rc = program == null ? "ERROR" : "ok";
+                    response.put("rc", rc);
+                    LOG.info("saving program to db: " + rc);
+                } else {
+                    openRobertaState.setProgramNameAndProgramText(programName, programText);
+                    response.put("rc", "ok");
+                    LOG.info("saving program to session: ok");
+                }
 
-            } else if ( cmd.equals("loadP") ) {
+            } else if ( cmd.equals("saveC") ) {
+                String configurationName = request.getString("configurationName");
+                String configurationText = request.getString("configuration");
+                if ( openRobertaState.isUserLoggedIn() ) {
+                    Configuration program = new ConfigurationProcessor().updateConfiguration(session, configurationName, userId, configurationText);
+                    String rc = program == null ? "ERROR" : "ok";
+                    response.put("rc", rc);
+                    LOG.info("saving configuration to db: " + rc);
+                } else {
+                    openRobertaState.setConfigurationNameAndConfiguration(configurationName, configurationText);
+                    response.put("rc", "ok");
+                    LOG.info("saving configuration to session: ok");
+                }
+
+            } else if ( cmd.equals("loadP") && openRobertaState.isUserLoggedIn() ) {
                 String programName = request.getString("name");
                 Program program = new ProgramProcessor().getProgram(session, programName, userId);
                 String rc = program == null ? "ERROR" : "ok";
@@ -93,16 +115,35 @@ public class Blocks {
                 LOG.info("loading program: " + rc);
 
             } else if ( cmd.equals("runP") ) {
-                String token = "1Q2W3E4R";
+                String token = "1Q2W3E4R"; // TODO: change frontend to supply us with the token
+                if ( request.has("token") ) {
+                    token = request.getString("token");
+                }
                 String programName = request.getString("name");
-                String brickConfigurationName = "default"; // TODO: change frontend to supply us with the configuration name
-                String brickConfigurationAsXmlString = ""; // TODO: change frontend to supply us with the configuration name
-                Program program = new ProgramProcessor().getProgram(session, programName, userId);
-                LOG.info("compiler workflow started for program {} and brick configuration {}", programName, brickConfigurationName);
-                String message = CompilerWorkflow.execute(session, token, programName, program.getProgramText(), brickConfigurationAsXmlString);
+                String programText = ""; // TODO: change frontend to supply us with the program xml
+                if ( request.has("program") ) {
+                    programText = request.getString("program");
+                }
+                String configurationName = "default"; // TODO: change frontend to supply us with the configuration name
+                if ( request.has("configurationName") ) {
+                    configurationName = request.getString("configurationName");
+                }
+                String configurationText = ""; // TODO: change frontend to supply us with the configuration xml
+                if ( request.has("configurationText") ) {
+                    configurationText = request.getString("configurationText");
+                }
+                if ( openRobertaState.isUserLoggedIn() ) {
+                    Program program = new ProgramProcessor().getProgram(session, programName, userId);
+                    programText = program.getProgramText();
+                    // TODO: change frontend
+                    // Configuration configuration = new ConfigurationProcessor().getConfiguration(session, configurationName, userId);
+                    // configurationText = configuration.getConfigurationText();
+                }
+                LOG.info("compiler workflow started for program {} and configuration {}", programName, configurationName);
+                String message = CompilerWorkflow.execute(session, token, programName, programText, configurationText);
                 if ( message == null ) {
                     // everything is fine
-                    message = this.brickCommunicator.theRunButtonWasPressed(token, programName, brickConfigurationName);
+                    message = this.brickCommunicator.theRunButtonWasPressed(token, programName, configurationName);
                 }
                 response.put("rc", "ok");
                 response.put("data", message);
@@ -120,13 +161,13 @@ public class Blocks {
                 }
                 LOG.info("loading toolbox: " + rc);
 
-            } else if ( cmd.equals("loadPN") ) {
+            } else if ( cmd.equals("loadPN") && openRobertaState.isUserLoggedIn() ) {
                 JSONArray programInfo = new ProgramProcessor().getProgramInfo(session, userId);
                 response.put("rc", "ok");
                 response.put("programNames", programInfo);
                 LOG.info("program info about " + programInfo.length() + " program(s)");
 
-            } else if ( cmd.equals("deletePN") ) {
+            } else if ( cmd.equals("deletePN") && openRobertaState.isUserLoggedIn() ) {
                 String programName = request.getString("name");
                 int numberOfDeletedPrograms = new ProgramProcessor().deleteByName(session, programName, userId);
                 response.put("rc", "ok");
