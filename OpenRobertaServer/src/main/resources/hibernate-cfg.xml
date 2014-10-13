@@ -8,12 +8,14 @@
 <!-- 
         <property name="show_sql">true</property>
 		<property name="format_sql">true</property>
--->	
-		<property name="dialect">de.fhg.iais.roberta.persistence.connector.SQLiteDialect</property>
-		<property name="connection.driver_class">org.sqlite.JDBC</property>
-		<property name="connection.url">jdbc:sqlite:./db/robertalab.db</property>
-		<property name="connection.username"></property>
-		<property name="connection.password"></property>
+-->
+		<property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+		<property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
+		<property name="connection.url">jdbc:hsqldb:file:./db/openroberta-db</property>
+		<property name="connection.username">orA</property> <!--  openRoberta admin -->
+		<property name="connection.password">Pid</property>
+        
+		<property name="connection.autocommit">false</property>
         
         <mapping class="de.fhg.iais.roberta.persistence.bo.Program"/>
         <mapping class="de.fhg.iais.roberta.persistence.bo.User" />
