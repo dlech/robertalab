@@ -1,9 +1,6 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -12,7 +9,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -45,22 +41,10 @@ public class DownloadJar {
         LOG.info("/download - " + requestEntity + ", hardcoded token: " + token);
 
         Pair<String, String> jarDescription = this.brickCommunicator.iAmABrickAndWantToWaitForARunButtonPress(token);
-        ResponseBuilder builder = Response.status(Status.OK);
         String fileName = jarDescription.getSecond() + ".jar";
-        try {
-            File file = new File(CompilerWorkflow.BASE_DIR + jarDescription.getFirst() + "/target/" + fileName);
-            FileInputStream fis = new FileInputStream(file);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            byte[] buf = new byte[4096];
-            for ( int readNum; (readNum = fis.read(buf)) != -1; ) {
-                bos.write(buf, 0, readNum);
-            }
-            builder.header("fileName", fileName);
-            builder.entity(bos.toByteArray());
-            fis.close();
-        } catch ( IOException e ) {
-            LOG.info("Error @FileInputStream", e);
-        }
-        return builder.build();
+        File jarFile = new File(CompilerWorkflow.BASE_DIR + jarDescription.getFirst() + "/target/" + fileName);
+        ResponseBuilder response = Response.ok(jarFile);
+        response.header("Content-Disposition", "attachment; filename=" + fileName);
+        return response.build();
     }
 }
