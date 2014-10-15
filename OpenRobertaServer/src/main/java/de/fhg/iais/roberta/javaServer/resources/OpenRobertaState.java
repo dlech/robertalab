@@ -8,15 +8,14 @@ import de.fhg.iais.roberta.dbc.Assert;
 public class OpenRobertaState {
     private static final Set<String> allTokensUsed = new HashSet<String>();
 
-    private int userId;
-    private String token;
+    private int userId = -1;
+    private String token = "1Q2W3E4R";
     private String programName;
     private String program;
     private String configurationName;
     private String configuration;
 
     private OpenRobertaState() {
-        this.userId = -1;
     }
 
     public static OpenRobertaState init() {
@@ -31,9 +30,19 @@ public class OpenRobertaState {
         return this.userId >= 1;
     }
 
-    public void setUserId(int userId) {
+    public void rememberLogin(int userId) {
         Assert.isTrue(userId >= 1);
+        // token is not cleared. This would annoy the user.
         this.userId = userId;
+        this.programName = null;
+        this.program = null;
+        this.configurationName = null;
+        this.configuration = null;
+    }
+
+    public void rememberLogout() {
+        this.userId = -1;
+        // token is not cleared. This would annoy the user.
         this.programName = null;
         this.program = null;
         this.configurationName = null;

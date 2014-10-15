@@ -61,12 +61,12 @@ public class Blocks {
             }
         }
         HttpSession httpSession = req.getSession(true);
-        OpenRobertaState openRobertaState = (OpenRobertaState) httpSession.getAttribute(OPEN_ROBERTA_STATE);
-        if ( openRobertaState == null ) {
-            openRobertaState = OpenRobertaState.init();
-            httpSession.setAttribute(OPEN_ROBERTA_STATE, openRobertaState);
+        OpenRobertaState sessionState = (OpenRobertaState) httpSession.getAttribute(OPEN_ROBERTA_STATE);
+        if ( sessionState == null ) {
+            sessionState = OpenRobertaState.init();
+            httpSession.setAttribute(OPEN_ROBERTA_STATE, sessionState);
         }
-        final int userId = openRobertaState.getUserId();
+        final int userId = sessionState.getUserId();
         JSONObject response = new JSONObject();
         SessionWrapper session = this.sessionFactoryWrapper.getSession();
         try {
@@ -77,32 +77,32 @@ public class Blocks {
             if ( cmd.equals("saveP") ) {
                 String programName = request.getString("name");
                 String programText = request.getString("program");
-                if ( openRobertaState.isUserLoggedIn() ) {
+                if ( sessionState.isUserLoggedIn() ) {
                     Program program = new ProgramProcessor().updateProgram(session, programName, userId, programText);
                     String rc = program == null ? "ERROR" : "ok";
                     response.put("rc", rc);
-                    LOG.info("saving program to db: " + rc);
+                    LOG.info("saving program " + programName + " to db: " + rc);
                 } else {
-                    openRobertaState.setProgramNameAndProgramText(programName, programText);
+                    sessionState.setProgramNameAndProgramText(programName, programText);
                     response.put("rc", "ok");
-                    LOG.info("saving program to session: ok");
+                    LOG.info("saving program " + programName + " to session: ok");
                 }
 
             } else if ( cmd.equals("saveC") ) {
                 String configurationName = request.getString("configurationName");
                 String configurationText = request.getString("configuration");
-                if ( openRobertaState.isUserLoggedIn() ) {
+                if ( sessionState.isUserLoggedIn() ) {
                     Configuration program = new ConfigurationProcessor().updateConfiguration(session, configurationName, userId, configurationText);
                     String rc = program == null ? "ERROR" : "ok";
                     response.put("rc", rc);
-                    LOG.info("saving configuration to db: " + rc);
+                    LOG.info("saving configuration " + configurationName + " to db: " + rc);
                 } else {
-                    openRobertaState.setConfigurationNameAndConfiguration(configurationName, configurationText);
+                    sessionState.setConfigurationNameAndConfiguration(configurationName, configurationText);
                     response.put("rc", "ok");
-                    LOG.info("saving configuration to session: ok");
+                    LOG.info("saving configuration " + configurationName + " to session: ok");
                 }
 
-            } else if ( cmd.equals("loadP") && openRobertaState.isUserLoggedIn() ) {
+            } else if ( cmd.equals("loadP") && sessionState.isUserLoggedIn() ) {
                 String programName = request.getString("name");
                 Program program = new ProgramProcessor().getProgram(session, programName, userId);
                 String rc = program == null ? "ERROR" : "ok";
@@ -112,18 +112,18 @@ public class Blocks {
                 } else {
                     response.put("data", program.getProgramText());
                 }
-                LOG.info("loading program: " + rc);
+                LOG.info("loading program " + programName + " : " + rc);
+
+            } else if ( cmd.equals("setToken") ) {
+                String token = request.getString("token");
+                sessionState.setToken(token);
+                response.put("rc", "ok");
+                LOG.info("set token: ok");
 
             } else if ( cmd.equals("runP") ) {
-                String token = "1Q2W3E4R"; // TODO: change frontend to supply us with the token
-                if ( request.has("token") ) {
-                    token = request.getString("token");
-                }
+                String token = sessionState.getToken();
                 String programName = request.getString("name");
-                String programText = ""; // TODO: change frontend to supply us with the program xml
-                if ( request.has("program") ) {
-                    programText = request.getString("program");
-                }
+                String programText = sessionState.getProgram();
                 String configurationName = "default"; // TODO: change frontend to supply us with the configuration name
                 if ( request.has("configurationName") ) {
                     configurationName = request.getString("configurationName");
@@ -132,7 +132,7 @@ public class Blocks {
                 if ( request.has("configurationText") ) {
                     configurationText = request.getString("configurationText");
                 }
-                if ( openRobertaState.isUserLoggedIn() ) {
+                if ( sessionState.isUserLoggedIn() ) {
                     Program program = new ProgramProcessor().getProgram(session, programName, userId);
                     programText = program.getProgramText();
                     // TODO: change frontend
@@ -161,20 +161,46 @@ public class Blocks {
                 }
                 LOG.info("loading toolbox: " + rc);
 
-            } else if ( cmd.equals("loadPN") && openRobertaState.isUserLoggedIn() ) {
+            } else if ( cmd.equals("loadPN") && sessionState.isUserLoggedIn() ) {
                 JSONArray programInfo = new ProgramProcessor().getProgramInfo(session, userId);
                 response.put("rc", "ok");
                 response.put("programNames", programInfo);
                 LOG.info("program info about " + programInfo.length() + " program(s)");
 
-            } else if ( cmd.equals("deletePN") && openRobertaState.isUserLoggedIn() ) {
+            } else if ( cmd.equals("deletePN") && sessionState.isUserLoggedIn() ) {
                 String programName = request.getString("name");
                 int numberOfDeletedPrograms = new ProgramProcessor().deleteByName(session, programName, userId);
                 response.put("rc", "ok");
                 response.put("deleted", numberOfDeletedPrograms);
                 LOG.info("deleted " + numberOfDeletedPrograms + " program(s)");
 
-            } else if ( cmd.equals("saveUser") ) {
+            } else if ( cmd.equals("login") ) {
+                String userAccountName = request.getString("accountName");
+                String pass = request.getString("password");
+                User user = new UserProcessor().getUser(session, userAccountName, pass);
+
+                if ( user == null ) {
+                    response.put("rc", "error");
+                    response.put("cause", "invalid user or invalid password");
+                    LOG.info("login failed for account: " + userAccountName);
+                } else {
+                    response.put("rc", "ok");
+                    int id = user.getId();
+                    String account = user.getAccount();
+                    sessionState.rememberLogin(id);
+                    user.setLastLogin();
+                    response.put("userId", id);
+                    response.put("userRole", user.getRole());
+                    response.put("userAccountName", account);
+                    LOG.info("logon: user {} with id {} logged in", account, id);
+                }
+
+            } else if ( cmd.equals("logout") && sessionState.isUserLoggedIn() ) {
+                sessionState.rememberLogout();
+                response.put("rc", "ok");
+                LOG.info("logout of user " + userId);
+
+            } else if ( cmd.equals("createUser") ) {
                 String account = request.getString("accountName");
                 String password = request.getString("password");
                 String email = request.getString("userEmail");
@@ -185,29 +211,8 @@ public class Blocks {
                 LOG.info("user created: " + rc);
                 response.put("rc", rc);
                 if ( user != null ) {
-                    openRobertaState.setUserId(user.getId());
+                    sessionState.rememberLogin(user.getId());
                     response.put("userId", user.getId());
-                    response.put("created", "True");
-                }
-
-            } else if ( cmd.equals("signInUser") ) {
-                String userAccountName = request.getString("accountName");
-                String pass = request.getString("password");
-                User user = new UserProcessor().getUser(session, userAccountName, pass);
-
-                if ( user == null ) {
-                    response.put("exists", "False");
-                    LOG.info("login: ERROR");
-                } else {
-                    response.put("exists", "True");
-                    int id = user.getId();
-                    String account = user.getAccount();
-                    openRobertaState.setUserId(id);
-                    user.setLastLogin();
-                    response.put("userId", id);
-                    response.put("userRole", user.getRole());
-                    response.put("userAccountName", account);
-                    LOG.info("logon: user {} with id {} logged in", account, id);
                 }
 
             } else if ( cmd.equals("deleteUser") ) {
