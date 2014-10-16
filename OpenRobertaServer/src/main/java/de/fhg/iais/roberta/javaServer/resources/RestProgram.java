@@ -23,19 +23,15 @@ import com.sun.jersey.api.core.InjectParam;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.brick.CompilerWorkflow;
 import de.fhg.iais.roberta.brick.Templates;
-import de.fhg.iais.roberta.persistence.ConfigurationProcessor;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
-import de.fhg.iais.roberta.persistence.UserProcessor;
-import de.fhg.iais.roberta.persistence.bo.Configuration;
 import de.fhg.iais.roberta.persistence.bo.Program;
-import de.fhg.iais.roberta.persistence.bo.User;
 import de.fhg.iais.roberta.persistence.connector.SessionFactoryWrapper;
 import de.fhg.iais.roberta.persistence.connector.SessionWrapper;
 import de.fhg.iais.roberta.util.Util;
 
-@Path("/blocks")
-public class Blocks {
-    private static final Logger LOG = LoggerFactory.getLogger(Blocks.class);
+@Path("/program")
+public class RestProgram {
+    private static final Logger LOG = LoggerFactory.getLogger(RestProgram.class);
     private static final String OPEN_ROBERTA_STATE = "openRobertaState";
     private static final boolean SHORT_LOG = true;
 
@@ -44,7 +40,10 @@ public class Blocks {
     private final BrickCommunicator brickCommunicator;
 
     @Inject
-    public Blocks(@InjectParam SessionFactoryWrapper sessionFactoryWrapper, @InjectParam Templates templates, @InjectParam BrickCommunicator brickCommunicator) {
+    public RestProgram(
+        @InjectParam SessionFactoryWrapper sessionFactoryWrapper,
+        @InjectParam Templates templates,
+        @InjectParam BrickCommunicator brickCommunicator) {
         this.sessionFactoryWrapper = sessionFactoryWrapper;
         this.templates = templates;
         this.brickCommunicator = brickCommunicator;
@@ -56,9 +55,9 @@ public class Blocks {
     public Response workWithBlocks(@Context HttpServletRequest req, JSONObject fullRequest) throws Exception {
         if ( LOG.isDebugEnabled() ) {
             if ( SHORT_LOG ) {
-                LOG.debug("/blocks got: " + fullRequest.toString().substring(0, 120));
+                LOG.debug("/program got: " + fullRequest.toString().substring(0, 120));
             } else {
-                LOG.debug("/blocks got: " + fullRequest);
+                LOG.debug("/program got: " + fullRequest);
             }
         }
         HttpSession httpSession = req.getSession(true);
@@ -88,14 +87,20 @@ public class Blocks {
                 if ( program != null ) {
                     response.put("data", program.getProgramText());
                 }
+                Util.addResultInfo(response, pp);
 
-            } else if ( cmd.equals("deletePN") && httpSessionState.isUserLoggedIn() ) {
+            } else if ( cmd.equals("deleteP") && httpSessionState.isUserLoggedIn() ) {
                 String programName = request.getString("name");
                 pp.deleteByName(programName, userId);
-                response.put("rc", "ok");
+                Util.addResultInfo(response, pp);
+
+            } else if ( cmd.equals("loadPN") && httpSessionState.isUserLoggedIn() ) {
+                JSONArray programInfo = pp.getProgramInfo(userId);
+                response.put("programNames", programInfo);
                 Util.addResultInfo(response, pp);
 
             } else if ( cmd.equals("runP") ) {
+                // TODO: refactor to a Processor (?)
                 String token = httpSessionState.getToken();
                 String programName = request.getString("name");
                 String programText = httpSessionState.getProgram();
@@ -123,93 +128,6 @@ public class Blocks {
                 response.put("rc", "ok");
                 response.put("data", message);
                 LOG.info("running program: " + message);
-
-            } else if ( cmd.equals("saveC") ) {
-                String configurationName = request.getString("configurationName");
-                String configurationText = request.getString("configuration");
-                if ( httpSessionState.isUserLoggedIn() ) {
-                    Configuration program =
-                        new ConfigurationProcessor(dbSession, httpSessionState).updateConfiguration(configurationName, userId, configurationText);
-                    String rc = program == null ? "ERROR" : "ok";
-                    response.put("rc", rc);
-                    LOG.info("saving configuration " + configurationName + " to db: " + rc);
-                } else {
-                    httpSessionState.setConfigurationNameAndConfiguration(configurationName, configurationText);
-                    response.put("rc", "ok");
-                    LOG.info("saving configuration " + configurationName + " to session: ok");
-                }
-
-            } else if ( cmd.equals("setToken") ) {
-                String token = request.getString("token");
-                httpSessionState.setToken(token);
-                response.put("rc", "ok");
-                LOG.info("set token: ok");
-
-            } else if ( cmd.equals("loadT") ) {
-                String name = request.getString("name");
-                String template = this.templates.get(name);
-                String rc = template == null ? "ERROR" : "ok";
-                response.put("rc", rc);
-                if ( template == null ) {
-                    response.put("cause", "toolbox not found");
-                } else {
-                    response.put("data", template);
-                }
-                LOG.info("loading toolbox: " + rc);
-
-            } else if ( cmd.equals("loadPN") && httpSessionState.isUserLoggedIn() ) {
-                JSONArray programInfo = pp.getProgramInfo(userId);
-                response.put("rc", "ok");
-                response.put("programNames", programInfo);
-                LOG.info("program info about " + programInfo.length() + " program(s)");
-
-            } else if ( cmd.equals("login") ) {
-                String userAccountName = request.getString("accountName");
-                String pass = request.getString("password");
-                User user = new UserProcessor(dbSession, httpSessionState).getUser(userAccountName, pass);
-
-                if ( user == null ) {
-                    response.put("rc", "error");
-                    response.put("cause", "invalid user or invalid password");
-                    LOG.info("login failed for account: " + userAccountName);
-                } else {
-                    response.put("rc", "ok");
-                    int id = user.getId();
-                    String account = user.getAccount();
-                    httpSessionState.rememberLogin(id);
-                    user.setLastLogin();
-                    response.put("userId", id);
-                    response.put("userRole", user.getRole());
-                    response.put("userAccountName", account);
-                    LOG.info("logon: user {} with id {} logged in", account, id);
-                }
-
-            } else if ( cmd.equals("logout") && httpSessionState.isUserLoggedIn() ) {
-                httpSessionState.rememberLogout();
-                response.put("rc", "ok");
-                LOG.info("logout of user " + userId);
-
-            } else if ( cmd.equals("createUser") ) {
-                String account = request.getString("accountName");
-                String password = request.getString("password");
-                String email = request.getString("userEmail");
-                String role = request.getString("role");
-
-                User user = new UserProcessor(dbSession, httpSessionState).saveUser(account, password, role, email, null);
-                String rc = user == null ? "ERROR" : "ok";
-                LOG.info("user created: " + rc);
-                response.put("rc", rc);
-                if ( user != null ) {
-                    httpSessionState.rememberLogin(user.getId());
-                    response.put("userId", user.getId());
-                }
-
-            } else if ( cmd.equals("deleteUser") ) {
-                String account = request.getString("accountName");
-                int deletedUsers = new UserProcessor(dbSession, httpSessionState).deleteUserByAccount(userId, account);
-                String rc = deletedUsers == 1 ? "ok" : "ERROR";
-                response.put("rc", rc);
-                LOG.info("deleted " + deletedUsers + " user(s)");
 
             } else {
                 LOG.error("Invalid command: " + cmd);
