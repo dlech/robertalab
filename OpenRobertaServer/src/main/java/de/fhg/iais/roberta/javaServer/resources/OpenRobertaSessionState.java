@@ -5,7 +5,7 @@ import java.util.Set;
 
 import de.fhg.iais.roberta.dbc.Assert;
 
-public class OpenRobertaState {
+public class OpenRobertaSessionState {
     private static final Set<String> allTokensUsed = new HashSet<String>();
 
     private int userId = -1;
@@ -15,11 +15,11 @@ public class OpenRobertaState {
     private String configurationName;
     private String configuration;
 
-    private OpenRobertaState() {
+    private OpenRobertaSessionState() {
     }
 
-    public static OpenRobertaState init() {
-        return new OpenRobertaState();
+    public static OpenRobertaSessionState init() {
+        return new OpenRobertaSessionState();
     }
 
     public int getUserId() {
@@ -55,7 +55,7 @@ public class OpenRobertaState {
 
     public void setToken(String token) {
         Assert.notNull(token);
-        synchronized ( OpenRobertaState.class ) {
+        synchronized ( OpenRobertaSessionState.class ) {
             Assert.isTrue(!allTokensUsed.contains(token), "token already used. New token required.");
             allTokensUsed.add(token);
         }

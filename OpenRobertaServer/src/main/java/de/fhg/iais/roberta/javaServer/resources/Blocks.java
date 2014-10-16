@@ -31,6 +31,7 @@ import de.fhg.iais.roberta.persistence.bo.Program;
 import de.fhg.iais.roberta.persistence.bo.User;
 import de.fhg.iais.roberta.persistence.connector.SessionFactoryWrapper;
 import de.fhg.iais.roberta.persistence.connector.SessionWrapper;
+import de.fhg.iais.roberta.util.Util;
 
 @Path("/blocks")
 public class Blocks {
@@ -61,69 +62,43 @@ public class Blocks {
             }
         }
         HttpSession httpSession = req.getSession(true);
-        OpenRobertaState sessionState = (OpenRobertaState) httpSession.getAttribute(OPEN_ROBERTA_STATE);
-        if ( sessionState == null ) {
-            sessionState = OpenRobertaState.init();
-            httpSession.setAttribute(OPEN_ROBERTA_STATE, sessionState);
+        OpenRobertaSessionState httpSessionState = (OpenRobertaSessionState) httpSession.getAttribute(OPEN_ROBERTA_STATE);
+        if ( httpSessionState == null ) {
+            httpSessionState = OpenRobertaSessionState.init();
+            httpSession.setAttribute(OPEN_ROBERTA_STATE, httpSessionState);
         }
-        final int userId = sessionState.getUserId();
+        final int userId = httpSessionState.getUserId();
         JSONObject response = new JSONObject();
-        SessionWrapper session = this.sessionFactoryWrapper.getSession();
+        SessionWrapper dbSession = this.sessionFactoryWrapper.getSession();
         try {
             JSONObject request = fullRequest.getJSONObject("data");
             String cmd = request.getString("cmd");
             LOG.info("command is: " + cmd);
             response.put("cmd", cmd);
+            ProgramProcessor pp = new ProgramProcessor(dbSession, httpSessionState);
             if ( cmd.equals("saveP") ) {
                 String programName = request.getString("name");
                 String programText = request.getString("program");
-                if ( sessionState.isUserLoggedIn() ) {
-                    Program program = new ProgramProcessor().updateProgram(session, programName, userId, programText);
-                    String rc = program == null ? "ERROR" : "ok";
-                    response.put("rc", rc);
-                    LOG.info("saving program " + programName + " to db: " + rc);
-                } else {
-                    sessionState.setProgramNameAndProgramText(programName, programText);
-                    response.put("rc", "ok");
-                    LOG.info("saving program " + programName + " to session: ok");
-                }
+                pp.updateProgram(programName, userId, programText);
+                Util.addResultInfo(response, pp);
 
-            } else if ( cmd.equals("saveC") ) {
-                String configurationName = request.getString("configurationName");
-                String configurationText = request.getString("configuration");
-                if ( sessionState.isUserLoggedIn() ) {
-                    Configuration program = new ConfigurationProcessor().updateConfiguration(session, configurationName, userId, configurationText);
-                    String rc = program == null ? "ERROR" : "ok";
-                    response.put("rc", rc);
-                    LOG.info("saving configuration " + configurationName + " to db: " + rc);
-                } else {
-                    sessionState.setConfigurationNameAndConfiguration(configurationName, configurationText);
-                    response.put("rc", "ok");
-                    LOG.info("saving configuration " + configurationName + " to session: ok");
-                }
-
-            } else if ( cmd.equals("loadP") && sessionState.isUserLoggedIn() ) {
+            } else if ( cmd.equals("loadP") && httpSessionState.isUserLoggedIn() ) {
                 String programName = request.getString("name");
-                Program program = new ProgramProcessor().getProgram(session, programName, userId);
-                String rc = program == null ? "ERROR" : "ok";
-                response.put("rc", rc);
-                if ( program == null ) {
-                    response.put("cause", "program not found");
-                } else {
+                Program program = pp.getProgram(programName, userId);
+                if ( program != null ) {
                     response.put("data", program.getProgramText());
                 }
-                LOG.info("loading program " + programName + " : " + rc);
 
-            } else if ( cmd.equals("setToken") ) {
-                String token = request.getString("token");
-                sessionState.setToken(token);
+            } else if ( cmd.equals("deletePN") && httpSessionState.isUserLoggedIn() ) {
+                String programName = request.getString("name");
+                pp.deleteByName(programName, userId);
                 response.put("rc", "ok");
-                LOG.info("set token: ok");
+                Util.addResultInfo(response, pp);
 
             } else if ( cmd.equals("runP") ) {
-                String token = sessionState.getToken();
+                String token = httpSessionState.getToken();
                 String programName = request.getString("name");
-                String programText = sessionState.getProgram();
+                String programText = httpSessionState.getProgram();
                 String configurationName = "default"; // TODO: change frontend to supply us with the configuration name
                 if ( request.has("configurationName") ) {
                     configurationName = request.getString("configurationName");
@@ -132,15 +107,15 @@ public class Blocks {
                 if ( request.has("configurationText") ) {
                     configurationText = request.getString("configurationText");
                 }
-                if ( sessionState.isUserLoggedIn() ) {
-                    Program program = new ProgramProcessor().getProgram(session, programName, userId);
+                if ( httpSessionState.isUserLoggedIn() ) {
+                    Program program = pp.getProgram(programName, userId);
                     programText = program.getProgramText();
                     // TODO: change frontend
                     // Configuration configuration = new ConfigurationProcessor().getConfiguration(session, configurationName, userId);
                     // configurationText = configuration.getConfigurationText();
                 }
                 LOG.info("compiler workflow started for program {} and configuration {}", programName, configurationName);
-                String message = CompilerWorkflow.execute(session, token, programName, programText, configurationText);
+                String message = CompilerWorkflow.execute(dbSession, token, programName, programText, configurationText);
                 if ( message == null ) {
                     // everything is fine
                     message = this.brickCommunicator.theRunButtonWasPressed(token, programName, configurationName);
@@ -148,6 +123,27 @@ public class Blocks {
                 response.put("rc", "ok");
                 response.put("data", message);
                 LOG.info("running program: " + message);
+
+            } else if ( cmd.equals("saveC") ) {
+                String configurationName = request.getString("configurationName");
+                String configurationText = request.getString("configuration");
+                if ( httpSessionState.isUserLoggedIn() ) {
+                    Configuration program =
+                        new ConfigurationProcessor(dbSession, httpSessionState).updateConfiguration(configurationName, userId, configurationText);
+                    String rc = program == null ? "ERROR" : "ok";
+                    response.put("rc", rc);
+                    LOG.info("saving configuration " + configurationName + " to db: " + rc);
+                } else {
+                    httpSessionState.setConfigurationNameAndConfiguration(configurationName, configurationText);
+                    response.put("rc", "ok");
+                    LOG.info("saving configuration " + configurationName + " to session: ok");
+                }
+
+            } else if ( cmd.equals("setToken") ) {
+                String token = request.getString("token");
+                httpSessionState.setToken(token);
+                response.put("rc", "ok");
+                LOG.info("set token: ok");
 
             } else if ( cmd.equals("loadT") ) {
                 String name = request.getString("name");
@@ -161,23 +157,16 @@ public class Blocks {
                 }
                 LOG.info("loading toolbox: " + rc);
 
-            } else if ( cmd.equals("loadPN") && sessionState.isUserLoggedIn() ) {
-                JSONArray programInfo = new ProgramProcessor().getProgramInfo(session, userId);
+            } else if ( cmd.equals("loadPN") && httpSessionState.isUserLoggedIn() ) {
+                JSONArray programInfo = pp.getProgramInfo(userId);
                 response.put("rc", "ok");
                 response.put("programNames", programInfo);
                 LOG.info("program info about " + programInfo.length() + " program(s)");
 
-            } else if ( cmd.equals("deletePN") && sessionState.isUserLoggedIn() ) {
-                String programName = request.getString("name");
-                int numberOfDeletedPrograms = new ProgramProcessor().deleteByName(session, programName, userId);
-                response.put("rc", "ok");
-                response.put("deleted", numberOfDeletedPrograms);
-                LOG.info("deleted " + numberOfDeletedPrograms + " program(s)");
-
             } else if ( cmd.equals("login") ) {
                 String userAccountName = request.getString("accountName");
                 String pass = request.getString("password");
-                User user = new UserProcessor().getUser(session, userAccountName, pass);
+                User user = new UserProcessor(dbSession, httpSessionState).getUser(userAccountName, pass);
 
                 if ( user == null ) {
                     response.put("rc", "error");
@@ -187,7 +176,7 @@ public class Blocks {
                     response.put("rc", "ok");
                     int id = user.getId();
                     String account = user.getAccount();
-                    sessionState.rememberLogin(id);
+                    httpSessionState.rememberLogin(id);
                     user.setLastLogin();
                     response.put("userId", id);
                     response.put("userRole", user.getRole());
@@ -195,8 +184,8 @@ public class Blocks {
                     LOG.info("logon: user {} with id {} logged in", account, id);
                 }
 
-            } else if ( cmd.equals("logout") && sessionState.isUserLoggedIn() ) {
-                sessionState.rememberLogout();
+            } else if ( cmd.equals("logout") && httpSessionState.isUserLoggedIn() ) {
+                httpSessionState.rememberLogout();
                 response.put("rc", "ok");
                 LOG.info("logout of user " + userId);
 
@@ -206,18 +195,18 @@ public class Blocks {
                 String email = request.getString("userEmail");
                 String role = request.getString("role");
 
-                User user = new UserProcessor().saveUser(session, account, password, role, email, null);
+                User user = new UserProcessor(dbSession, httpSessionState).saveUser(account, password, role, email, null);
                 String rc = user == null ? "ERROR" : "ok";
                 LOG.info("user created: " + rc);
                 response.put("rc", rc);
                 if ( user != null ) {
-                    sessionState.rememberLogin(user.getId());
+                    httpSessionState.rememberLogin(user.getId());
                     response.put("userId", user.getId());
                 }
 
             } else if ( cmd.equals("deleteUser") ) {
                 String account = request.getString("accountName");
-                int deletedUsers = new UserProcessor().deleteUserByAccount(session, userId, account);
+                int deletedUsers = new UserProcessor(dbSession, httpSessionState).deleteUserByAccount(userId, account);
                 String rc = deletedUsers == 1 ? "ok" : "ERROR";
                 response.put("rc", rc);
                 LOG.info("deleted " + deletedUsers + " user(s)");
@@ -228,16 +217,16 @@ public class Blocks {
                 response.put("cause", "invalid command");
 
             }
-            session.commit();
+            dbSession.commit();
         } catch ( Exception e ) {
-            session.rollback();
+            dbSession.rollback();
             LOG.error("exception", e);
             response.put("rc", "error");
             String msg = e.getMessage();
             response.put("cause", msg == null ? "no message" : msg);
         } finally {
-            if ( session != null ) {
-                session.close();
+            if ( dbSession != null ) {
+                dbSession.close();
             }
         }
         response.put("serverTime", new Date());
