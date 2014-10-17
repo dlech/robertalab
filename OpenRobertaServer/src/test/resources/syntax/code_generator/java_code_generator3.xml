@@ -46,7 +46,7 @@
               </value>
               <statement name="DO1">
                 <block type="robActions_display_picture" id="607" inline="false">
-                  <field name="PICTURE">SMILEY3</field>
+                  <field name="PICTURE">FLOWERS</field>
                   <value name="X">
                     <block type="math_number" id="608">
                       <field name="NUM">15</field>
