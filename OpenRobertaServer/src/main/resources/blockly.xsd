@@ -36,6 +36,7 @@
         <xs:attribute name="inline" type="xs:boolean" use="optional"/>
         <xs:attribute name="collapsed" type="xs:boolean" use="optional"/>        
         <xs:attribute name="disabled" type="xs:boolean" use="optional"/>
+        <xs:attribute name="deletable" type="xs:boolean" use="optional"/>
     </xs:complexType>
     <xs:complexType  name="field">
         <xs:simpleContent>
