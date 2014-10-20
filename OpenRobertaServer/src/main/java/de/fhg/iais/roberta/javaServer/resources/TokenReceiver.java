@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import com.sun.jersey.api.core.InjectParam;
 
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 
@@ -24,7 +23,7 @@ public class TokenReceiver {
     private final BrickCommunicator brickCommunicator;
 
     @Inject
-    public TokenReceiver(@InjectParam BrickCommunicator brickCommunicator) {
+    public TokenReceiver(BrickCommunicator brickCommunicator) {
         this.brickCommunicator = brickCommunicator;
     }
 

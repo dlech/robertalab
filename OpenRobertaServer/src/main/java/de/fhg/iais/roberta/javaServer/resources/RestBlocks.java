@@ -2,13 +2,10 @@ package de.fhg.iais.roberta.javaServer.resources;
 
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -17,17 +14,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import com.sun.jersey.api.core.InjectParam;
 
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.brick.Templates;
+import de.fhg.iais.roberta.javaServer.provider.OraSessionState;
 import de.fhg.iais.roberta.persistence.connector.SessionFactoryWrapper;
 import de.fhg.iais.roberta.persistence.connector.SessionWrapper;
 
 @Path("/blocks")
 public class RestBlocks {
     private static final Logger LOG = LoggerFactory.getLogger(RestBlocks.class);
-    private static final String OPEN_ROBERTA_STATE = "openRobertaState";
     private static final boolean SHORT_LOG = true;
 
     private final SessionFactoryWrapper sessionFactoryWrapper;
@@ -35,10 +31,7 @@ public class RestBlocks {
     private final BrickCommunicator brickCommunicator;
 
     @Inject
-    public RestBlocks(
-        @InjectParam SessionFactoryWrapper sessionFactoryWrapper,
-        @InjectParam Templates templates,
-        @InjectParam BrickCommunicator brickCommunicator) {
+    public RestBlocks(SessionFactoryWrapper sessionFactoryWrapper, Templates templates, BrickCommunicator brickCommunicator) {
         this.sessionFactoryWrapper = sessionFactoryWrapper;
         this.templates = templates;
         this.brickCommunicator = brickCommunicator;
@@ -47,7 +40,7 @@ public class RestBlocks {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response workWithBlocks(@Context HttpServletRequest req, JSONObject fullRequest) throws Exception {
+    public Response workWithBlocks(@OraSessionState OpenRobertaSessionState httpSessionState, JSONObject fullRequest) throws Exception {
         if ( LOG.isDebugEnabled() ) {
             if ( SHORT_LOG ) {
                 LOG.debug("/blocks got: " + fullRequest.toString().substring(0, 120));
@@ -55,13 +48,6 @@ public class RestBlocks {
                 LOG.debug("/blocks got: " + fullRequest);
             }
         }
-        HttpSession httpSession = req.getSession(true);
-        OpenRobertaSessionState httpSessionState = (OpenRobertaSessionState) httpSession.getAttribute(OPEN_ROBERTA_STATE);
-        if ( httpSessionState == null ) {
-            httpSessionState = OpenRobertaSessionState.init();
-            httpSession.setAttribute(OPEN_ROBERTA_STATE, httpSessionState);
-        }
-        final int userId = httpSessionState.getUserId();
         JSONObject response = new JSONObject();
         SessionWrapper dbSession = this.sessionFactoryWrapper.getSession();
         try {

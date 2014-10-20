@@ -10,7 +10,7 @@ public class OpenRobertaSessionState {
     private String configurationName;
     private String configuration;
 
-    private OpenRobertaSessionState() {
+    public OpenRobertaSessionState() {
     }
 
     public static OpenRobertaSessionState init() {
