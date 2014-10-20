@@ -1,13 +1,8 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import de.fhg.iais.roberta.dbc.Assert;
 
 public class OpenRobertaSessionState {
-    private static final Set<String> allTokensUsed = new HashSet<String>();
-
     private int userId = -1;
     private String token = "1Q2W3E4R";
     private String programName;
@@ -55,10 +50,6 @@ public class OpenRobertaSessionState {
 
     public void setToken(String token) {
         Assert.notNull(token);
-        synchronized ( OpenRobertaSessionState.class ) {
-            Assert.isTrue(!allTokensUsed.contains(token), "token already used. New token required.");
-            allTokensUsed.add(token);
-        }
         this.token = token;
     }
 

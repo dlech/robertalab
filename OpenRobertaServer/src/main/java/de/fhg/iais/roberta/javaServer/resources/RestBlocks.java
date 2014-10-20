@@ -71,9 +71,16 @@ public class RestBlocks {
             response.put("cmd", cmd);
             if ( cmd.equals("setToken") ) {
                 String token = request.getString("token");
-                httpSessionState.setToken(token);
-                response.put("rc", "ok");
-                LOG.info("set token: ok");
+                String rc = null;
+                if ( this.brickCommunicator.aTokenAgreementWasSent(token) ) {
+                    rc = "ok";
+                    httpSessionState.setToken(token);
+                    LOG.info("token " + token + " is registered in the session");
+                } else {
+                    rc = "error";
+                }
+                response.put("rc", rc);
+                LOG.info("set token: " + rc);
 
             } else if ( cmd.equals("loadT") ) {
                 String name = request.getString("name");

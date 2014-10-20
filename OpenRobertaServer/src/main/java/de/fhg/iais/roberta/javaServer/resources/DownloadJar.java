@@ -37,8 +37,8 @@ public class DownloadJar {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response handle(JSONObject requestEntity) throws JSONException {
-        String token = "1Q2W3E4R";
-        LOG.info("/download - " + requestEntity + ", hardcoded token: " + token);
+        String token = requestEntity.getString("token");
+        LOG.info("/download - request for token " + token);
 
         Pair<String, String> jarDescription = this.brickCommunicator.iAmABrickAndWantToWaitForARunButtonPress(token);
         String fileName = jarDescription.getSecond() + ".jar";

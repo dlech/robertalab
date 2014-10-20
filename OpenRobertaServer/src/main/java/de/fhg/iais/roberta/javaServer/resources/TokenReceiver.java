@@ -12,16 +12,30 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+import com.sun.jersey.api.core.InjectParam;
+
+import de.fhg.iais.roberta.brick.BrickCommunicator;
+
 @Path("/token")
 public class TokenReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(TokenReceiver.class);
+
+    private final BrickCommunicator brickCommunicator;
+
+    @Inject
+    public TokenReceiver(@InjectParam BrickCommunicator brickCommunicator) {
+        this.brickCommunicator = brickCommunicator;
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response handle(JSONObject requestEntity) throws JSONException {
-        LOG.info("/token - " + requestEntity);
-        JSONObject response = new JSONObject().put("Response", "OK");
+        String token = requestEntity.getString("token");
+        LOG.info("/token - agreement request for token " + token);
+        boolean result = this.brickCommunicator.iAmABrickAndWantATokenToBeAgreedUpon(token);
+        JSONObject response = new JSONObject().put("Response", result ? "OK" : "error");
         return Response.ok(response).build();
     }
 
