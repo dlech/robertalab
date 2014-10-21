@@ -23,6 +23,7 @@ import de.fhg.iais.roberta.persistence.ProgramProcessor;
 import de.fhg.iais.roberta.persistence.bo.Program;
 import de.fhg.iais.roberta.persistence.connector.SessionFactoryWrapper;
 import de.fhg.iais.roberta.persistence.connector.SessionWrapper;
+import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Util;
 
 @Path("/program")
@@ -43,7 +44,8 @@ public class RestProgram {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response workWithBlocks(@OraSessionState OpenRobertaSessionState httpSessionState, JSONObject fullRequest) throws Exception {
+    public Response command(@OraSessionState OpenRobertaSessionState httpSessionState, JSONObject fullRequest) throws Exception {
+        int logLength = new ClientLogger().log(fullRequest);
         if ( LOG.isDebugEnabled() ) {
             if ( SHORT_LOG ) {
                 LOG.debug("/program got: " + fullRequest.toString().substring(0, 120));
