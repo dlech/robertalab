@@ -1,18 +1,17 @@
 <block_set  xmlns="http://de.fhg.iais.roberta.blockly">
-  <instance x="1" y="54">
+<instance x="1" y="54">
     <block type="robControls_wait_for" id="12" inline="false" disabled="true">
       <value name="WAIT0">
         <block type="logic_compare" id="13" inline="true" disabled="true">
           <field name="OP">EQ</field>
           <value name="A">
             <block type="robSensors_getSample" id="14" disabled="true">
-              <mutation option="null"></mutation>
               <field name="SENSORTYPE">TOUCH</field>
               <field name="SENSORPORT">1</field>
             </block>
           </value>
           <value name="B">
-            <block type="logic_boolean" id="15" disabled="true">
+            <block type="logic_boolean" id="464">
               <field name="BOOL">TRUE</field>
             </block>
           </value>

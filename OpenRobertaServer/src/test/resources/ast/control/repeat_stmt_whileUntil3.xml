@@ -1,0 +1,60 @@
+<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
+       <instance x="-372" y="47">
+    <block type="controls_whileUntil" id="66" inline="false" disabled="true">
+      <field name="MODE">WHILE</field>
+      <value name="BOOL">
+        <block type="logic_compare" id="49" inline="true" disabled="true">
+          <field name="OP">NEQ</field>
+          <value name="A">
+            <block type="math_arithmetic" id="68" inline="true" disabled="true">
+              <field name="OP">ADD</field>
+              <value name="A">
+                <block type="math_number" id="106" disabled="true">
+                  <field name="NUM">10</field>
+                </block>
+              </value>
+              <value name="B">
+                <block type="math_number" id="125" disabled="true">
+                  <field name="NUM">15</field>
+                </block>
+              </value>
+            </block>
+          </value>
+          <value name="B">
+            <block type="logic_operation" id="57" inline="true" disabled="true">
+              <field name="OP">AND</field>
+              <value name="A">
+                <block type="robSensors_touch_isPressed" id="65" disabled="true">
+                  <field name="SENSORPORT">1</field>
+                </block>
+              </value>
+              <value name="B">
+                <block type="robSensors_touch_isPressed" id="63" disabled="true">
+                  <field name="SENSORPORT">2</field>
+                </block>
+              </value>
+            </block>
+          </value>
+        </block>
+      </value>
+      <statement name="DO">
+        <block type="text_append" id="68" inline="false" disabled="true">
+          <field name="VAR">item</field>
+          <value name="TEXT">
+            <block type="text" id="69" disabled="true">
+              <field name="TEXT">sd</field>
+            </block>
+          </value>
+        </block>
+        <block type="math_change" id="70" inline="true" disabled="true">
+          <field name="VAR">item</field>
+          <value name="DELTA">
+            <block type="math_number" id="71" disabled="true">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+        </block>
+      </statement>
+    </block>
+  </instance>
+</block_set>
