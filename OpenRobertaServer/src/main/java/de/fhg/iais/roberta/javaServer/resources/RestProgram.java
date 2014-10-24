@@ -32,11 +32,13 @@ public class RestProgram {
 
     private final SessionFactoryWrapper sessionFactoryWrapper;
     private final BrickCommunicator brickCommunicator;
+    private final CompilerWorkflow compilerWorkflow;
 
     @Inject
-    public RestProgram(SessionFactoryWrapper sessionFactoryWrapper, BrickCommunicator brickCommunicator) {
+    public RestProgram(SessionFactoryWrapper sessionFactoryWrapper, BrickCommunicator brickCommunicator, CompilerWorkflow compilerWorkflow) {
         this.sessionFactoryWrapper = sessionFactoryWrapper;
         this.brickCommunicator = brickCommunicator;
+        this.compilerWorkflow = compilerWorkflow;
     }
 
     @POST
@@ -98,7 +100,7 @@ public class RestProgram {
                     // configurationText = configuration.getConfigurationText();
                 }
                 LOG.info("compiler workflow started for program {} and configuration {}", programName, configurationName);
-                String message = CompilerWorkflow.execute(dbSession, token, programName, programText, configurationText);
+                String message = this.compilerWorkflow.execute(dbSession, token, programName, programText, configurationText);
                 if ( message == null ) {
                     // everything is fine
                     message = this.brickCommunicator.theRunButtonWasPressed(token, programName, configurationName);
