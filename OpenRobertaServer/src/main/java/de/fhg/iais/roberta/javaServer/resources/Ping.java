@@ -23,7 +23,7 @@ public class Ping {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response handle(JSONObject request) throws Exception {
-        int logLength = new ClientLogger().log(request);
+        int logLength = new ClientLogger().log(LOG, request);
         LOG.info("/ping");
         Date date = new Date();
         JSONObject data = new JSONObject().put("date", date.getTime()).put("dateAsString", date.toString()).put("logged", logLength);

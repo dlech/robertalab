@@ -13,43 +13,23 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-
-import de.fhg.iais.roberta.javaServer.provider.OraSessionState;
+import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.ConfigurationProcessor;
-import de.fhg.iais.roberta.persistence.connector.SessionFactoryWrapper;
-import de.fhg.iais.roberta.persistence.connector.SessionWrapper;
+import de.fhg.iais.roberta.persistence.connector.DbSession;
 import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Util;
 
 @Path("/conf")
 public class RestConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(RestConfiguration.class);
-    private static final String OPEN_ROBERTA_STATE = "openRobertaState";
-    private static final boolean SHORT_LOG = true;
-
-    private final SessionFactoryWrapper sessionFactoryWrapper;
-
-    @Inject
-    public RestConfiguration(SessionFactoryWrapper sessionFactoryWrapper) {
-        this.sessionFactoryWrapper = sessionFactoryWrapper;
-    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response command(@OraSessionState OpenRobertaSessionState httpSessionState, JSONObject fullRequest) throws Exception {
-        int logLength = new ClientLogger().log(fullRequest);
-        if ( LOG.isDebugEnabled() ) {
-            if ( SHORT_LOG ) {
-                LOG.debug("/conf got: " + fullRequest.toString().substring(0, 120));
-            } else {
-                LOG.debug("/conf got: " + fullRequest);
-            }
-        }
+    public Response command(@OraData HttpSessionState httpSessionState, @OraData DbSession dbSession, JSONObject fullRequest) throws Exception {
+        new ClientLogger().log(LOG, fullRequest);
         final int userId = httpSessionState.getUserId();
         JSONObject response = new JSONObject();
-        SessionWrapper dbSession = this.sessionFactoryWrapper.getSession();
         try {
             JSONObject request = fullRequest.getJSONObject("data");
             String cmd = request.getString("cmd");

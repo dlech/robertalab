@@ -13,50 +13,30 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-
-import de.fhg.iais.roberta.javaServer.provider.OraSessionState;
+import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.UserProcessor;
 import de.fhg.iais.roberta.persistence.bo.User;
-import de.fhg.iais.roberta.persistence.connector.SessionFactoryWrapper;
-import de.fhg.iais.roberta.persistence.connector.SessionWrapper;
+import de.fhg.iais.roberta.persistence.connector.DbSession;
 import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Util;
 
 @Path("/user")
 public class RestUser {
     private static final Logger LOG = LoggerFactory.getLogger(RestUser.class);
-    private static final String OPEN_ROBERTA_STATE = "openRobertaState";
-    private static final boolean SHORT_LOG = true;
-
-    private final SessionFactoryWrapper sessionFactoryWrapper;
-
-    @Inject
-    public RestUser(SessionFactoryWrapper sessionFactoryWrapper) {
-        this.sessionFactoryWrapper = sessionFactoryWrapper;
-    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response command(@OraSessionState OpenRobertaSessionState httpSessionState, JSONObject fullRequest) throws Exception {
-        int logLength = new ClientLogger().log(fullRequest);
-        if ( LOG.isDebugEnabled() ) {
-            if ( SHORT_LOG ) {
-                LOG.debug("/user got: " + fullRequest.toString().substring(0, 120));
-            } else {
-                LOG.debug("/user got: " + fullRequest);
-            }
-        }
-        final int userId = httpSessionState.getUserId();
+    public Response command(@OraData HttpSessionState httpSession, @OraData DbSession dbSession, JSONObject fullRequest) throws Exception {
+        new ClientLogger().log(LOG, fullRequest);
+        final int userId = httpSession.getUserId();
         JSONObject response = new JSONObject();
-        SessionWrapper dbSession = this.sessionFactoryWrapper.getSession();
         try {
             JSONObject request = fullRequest.getJSONObject("data");
             String cmd = request.getString("cmd");
             LOG.info("command is: " + cmd);
             response.put("cmd", cmd);
-            UserProcessor up = new UserProcessor(dbSession, httpSessionState);
+            UserProcessor up = new UserProcessor(dbSession, httpSession);
             if ( cmd.equals("login") ) {
                 String userAccountName = request.getString("accountName");
                 String password = request.getString("password");
@@ -65,7 +45,7 @@ public class RestUser {
                 if ( user != null ) {
                     int id = user.getId();
                     String account = user.getAccount();
-                    httpSessionState.rememberLogin(id);
+                    httpSession.rememberLogin(id);
                     user.setLastLogin();
                     response.put("userId", id);
                     response.put("userRole", user.getRole());
@@ -73,8 +53,8 @@ public class RestUser {
                     LOG.info("logon: user {} with id {} logged in", account, id);
                 }
 
-            } else if ( cmd.equals("logout") && httpSessionState.isUserLoggedIn() ) {
-                httpSessionState.rememberLogout();
+            } else if ( cmd.equals("logout") && httpSession.isUserLoggedIn() ) {
+                httpSession.rememberLogout();
                 response.put("rc", "ok");
                 LOG.info("logout of user " + userId);
 

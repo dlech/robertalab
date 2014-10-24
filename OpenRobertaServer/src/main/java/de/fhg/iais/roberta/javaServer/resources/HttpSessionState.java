@@ -2,7 +2,7 @@ package de.fhg.iais.roberta.javaServer.resources;
 
 import de.fhg.iais.roberta.dbc.Assert;
 
-public class OpenRobertaSessionState {
+public class HttpSessionState {
     private int userId = -1;
     private String token = "1Q2W3E4R";
     private String programName;
@@ -10,11 +10,11 @@ public class OpenRobertaSessionState {
     private String configurationName;
     private String configuration;
 
-    public OpenRobertaSessionState() {
+    public HttpSessionState() {
     }
 
-    public static OpenRobertaSessionState init() {
-        return new OpenRobertaSessionState();
+    public static HttpSessionState init() {
+        return new HttpSessionState();
     }
 
     public int getUserId() {
