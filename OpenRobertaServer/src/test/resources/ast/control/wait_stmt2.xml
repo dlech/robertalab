@@ -1,145 +1,24 @@
 <block_set  xmlns="http://de.fhg.iais.roberta.blockly">
-     <instance x="1" y="54">
-    <block type="robControls_wait_for" id="64" inline="false" disabled="true">
-      <mutation wait="4"></mutation>
-      <value name="WAIT0">
-        <block type="logic_compare" id="65" inline="true" disabled="true">
-          <field name="OP">EQ</field>
-          <value name="A">
-            <block type="robSensors_getSample" id="66" disabled="true">
-              <field name="SENSORTYPE">TOUCH</field>
-              <field name="SENSORPORT">1</field>
-            </block>
-          </value>
-          <value name="B">
-            <block type="logic_boolean" id="67" disabled="true">
-              <field name="BOOL">TRUE</field>
-            </block>
-          </value>
-        </block>
-      </value>
-      <statement name="DO0">
-        <block type="robActions_motor_on_for" id="98" inline="false" disabled="true">
-          <field name="MOTORPORT">B</field>
-          <field name="MOTORROTATION">ROTATIONS</field>
-          <value name="POWER">
-            <block type="math_number" id="99" disabled="true">
-              <field name="NUM">30</field>
-            </block>
-          </value>
-          <value name="VALUE">
-            <block type="math_number" id="100" disabled="true">
-              <field name="NUM">1</field>
-            </block>
-          </value>
-        </block>
-      </statement>
-      <value name="WAIT1">
-        <block type="logic_compare" id="72" inline="true" disabled="true">
-          <field name="OP">EQ</field>
-          <value name="A">
-            <block type="robSensors_getSample" id="73" disabled="true">
-              <field name="SENSORTYPE">ENCODER</field>
-              <field name="MOTORPORT">A</field>
-            </block>
-          </value>
-          <value name="B">
-            <block type="math_number" id="150" disabled="true">
-              <field name="NUM">30</field>
-            </block>
-          </value>
-        </block>
-      </value>
-      <statement name="DO1">
-        <block type="robActions_motorDiff_on_for" id="110" inline="false" disabled="true">
-          <field name="DIRECTION">FOREWARD</field>
-          <value name="POWER">
-            <block type="math_number" id="111" disabled="true">
-              <field name="NUM">50</field>
-            </block>
-          </value>
-          <value name="DISTANCE">
-            <block type="math_number" id="112" disabled="true">
-              <field name="NUM">20</field>
-            </block>
-          </value>
-        </block>
-      </statement>
-      <value name="WAIT2">
-        <block type="logic_compare" id="75" inline="true" disabled="true">
-          <field name="OP">EQ</field>
-          <value name="A">
-            <block type="robSensors_getSample" id="76" disabled="true">
-              <field name="SENSORTYPE">KEYS_PRESSED</field>
-              <field name="KEY">ENTER</field>
-            </block>
-          </value>
-          <value name="B">
-            <block type="logic_boolean" id="151" disabled="true">
-              <field name="BOOL">TRUE</field>
-            </block>
-          </value>
-        </block>
-      </value>
-      <statement name="DO2">
-        <block type="robActions_display_picture" id="126" inline="false" disabled="true">
-          <field name="PICTURE">OLDGLASSES</field>
-          <value name="X">
-            <block type="math_number" id="127" disabled="true">
-              <field name="NUM">0</field>
-            </block>
-          </value>
-          <value name="Y">
-            <block type="math_number" id="128" disabled="true">
-              <field name="NUM">0</field>
-            </block>
-          </value>
-        </block>
-      </statement>
-      <value name="WAIT3">
-        <block type="logic_compare" id="78" inline="true" disabled="true">
-          <field name="OP">EQ</field>
-          <value name="A">
-            <block type="robSensors_getSample" id="79" disabled="true">
-              <field name="SENSORTYPE">TIME</field>
-              <field name="SENSORNUM">1</field>
-            </block>
-          </value>
-          <value name="B">
-            <block type="math_number" id="152" disabled="true">
-              <field name="NUM">500</field>
-            </block>
-          </value>
-        </block>
-      </value>
-      <statement name="DO3">
-        <block type="robActions_brickLight_off" id="134" disabled="true"></block>
-      </statement>
-      <value name="WAIT4">
-        <block type="logic_compare" id="84" inline="true" disabled="true">
-          <field name="OP">EQ</field>
-          <value name="A">
-            <block type="robSensors_getSample" id="85" disabled="true">
-              <field name="SENSORTYPE">INFRARED</field>
-              <field name="SENSORPORT">4</field>
-            </block>
-          </value>
-          <value name="B">
-            <block type="math_number" id="154" disabled="true">
-              <field name="NUM">30</field>
-            </block>
-          </value>
-        </block>
-      </value>
-      <statement name="DO4">
-        <block type="robActions_play_setVolume" id="145" inline="false" disabled="true">
-          <value name="VOLUME">
-            <block type="math_number" id="146" disabled="true">
-              <field name="NUM">50</field>
-            </block>
-          </value>
-        </block>
-      </statement>
-    </block>
-  </instance>
+	<instance x="100" y="50">
+		<block type="robControls_start" id="10" deletable="false"/>
+		<block type="robControls_wait_for" id="159" inline="false">
+			<value name="WAIT0">
+				<block type="logic_compare" id="160" inline="true">
+					<field name="OP">EQ</field>
+					<value name="A">
+						<block type="robSensors_getSample" id="161">
+							<mutation input="KEYS_PRESSED"/>
+							<field name="SENSORTYPE">KEYS_PRESSED</field>
+							<field name="KEY">ENTER</field>
+						</block>
+					</value>
+					<value name="B">
+						<block type="logic_boolean" id="167">
+							<field name="BOOL">TRUE</field>
+						</block>
+					</value>
+				</block>
+			</value>
+		</block>
+	</instance>
 </block_set>

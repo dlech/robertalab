@@ -1,55 +1,24 @@
 <block_set  xmlns="http://de.fhg.iais.roberta.blockly">
-    <instance x="1" y="1">
-    <block type="robControls_wait" id="107" inline="false">
-      <mutation wait="1"></mutation>
-      <value name="WAIT0">
-        <block type="logic_compare" id="179" inline="true">
-          <field name="OP">EQ</field>
-          <value name="A">
-            <block type="math_number" id="349">
-              <field name="NUM">0</field>
-            </block>
-          </value>
-          <value name="B">
-            <block type="math_number" id="350">
-              <field name="NUM">0</field>
-            </block>
-          </value>
-        </block>
-      </value>
-      <statement name="DO0">
-        <block type="text_print" id="226" inline="false">
-          <value name="TEXT">
-            <block type="text" id="329">
-              <field name="TEXT">1</field>
-            </block>
-          </value>
-        </block>
-      </statement>
-      <value name="WAIT1">
-        <block type="logic_compare" id="209" inline="true">
-          <field name="OP">EQ</field>
-          <value name="A">
-            <block type="math_number" id="351">
-              <field name="NUM">0</field>
-            </block>
-          </value>
-          <value name="B">
-            <block type="math_number" id="352">
-              <field name="NUM">0</field>
-            </block>
-          </value>
-        </block>
-      </value>
-      <statement name="DO1">
-        <block type="text_print" id="227" inline="false">
-          <value name="TEXT">
-            <block type="text" id="330">
-              <field name="TEXT">2</field>
-            </block>
-          </value>
-        </block>
-      </statement>
-    </block>
-  </instance>
+   <instance x="100" y="50">
+		<block type="robControls_start" id="10" deletable="false"/>
+		<block type="robControls_wait_for" id="159" inline="false">
+			<value name="WAIT0">
+				<block type="logic_compare" id="160" inline="true">
+					<field name="OP">EQ</field>
+					<value name="A">
+						<block type="robSensors_getSample" id="161">
+							<mutation input="TIME"/>
+							<field name="SENSORTYPE">TIME</field>
+							<field name="SENSORNUM">1</field>
+						</block>
+					</value>
+					<value name="B">
+						<block type="math_number" id="179">
+							<field name="NUM">500</field>
+						</block>
+					</value>
+				</block>
+			</value>
+		</block>
+	</instance>
 </block_set>

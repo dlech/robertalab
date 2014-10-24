@@ -104,6 +104,7 @@
         <xs:attribute name="at2" type="xs:boolean" use="optional"/>
         <xs:attribute name="statement" type="xs:boolean" use="optional"/>
         <xs:attribute name="divisor_input" type="xs:boolean" use="optional"/>
+        <xs:attribute name="input" type="xs:string" use="optional"/>
     </xs:complexType>   
     <xs:complexType name="arg">
         <xs:attribute name="name" type="xs:string"/>
