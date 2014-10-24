@@ -34,7 +34,7 @@ public class TokenReceiver {
         String token = requestEntity.getString("token");
         LOG.info("/token - agreement request for token " + token);
         boolean result = this.brickCommunicator.iAmABrickAndWantATokenToBeAgreedUpon(token);
-        JSONObject response = new JSONObject().put("Response", result ? "OK" : "error");
+        JSONObject response = new JSONObject().put("response", result ? "ok" : "error");
         return Response.ok(response).build();
     }
 
