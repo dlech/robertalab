@@ -1,6 +1,7 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -19,6 +20,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import de.fhg.iais.roberta.brick.BrickCommunicator;
+import de.fhg.iais.roberta.dbc.DbcException;
 import de.fhg.iais.roberta.util.Pair;
 
 @Path("/download")
@@ -49,7 +51,7 @@ public class DownloadJar {
             if ( jarDir.isDirectory() ) {
                 File jarFile = new File(jarDir, fileName);
                 if ( jarFile.isFile() ) {
-                    ResponseBuilder response = Response.ok(jarFile, MediaType.APPLICATION_OCTET_STREAM);
+                    ResponseBuilder response = Response.ok(new FileInputStream(jarFile), MediaType.APPLICATION_OCTET_STREAM);
                     response.header("Content-Disposition", "attachment; filename=" + fileName);
                     return response.build();
                 } else {
@@ -62,7 +64,7 @@ public class DownloadJar {
             return Response.serverError().build();
         } catch ( Exception e ) {
             LOG.error("exception caught and rethrown", e);
-            throw e;
+            throw new DbcException("exception caught and rethrown", e);
         }
     }
 }
