@@ -38,14 +38,31 @@ public class DownloadJar {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response handle(JSONObject requestEntity) throws JSONException {
-        String token = requestEntity.getString("token");
-        LOG.info("/download - request for token " + token);
+        try {
+            String token = requestEntity.getString("token");
+            LOG.info("/download - request for token " + token);
 
-        Pair<String, String> jarDescription = this.brickCommunicator.iAmABrickAndWantToWaitForARunButtonPress(token);
-        String fileName = jarDescription.getSecond() + ".jar";
-        File jarFile = new File(this.pathToCrosscompilerBaseDir + jarDescription.getFirst() + "/target/" + fileName);
-        ResponseBuilder response = Response.ok(jarFile);
-        response.header("Content-Disposition", "attachment; filename=" + fileName);
-        return response.build();
+            Pair<String, String> jarDescription = this.brickCommunicator.iAmABrickAndWantToWaitForARunButtonPress(token);
+            String fileName = jarDescription.getSecond() + ".jar";
+            File jarDir = new File(this.pathToCrosscompilerBaseDir + jarDescription.getFirst() + "/target");
+            String message = "unknown";
+            if ( jarDir.isDirectory() ) {
+                File jarFile = new File(jarDir, fileName);
+                if ( jarFile.isFile() ) {
+                    ResponseBuilder response = Response.ok(jarFile, MediaType.APPLICATION_OCTET_STREAM);
+                    response.header("Content-Disposition", "attachment; filename=" + fileName);
+                    return response.build();
+                } else {
+                    message = "jar to upload to robot not found";
+                }
+            } else {
+                message = "directory containg jar to upload to robot not found";
+            }
+            LOG.error("jar could not be uploaded to robot: " + message);
+            return Response.serverError().build();
+        } catch ( Exception e ) {
+            LOG.error("exception caught and rethrown", e);
+            throw e;
+        }
     }
 }
