@@ -1,0 +1,32 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-854" y="25">
+    <block type="text_trim" id="478" inline="false" disabled="true">
+      <field name="MODE">BOTH</field>
+      <value name="TEXT">
+        <block type="text" id="482" disabled="true">
+          <field name="TEXT"></field>
+        </block>
+      </value>
+    </block>
+  </instance>
+  <instance x="-834" y="65">
+    <block type="text_trim" id="500" inline="false" disabled="true">
+      <field name="MODE">LEFT</field>
+      <value name="TEXT">
+        <block type="text" id="482" disabled="true">
+          <field name="TEXT"></field>
+        </block>
+      </value>
+    </block>
+  </instance>
+  <instance x="-814" y="105">
+    <block type="text_trim" id="500" inline="false" disabled="true">
+      <field name="MODE">RIGHT</field>
+      <value name="TEXT">
+        <block type="text" id="482" disabled="true">
+          <field name="TEXT"></field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</block_set>
