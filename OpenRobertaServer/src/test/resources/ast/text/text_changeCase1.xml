@@ -1,0 +1,32 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-824" y="30">
+    <block type="text_changeCase" id="418" inline="false" disabled="true">
+      <field name="CASE">LOWERCASE</field>
+      <value name="TEXT">
+        <block type="text" id="441" disabled="true">
+          <field name="TEXT"></field>
+        </block>
+      </value>
+    </block>
+  </instance>
+  <instance x="-804" y="70">
+    <block type="text_changeCase" id="459" inline="false" disabled="true">
+      <field name="CASE">UPPERCASE</field>
+      <value name="TEXT">
+        <block type="text" id="441" disabled="true">
+          <field name="TEXT"></field>
+        </block>
+      </value>
+    </block>
+  </instance>
+  <instance x="-784" y="110">
+    <block type="text_changeCase" id="459" inline="false" disabled="true">
+      <field name="CASE">TITLECASE</field>
+      <value name="TEXT">
+        <block type="text" id="441" disabled="true">
+          <field name="TEXT"></field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</block_set>
