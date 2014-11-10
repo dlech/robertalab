@@ -23,6 +23,11 @@ import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.dbc.DbcException;
 import de.fhg.iais.roberta.util.Pair;
 
+/**
+ * REST service for downloading user program
+ * 
+ * @author dpyka
+ */
 @Path("/download")
 public class DownloadJar {
     private static final Logger LOG = LoggerFactory.getLogger(DownloadJar.class);
