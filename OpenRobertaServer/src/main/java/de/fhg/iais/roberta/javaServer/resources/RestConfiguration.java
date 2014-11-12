@@ -9,12 +9,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.ConfigurationProcessor;
+import de.fhg.iais.roberta.persistence.bo.Configuration;
 import de.fhg.iais.roberta.persistence.connector.DbSession;
 import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Util;
@@ -40,6 +42,24 @@ public class RestConfiguration {
                 String configurationName = request.getString("configurationName");
                 String configurationText = request.getString("configuration");
                 cp.updateConfiguration(configurationName, userId, configurationText);
+                Util.addResultInfo(response, cp);
+
+            } else if ( cmd.equals("loadC") && httpSessionState.isUserLoggedIn() ) {
+                String configurationName = request.getString("name");
+                Configuration configuration = cp.getConfiguration(configurationName, userId);
+                if ( configuration != null ) {
+                    response.put("data", configuration.getConfigurationText());
+                }
+                Util.addResultInfo(response, cp);
+
+            } else if ( cmd.equals("deleteC") && httpSessionState.isUserLoggedIn() ) {
+                String configurationName = request.getString("name");
+                cp.deleteByName(configurationName, userId);
+                Util.addResultInfo(response, cp);
+
+            } else if ( cmd.equals("loadCN") && httpSessionState.isUserLoggedIn() ) {
+                JSONArray configurationInfo = cp.getConfigurationInfo(userId);
+                response.put("configurationNames", configurationInfo);
                 Util.addResultInfo(response, cp);
 
             } else {
