@@ -39,7 +39,7 @@ public class RestConfiguration {
             response.put("cmd", cmd);
             ConfigurationProcessor cp = new ConfigurationProcessor(dbSession, httpSessionState);
             if ( cmd.equals("saveC") ) {
-                String configurationName = request.getString("configurationName");
+                String configurationName = request.getString("name");
                 String configurationText = request.getString("configuration");
                 cp.updateConfiguration(configurationName, userId, configurationText);
                 Util.addResultInfo(response, cp);
@@ -66,7 +66,6 @@ public class RestConfiguration {
                 LOG.error("Invalid command: " + cmd);
                 response.put("rc", "error");
                 response.put("cause", "invalid command");
-
             }
             dbSession.commit();
         } catch ( Exception e ) {
