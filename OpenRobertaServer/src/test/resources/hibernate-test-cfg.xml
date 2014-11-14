@@ -11,8 +11,8 @@
 -->
 		<property name="dialect">org.hibernate.dialect.HSQLDialect</property>
 		<property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-		<property name="connection.url">jdbc:hsqldb:mem:testInMemoryDb</property>
 		<property name="connection.autocommit">false</property>
+		<property name="connection.url">the connection.url is defined in the openRoberta-properties-file</property>
         
         <mapping class="de.fhg.iais.roberta.persistence.bo.Program"/>
         <mapping class="de.fhg.iais.roberta.persistence.bo.Configuration"/>
