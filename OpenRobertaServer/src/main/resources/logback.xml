@@ -12,6 +12,5 @@
     
     <logger name="de.fhg.iais.roberta.brick.BrickCommunicationData" level="debug" />
     <logger name="de.fhg.iais.roberta.brick.CompilerWorkflow" level="debug" />
-    <logger name="de.fhg.iais.roberta.persistence.util.DbExecutor" level="debug" />
     
 </configuration>
