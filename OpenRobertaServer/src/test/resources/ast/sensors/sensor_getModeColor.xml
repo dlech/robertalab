@@ -3,5 +3,5 @@
     <block type="robSensors_colour_getMode" id="163">
       <field name="SENSORPORT">3</field>
     </block>
-  </instance>nstance>
+  </instance>
 </block_set>
