@@ -1,7 +1,5 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
-import java.util.Date;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -127,7 +125,7 @@ public class RestProgram {
                 dbSession.close();
             }
         }
-        response.put("serverTime", new Date());
+        Util.addFrontendInfo(response, httpSessionState, this.brickCommunicator);
         return Response.ok(response).build();
     }
 }

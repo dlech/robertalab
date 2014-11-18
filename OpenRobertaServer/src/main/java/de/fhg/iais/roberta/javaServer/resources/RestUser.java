@@ -1,7 +1,5 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
-import java.util.Date;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,6 +11,9 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+
+import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.UserProcessor;
 import de.fhg.iais.roberta.persistence.bo.User;
@@ -24,19 +25,26 @@ import de.fhg.iais.roberta.util.Util;
 public class RestUser {
     private static final Logger LOG = LoggerFactory.getLogger(RestUser.class);
 
+    private final BrickCommunicator brickCommunicator;
+
+    @Inject
+    public RestUser(BrickCommunicator brickCommunicator) {
+        this.brickCommunicator = brickCommunicator;
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response command(@OraData HttpSessionState httpSession, @OraData DbSession dbSession, JSONObject fullRequest) throws Exception {
+    public Response command(@OraData HttpSessionState httpSessionState, @OraData DbSession dbSession, JSONObject fullRequest) throws Exception {
         new ClientLogger().log(LOG, fullRequest);
-        final int userId = httpSession.getUserId();
+        final int userId = httpSessionState.getUserId();
         JSONObject response = new JSONObject();
         try {
             JSONObject request = fullRequest.getJSONObject("data");
             String cmd = request.getString("cmd");
             LOG.info("command is: " + cmd);
             response.put("cmd", cmd);
-            UserProcessor up = new UserProcessor(dbSession, httpSession);
+            UserProcessor up = new UserProcessor(dbSession, httpSessionState);
             if ( cmd.equals("login") ) {
                 String userAccountName = request.getString("accountName");
                 String password = request.getString("password");
@@ -45,7 +53,7 @@ public class RestUser {
                 if ( user != null ) {
                     int id = user.getId();
                     String account = user.getAccount();
-                    httpSession.rememberLogin(id);
+                    httpSessionState.rememberLogin(id);
                     user.setLastLogin();
                     response.put("userId", id);
                     response.put("userRole", user.getRole());
@@ -53,8 +61,8 @@ public class RestUser {
                     LOG.info("logon: user {} with id {} logged in", account, id);
                 }
 
-            } else if ( cmd.equals("logout") && httpSession.isUserLoggedIn() ) {
-                httpSession.rememberLogout();
+            } else if ( cmd.equals("logout") && httpSessionState.isUserLoggedIn() ) {
+                httpSessionState.rememberLogout();
                 response.put("rc", "ok");
                 LOG.info("logout of user " + userId);
 
@@ -90,7 +98,7 @@ public class RestUser {
                 dbSession.close();
             }
         }
-        response.put("serverTime", new Date());
+        Util.addFrontendInfo(response, httpSessionState, this.brickCommunicator);
         return Response.ok(response).build();
     }
 }

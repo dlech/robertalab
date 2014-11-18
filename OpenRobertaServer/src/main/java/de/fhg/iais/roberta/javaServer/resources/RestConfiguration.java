@@ -1,7 +1,5 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
-import java.util.Date;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,6 +12,9 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+
+import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.ConfigurationProcessor;
 import de.fhg.iais.roberta.persistence.bo.Configuration;
@@ -24,6 +25,13 @@ import de.fhg.iais.roberta.util.Util;
 @Path("/conf")
 public class RestConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(RestConfiguration.class);
+
+    private final BrickCommunicator brickCommunicator;
+
+    @Inject
+    public RestConfiguration(BrickCommunicator brickCommunicator) {
+        this.brickCommunicator = brickCommunicator;
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -79,7 +87,7 @@ public class RestConfiguration {
                 dbSession.close();
             }
         }
-        response.put("serverTime", new Date());
+        Util.addFrontendInfo(response, httpSessionState, this.brickCommunicator);
         return Response.ok(response).build();
     }
 }

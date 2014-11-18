@@ -1,7 +1,5 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
-import java.util.Date;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -20,6 +18,7 @@ import de.fhg.iais.roberta.brick.Templates;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.util.ClientLogger;
+import de.fhg.iais.roberta.util.Util;
 
 @Path("/blocks")
 public class RestBlocks {
@@ -88,7 +87,7 @@ public class RestBlocks {
                 dbSession.close();
             }
         }
-        response.put("serverTime", new Date());
+        Util.addFrontendInfo(response, httpSessionState, this.brickCommunicator);
         return Response.ok(response).build();
     }
 }
