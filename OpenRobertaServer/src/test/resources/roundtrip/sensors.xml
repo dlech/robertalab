@@ -1,0 +1,252 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-8" y="-179">
+    <block type="robControls_start" id="59" deletable="false"></block>
+    <block type="robSensors_ultrasonic_setMode" id="31">
+      <field name="SENSORPORT">4</field>
+      <field name="MODE">DISTANCE</field>
+    </block>
+    <block type="robSensors_colour_setMode" id="47">
+      <field name="SENSORPORT">3</field>
+      <field name="MODE">COLOUR</field>
+    </block>
+    <block type="robSensors_gyro_reset" id="113">
+      <field name="SENSORPORT">2</field>
+    </block>
+    <block type="robSensors_encoder_setMode" id="79">
+      <field name="MOTORPORT">A</field>
+      <field name="MODE">ROTATION</field>
+    </block>
+    <block type="robSensors_infrared_setMode" id="67">
+      <field name="SENSORPORT">4</field>
+      <field name="MODE">DISTANCE</field>
+    </block>
+    <block type="robSensors_encoder_reset" id="91">
+      <field name="MOTORPORT">A</field>
+    </block>
+    <block type="robSensors_gyro_setMode" id="101">
+      <field name="SENSORPORT">2</field>
+      <field name="MODE">ANGLE</field>
+    </block>
+    <block type="robActions_display_text" id="138" inline="false">
+      <value name="OUT">
+        <block type="robSensors_gyro_getSample" id="119">
+          <field name="SENSORPORT">2</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_display_text" id="150" inline="false">
+      <value name="OUT">
+        <block type="robSensors_timer_getSample" id="121">
+          <field name="SENSORNUM">1</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_display_text" id="150" inline="false">
+      <value name="OUT">
+        <block type="robSensors_encoder_getSample" id="97">
+          <field name="MOTORPORT">A</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_display_text" id="169" inline="false">
+      <value name="OUT">
+        <block type="robSensors_gyro_getMode" id="107">
+          <field name="SENSORPORT">2</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_display_text" id="150" inline="false">
+      <value name="OUT">
+        <block type="robSensors_infrared_getSample" id="77">
+          <field name="SENSORPORT">4</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_display_text" id="169" inline="false">
+      <value name="OUT">
+        <block type="robSensors_key_isPressed" id="99">
+          <field name="KEY">ENTER</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_display_text" id="150" inline="false">
+      <value name="OUT">
+        <block type="robSensors_ultrasonic_getSample" id="45">
+          <field name="SENSORPORT">4</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_display_text" id="169" inline="false">
+      <value name="OUT">
+        <block type="robSensors_ultrasonic_getMode" id="40">
+          <field name="SENSORPORT">4</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_display_text" id="150" inline="false">
+      <value name="OUT">
+        <block type="robSensors_colour_getSample" id="57">
+          <field name="SENSORPORT">3</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_display_text" id="150" inline="false">
+      <value name="OUT">
+        <block type="robSensors_touch_isPressed" id="29">
+          <field name="SENSORPORT">1</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_display_text" id="169" inline="false">
+      <value name="OUT">
+        <block type="robSensors_encoder_getMode" id="85">
+          <field name="MOTORPORT">A</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_display_text" id="169" inline="false">
+      <value name="OUT">
+        <block type="robSensors_infrared_getMode" id="72">
+          <field name="SENSORPORT">4</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_display_text" id="169" inline="false">
+      <value name="OUT">
+        <block type="robSensors_colour_getMode" id="52">
+          <field name="SENSORPORT">3</field>
+        </block>
+      </value>
+      <value name="COL">
+        <block type="math_number" id="140">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ROW">
+        <block type="math_number" id="141">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</block_set>

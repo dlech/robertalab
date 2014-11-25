@@ -1,0 +1,376 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="14" y="26">
+    <block type="robControls_start" id="29" deletable="false"></block>
+    <block type="robControls_if" id="79" inline="false">
+      <value name="IF0">
+        <block type="robSensors_touch_isPressed" id="43">
+          <field name="SENSORPORT">1</field>
+        </block>
+      </value>
+      <statement name="DO0">
+        <block type="robSensors_colour_setMode" id="73">
+          <field name="SENSORPORT">3</field>
+          <field name="MODE">COLOUR</field>
+        </block>
+      </statement>
+    </block>
+    <block type="robControls_if" id="82" inline="false">
+      <mutation elseif="2"></mutation>
+      <repetitions>
+        <value name="IF0">
+          <block type="robSensors_touch_isPressed" id="43">
+            <field name="SENSORPORT">1</field>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="robSensors_colour_setMode" id="73">
+            <field name="SENSORPORT">3</field>
+            <field name="MODE">COLOUR</field>
+          </block>
+        </statement>
+        <value name="IF1">
+          <block type="robSensors_touch_isPressed" id="88">
+            <field name="SENSORPORT">1</field>
+          </block>
+        </value>
+        <statement name="DO1">
+          <block type="robSensors_colour_setMode" id="86">
+            <field name="SENSORPORT">3</field>
+            <field name="MODE">COLOUR</field>
+          </block>
+        </statement>
+        <value name="IF2">
+          <block type="robSensors_touch_isPressed" id="90">
+            <field name="SENSORPORT">1</field>
+          </block>
+        </value>
+      </repetitions>
+    </block>
+    <block type="robControls_ifElse" id="105" inline="false">
+      <mutation elseif="1" else="1"></mutation>
+      <repetitions>
+        <value name="IF0">
+          <block type="robSensors_touch_isPressed" id="107">
+            <field name="SENSORPORT">1</field>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="robSensors_colour_setMode" id="109">
+            <field name="SENSORPORT">3</field>
+            <field name="MODE">COLOUR</field>
+          </block>
+        </statement>
+        <value name="IF1">
+          <block type="robSensors_touch_isPressed" id="112">
+            <field name="SENSORPORT">1</field>
+          </block>
+        </value>
+        <statement name="DO1">
+          <block type="robSensors_colour_setMode" id="109">
+            <field name="SENSORPORT">3</field>
+            <field name="MODE">COLOUR</field>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="robSensors_colour_setMode" id="115">
+            <field name="SENSORPORT">3</field>
+            <field name="MODE">COLOUR</field>
+          </block>
+        </statement>
+      </repetitions>
+    </block>
+    <block type="controls_repeat_ext" id="117" inline="true">
+      <value name="TIMES">
+        <block type="math_number" id="118">
+          <field name="NUM">10</field>
+        </block>
+      </value>
+      <statement name="DO">
+        <block type="robSensors_colour_setMode" id="129">
+          <field name="SENSORPORT">3</field>
+          <field name="MODE">COLOUR</field>
+        </block>
+      </statement>
+    </block>
+    <block type="controls_whileUntil" id="133" inline="false">
+      <field name="MODE">WHILE</field>
+      <value name="BOOL">
+        <block type="robSensors_touch_isPressed" id="143">
+          <field name="SENSORPORT">1</field>
+        </block>
+      </value>
+      <statement name="DO">
+        <block type="robSensors_colour_setMode" id="129">
+          <field name="SENSORPORT">3</field>
+          <field name="MODE">COLOUR</field>
+        </block>
+      </statement>
+    </block>
+    <block type="controls_for" id="148" inline="true">
+      <field name="VAR">i</field>
+      <value name="FROM">
+        <block type="math_number" id="149">
+          <field name="NUM">1</field>
+        </block>
+      </value>
+      <value name="TO">
+        <block type="math_number" id="150">
+          <field name="NUM">10</field>
+        </block>
+      </value>
+      <value name="BY">
+        <block type="math_number" id="151">
+          <field name="NUM">1</field>
+        </block>
+      </value>
+      <statement name="DO">
+        <block type="robSensors_colour_setMode" id="159">
+          <field name="SENSORPORT">3</field>
+          <field name="MODE">COLOUR</field>
+        </block>
+      </statement>
+    </block>
+    <block type="robControls_wait_for" id="162" inline="false">
+      <value name="WAIT0">
+        <block type="logic_compare" id="163" inline="true">
+          <field name="OP">EQ</field>
+          <value name="A">
+            <block type="robSensors_getSample" id="164">
+              <mutation input="TOUCH"></mutation>
+              <field name="SENSORTYPE">TOUCH</field>
+              <field name="SENSORPORT">1</field>
+            </block>
+          </value>
+          <value name="B">
+            <block type="logic_boolean" id="165">
+              <field name="BOOL">TRUE</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="robControls_wait_for" id="170" inline="false">
+      <value name="WAIT0">
+        <block type="logic_compare" id="163" inline="true">
+          <field name="OP">EQ</field>
+          <value name="A">
+            <block type="robSensors_getSample" id="164">
+              <mutation input="ULTRASONIC"></mutation>
+              <field name="SENSORTYPE">ULTRASONIC</field>
+              <field name="SENSORPORT">4</field>
+            </block>
+          </value>
+          <value name="B">
+            <block type="math_number" id="191">
+              <field name="NUM">30</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="robControls_wait_for" id="170" inline="false">
+      <value name="WAIT0">
+        <block type="logic_compare" id="163" inline="true">
+          <field name="OP">EQ</field>
+          <value name="A">
+            <block type="robSensors_getSample" id="164">
+              <mutation input="COLOUR"></mutation>
+              <field name="SENSORTYPE">COLOUR</field>
+              <field name="SENSORPORT">3</field>
+            </block>
+          </value>
+          <value name="B">
+            <block type="robColour_picker" id="192">
+              <field name="COLOUR">#b30006</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="robControls_wait_for" id="170" inline="false">
+      <value name="WAIT0">
+        <block type="logic_compare" id="163" inline="true">
+          <field name="OP">EQ</field>
+          <value name="A">
+            <block type="robSensors_getSample" id="164">
+              <mutation input="INFRARED"></mutation>
+              <field name="SENSORTYPE">INFRARED</field>
+              <field name="SENSORPORT">4</field>
+            </block>
+          </value>
+          <value name="B">
+            <block type="math_number" id="193">
+              <field name="NUM">30</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="robControls_wait_for" id="170" inline="false">
+      <value name="WAIT0">
+        <block type="logic_compare" id="163" inline="true">
+          <field name="OP">EQ</field>
+          <value name="A">
+            <block type="robSensors_getSample" id="164">
+              <mutation input="ENCODER"></mutation>
+              <field name="SENSORTYPE">ENCODER</field>
+              <field name="MOTORPORT">A</field>
+            </block>
+          </value>
+          <value name="B">
+            <block type="math_number" id="194">
+              <field name="NUM">30</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="robControls_wait_for" id="170" inline="false">
+      <value name="WAIT0">
+        <block type="logic_compare" id="163" inline="true">
+          <field name="OP">EQ</field>
+          <value name="A">
+            <block type="robSensors_getSample" id="164">
+              <mutation input="KEYS_PRESSED"></mutation>
+              <field name="SENSORTYPE">KEYS_PRESSED</field>
+              <field name="KEY">ENTER</field>
+            </block>
+          </value>
+          <value name="B">
+            <block type="logic_boolean" id="195">
+              <field name="BOOL">TRUE</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="robControls_wait_for" id="196" inline="false">
+      <value name="WAIT0">
+        <block type="logic_compare" id="163" inline="true">
+          <field name="OP">EQ</field>
+          <value name="A">
+            <block type="robSensors_getSample" id="164">
+              <mutation input="GYRO"></mutation>
+              <field name="SENSORTYPE">GYRO</field>
+              <field name="SENSORPORT">2</field>
+            </block>
+          </value>
+          <value name="B">
+            <block type="math_number" id="201">
+              <field name="NUM">90</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="robControls_wait_for" id="202" inline="false">
+      <value name="WAIT0">
+        <block type="logic_compare" id="163" inline="true">
+          <field name="OP">EQ</field>
+          <value name="A">
+            <block type="robSensors_getSample" id="164">
+              <mutation input="TIME"></mutation>
+              <field name="SENSORTYPE">TIME</field>
+              <field name="SENSORNUM">1</field>
+            </block>
+          </value>
+          <value name="B">
+            <block type="math_number" id="207">
+              <field name="NUM">500</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="robControls_wait_for" id="208" inline="false">
+      <mutation wait="1"></mutation>
+      <repetitions>
+        <value name="WAIT0">
+          <block type="logic_compare" id="163" inline="true">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="robSensors_getSample" id="164">
+                <mutation input="TIME"></mutation>
+                <field name="SENSORTYPE">TIME</field>
+                <field name="SENSORNUM">1</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number" id="207">
+                <field name="NUM">500</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="robSensors_colour_setMode" id="216">
+            <field name="SENSORPORT">3</field>
+            <field name="MODE">COLOUR</field>
+          </block>
+        </statement>
+        <value name="WAIT1">
+          <block type="logic_compare" id="213" inline="true">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="robSensors_getSample" id="214">
+                <mutation input="TOUCH"></mutation>
+                <field name="SENSORTYPE">TOUCH</field>
+                <field name="SENSORPORT">1</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="logic_boolean" id="215">
+                <field name="BOOL">TRUE</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO1">
+          <block type="robSensors_colour_setMode" id="216">
+            <field name="SENSORPORT">3</field>
+            <field name="MODE">COLOUR</field>
+          </block>
+        </statement>
+      </repetitions>
+    </block>
+    <block type="robControls_loopForever" id="242">
+      <statement name="DO">
+        <block type="robSensors_colour_setMode" id="245">
+          <field name="SENSORPORT">3</field>
+          <field name="MODE">COLOUR</field>
+        </block>
+      </statement>
+    </block>
+    <block type="controls_forEach" id="258" inline="false">
+      <field name="VAR">j</field>
+      <value name="LIST">
+        <block type="lists_create_empty" id="264"></block>
+      </value>
+      <statement name="DO">
+        <block type="robSensors_colour_setMode" id="262">
+          <field name="SENSORPORT">3</field>
+          <field name="MODE">COLOUR</field>
+        </block>
+        <block type="controls_flow_statements" id="299">
+          <field name="FLOW">BREAK</field>
+        </block>
+      </statement>
+    </block>
+    <block type="robControls_start_activity" id="304" inline="true">
+      <value name="ACTIVITY">
+        <block type="variables_get" id="305">
+          <field name="VAR">zwei</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+  <instance x="-183" y="528">
+    <block type="robControls_activity" id="309" inline="true">
+      <value name="ACTIVITY">
+        <block type="variables_get" id="310">
+          <field name="VAR">zwei</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</block_set>
