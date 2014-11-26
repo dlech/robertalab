@@ -1,0 +1,132 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="71" y="-595">
+    <block type="robControls_start" id="192" deletable="false"></block>
+    <block type="text_print" id="834" inline="false">
+      <value name="TEXT">
+        <block type="robText_join" id="610" inline="false">
+          <mutation items="2"></mutation>
+          <value name="ADD0">
+            <block type="text" id="572">
+              <field name="TEXT"></field>
+            </block>
+          </value>
+          <value name="ADD1">
+            <block type="text_join" id="591" inline="false">
+              <mutation items="2"></mutation>
+              <value name="ADD0">
+                <block type="text_indexOf" id="718" inline="true">
+                  <field name="END">FIRST</field>
+                  <value name="VALUE">
+                    <block type="variables_get" id="719">
+                      <field name="VAR">text</field>
+                    </block>
+                  </value>
+                  <value name="FIND">
+                    <block type="text" id="855">
+                      <field name="TEXT"></field>
+                    </block>
+                  </value>
+                </block>
+              </value>
+              <value name="ADD1">
+                <block type="text_trim" id="815" inline="false">
+                  <field name="MODE">BOTH</field>
+                  <value name="TEXT">
+                    <block type="text" id="855">
+                      <field name="TEXT"></field>
+                    </block>
+                  </value>
+                </block>
+              </value>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="text_append" id="629" inline="false">
+      <field name="VAR">item</field>
+      <value name="TEXT">
+        <block type="text" id="630">
+          <field name="TEXT"></field>
+        </block>
+      </value>
+    </block>
+    <block type="text_print" id="859" inline="false">
+      <value name="TEXT">
+        <block type="text_charAt" id="739" inline="true">
+          <mutation at="true"></mutation>
+          <field name="WHERE">FROM_START</field>
+          <value name="VALUE">
+            <block type="variables_get" id="740">
+              <field name="VAR">text</field>
+            </block>
+          </value>
+          <value name="AT">
+            <block type="math_number" id="901">
+              <field name="NUM">0</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="text_print" id="869" inline="false">
+      <value name="TEXT">
+        <block type="text_prompt" id="853">
+          <field name="TYPE">TEXT</field>
+          <field name="TEXT"></field>
+        </block>
+      </value>
+    </block>
+    <block type="text_print" id="869" inline="false">
+      <value name="TEXT">
+        <block type="text_isEmpty" id="684" inline="true">
+          <value name="VALUE">
+            <block type="text_changeCase" id="781" inline="false">
+              <field name="CASE">UPPERCASE</field>
+              <value name="TEXT">
+                <block type="text" id="880">
+                  <field name="TEXT"></field>
+                </block>
+              </value>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="text_print" id="869" inline="false">
+      <value name="TEXT">
+        <block type="text_getSubstring" id="760" inline="true">
+          <mutation at1="true" at2="true"></mutation>
+          <field name="WHERE1">FROM_START</field>
+          <field name="WHERE2">FROM_START</field>
+          <value name="STRING">
+            <block type="variables_get" id="761">
+              <field name="VAR">text</field>
+            </block>
+          </value>
+          <value name="AT1">
+            <block type="math_number" id="901">
+              <field name="NUM">0</field>
+            </block>
+          </value>
+          <value name="AT2">
+            <block type="math_number" id="901">
+              <field name="NUM">0</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="text_print" id="873" inline="false">
+      <value name="TEXT">
+        <block type="text_length" id="650" inline="false">
+          <value name="VALUE">
+            <block type="text" id="855">
+              <field name="TEXT"></field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+  </instance>
+</block_set>

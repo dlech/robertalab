@@ -1,0 +1,64 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="72" y="1">
+    <block type="robControls_start" id="192" deletable="false"></block>
+    <block type="robControls_if" id="91" inline="false">
+      <value name="IF0">
+        <block type="logic_compare" id="29" inline="true">
+          <field name="OP">EQ</field>
+          <value name="A">
+            <block type="logic_negate" id="45" inline="false">
+              <value name="BOOL">
+                <block type="logic_boolean" id="53">
+                  <field name="BOOL">TRUE</field>
+                </block>
+              </value>
+            </block>
+          </value>
+          <value name="B">
+            <block type="logic_operation" id="37" inline="true">
+              <field name="OP">AND</field>
+              <value name="A">
+                <block type="logic_null" id="79"></block>
+              </value>
+              <value name="B">
+                <block type="logic_ternary" id="87" inline="false">
+                  <value name="IF">
+                    <block type="logic_operation" id="113" inline="true">
+                      <field name="OP">AND</field>
+                      <value name="A">
+                        <block type="logic_boolean" id="164">
+                          <field name="BOOL">TRUE</field>
+                        </block>
+                      </value>
+                      <value name="B">
+                        <block type="logic_boolean" id="166">
+                          <field name="BOOL">TRUE</field>
+                        </block>
+                      </value>
+                    </block>
+                  </value>
+                  <value name="THEN">
+                    <block type="text" id="119">
+                      <field name="TEXT"></field>
+                    </block>
+                  </value>
+                  <value name="ELSE">
+                    <block type="text" id="137">
+                      <field name="TEXT"></field>
+                    </block>
+                  </value>
+                </block>
+              </value>
+            </block>
+          </value>
+        </block>
+      </value>
+      <statement name="DO0">
+        <block type="robSensors_ultrasonic_setMode" id="169">
+          <field name="SENSORPORT">4</field>
+          <field name="MODE">DISTANCE</field>
+        </block>
+      </statement>
+    </block>
+  </instance>
+</block_set>

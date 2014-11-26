@@ -1,0 +1,10 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-244" y="-721">
+    <block type="robControls_start" id="192" deletable="false"></block>
+  </instance>
+  <instance x="-213" y="-641">
+    <block type="robColour_picker" id="1125" disabled="true">
+      <field name="COLOUR">#585858</field>
+    </block>
+  </instance>
+</block_set>
