@@ -20,28 +20,18 @@ import com.google.inject.name.Named;
 /**
  * REST service for updating brick libraries and menu.<br>
  * Uses openRoberta.properties for file path references.
- * 
+ *
  * @author dpyka
  */
 @Path("/update")
 public class BrickUpdate {
     private static final Logger LOG = LoggerFactory.getLogger(BrickUpdate.class);
 
-    private final String openRobertaRuntime;
-    private final String openRobertaShared;
-    private final String jsonLib;
-    private final String ev3menu;
+    private final String robotResourcesDir;
 
     @Inject
-    public BrickUpdate(
-        @Named("runtime.jar.dir.file") String runtime,
-        @Named("shared.jar.dir.file") String shared,
-        @Named("jsonlib.jar.dir.file") String json,
-        @Named("ev3menu.jar.dir.file") String ev3menu) {
-        this.openRobertaRuntime = runtime;
-        this.openRobertaShared = shared;
-        this.jsonLib = json;
-        this.ev3menu = ev3menu;
+    public BrickUpdate(@Named("robot.resources.dir") String robotResourcesDir) {
+        this.robotResourcesDir = robotResourcesDir;
     }
 
     @GET
@@ -49,9 +39,9 @@ public class BrickUpdate {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getRuntime() throws FileNotFoundException {
         LOG.info("/update/runtime called");
-        File runtimeJar = new File(this.openRobertaRuntime);
-        ResponseBuilder response = Response.ok(new FileInputStream(runtimeJar));
-        response.header("Content-Disposition", "attachment; filename=\"" + runtimeJar.getName() + "\"");
+        File jar = new File(this.robotResourcesDir + "/OpenRobertaRuntime.jar");
+        ResponseBuilder response = Response.ok(new FileInputStream(jar));
+        response.header("Content-Disposition", "attachment; filename=OpenRobertaRuntime.jar");
         return response.build();
     }
 
@@ -60,9 +50,9 @@ public class BrickUpdate {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getShared() throws FileNotFoundException {
         LOG.info("/update/shared called");
-        File sharedJar = new File(this.openRobertaShared);
-        ResponseBuilder response = Response.ok(new FileInputStream(sharedJar));
-        response.header("Content-Disposition", "attachment; filename=\"" + sharedJar.getName() + "\"");
+        File jar = new File(this.robotResourcesDir + "/OpenRobertaShared.jar");
+        ResponseBuilder response = Response.ok(new FileInputStream(jar));
+        response.header("Content-Disposition", "attachment; filename=OpenRobertaShared.jar");
         return response.build();
     }
 
@@ -71,9 +61,9 @@ public class BrickUpdate {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getJsonLib() throws FileNotFoundException {
         LOG.info("/update/jsonlib called");
-        File jsonJar = new File(this.jsonLib);
-        ResponseBuilder response = Response.ok(new FileInputStream(jsonJar));
-        response.header("Content-Disposition", "attachment; filename=\"" + jsonJar.getName() + "\"");
+        File jar = new File(this.robotResourcesDir + "/json.jar");
+        ResponseBuilder response = Response.ok(new FileInputStream(jar));
+        response.header("Content-Disposition", "attachment; filename=json.jar");
         return response.build();
     }
 
@@ -82,9 +72,9 @@ public class BrickUpdate {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getMenu() throws FileNotFoundException {
         LOG.info("/update/ev3menu called");
-        File ev3menuJar = new File(this.ev3menu);
-        ResponseBuilder response = Response.ok(new FileInputStream(ev3menuJar));
-        response.header("Content-Disposition", "attachment; filename=\"" + ev3menuJar.getName() + "\"");
+        File jar = new File(this.robotResourcesDir + "/EV3Menu.jar");
+        ResponseBuilder response = Response.ok(new FileInputStream(jar));
+        response.header("Content-Disposition", "attachment; filename=EV3Menu.jar");
         return response.build();
     }
 
