@@ -383,9 +383,15 @@ public class AstToLejosJavaVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visitWaitStmt(WaitStmt<Void> waitStmt) {
+        this.sb.append("if ( TRUE ) {");
+        incrIndentation();
+        nlIndent();
         this.sb.append("while ( true ) {");
         incrIndentation();
         visitStmtList(waitStmt.getStatements());
+        decrIndentation();
+        nlIndent();
+        this.sb.append("}");
         decrIndentation();
         nlIndent();
         this.sb.append("}");
