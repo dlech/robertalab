@@ -27,11 +27,11 @@ import com.google.inject.name.Named;
 public class BrickUpdate {
     private static final Logger LOG = LoggerFactory.getLogger(BrickUpdate.class);
 
-    private final String robotResourcesDir;
+    private final String robotUpdateResourcesDir;
 
     @Inject
-    public BrickUpdate(@Named("robot.resources.dir") String robotResourcesDir) {
-        this.robotResourcesDir = robotResourcesDir;
+    public BrickUpdate(@Named("robot.updateResources.dir") String robotUpdateResourcesDir) {
+        this.robotUpdateResourcesDir = robotUpdateResourcesDir;
     }
 
     @GET
@@ -39,7 +39,7 @@ public class BrickUpdate {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getRuntime() throws FileNotFoundException {
         LOG.info("/update/runtime called");
-        File jar = new File(this.robotResourcesDir + "/OpenRobertaRuntime.jar");
+        File jar = new File(this.robotUpdateResourcesDir + "/OpenRobertaRuntime.jar");
         ResponseBuilder response = Response.ok(new FileInputStream(jar));
         response.header("Content-Disposition", "attachment; filename=OpenRobertaRuntime.jar");
         return response.build();
@@ -50,7 +50,7 @@ public class BrickUpdate {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getShared() throws FileNotFoundException {
         LOG.info("/update/shared called");
-        File jar = new File(this.robotResourcesDir + "/OpenRobertaShared.jar");
+        File jar = new File(this.robotUpdateResourcesDir + "/OpenRobertaShared.jar");
         ResponseBuilder response = Response.ok(new FileInputStream(jar));
         response.header("Content-Disposition", "attachment; filename=OpenRobertaShared.jar");
         return response.build();
@@ -61,7 +61,7 @@ public class BrickUpdate {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getJsonLib() throws FileNotFoundException {
         LOG.info("/update/jsonlib called");
-        File jar = new File(this.robotResourcesDir + "/json.jar");
+        File jar = new File(this.robotUpdateResourcesDir + "/json.jar");
         ResponseBuilder response = Response.ok(new FileInputStream(jar));
         response.header("Content-Disposition", "attachment; filename=json.jar");
         return response.build();
@@ -72,7 +72,7 @@ public class BrickUpdate {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getMenu() throws FileNotFoundException {
         LOG.info("/update/ev3menu called");
-        File jar = new File(this.robotResourcesDir + "/EV3Menu.jar");
+        File jar = new File(this.robotUpdateResourcesDir + "/EV3Menu.jar");
         ResponseBuilder response = Response.ok(new FileInputStream(jar));
         response.header("Content-Disposition", "attachment; filename=EV3Menu.jar");
         return response.build();
