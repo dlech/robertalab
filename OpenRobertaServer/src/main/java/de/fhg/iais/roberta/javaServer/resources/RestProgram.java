@@ -17,7 +17,9 @@ import com.google.inject.Inject;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.brick.CompilerWorkflow;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
+import de.fhg.iais.roberta.persistence.ConfigurationProcessor;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
+import de.fhg.iais.roberta.persistence.bo.Configuration;
 import de.fhg.iais.roberta.persistence.bo.Program;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.persistence.util.SessionFactoryWrapper;
@@ -53,6 +55,7 @@ public class RestProgram {
             LOG.info("command is: " + cmd);
             response.put("cmd", cmd);
             ProgramProcessor pp = new ProgramProcessor(dbSession, httpSessionState);
+            ConfigurationProcessor cc = new ConfigurationProcessor(dbSession, httpSessionState);
             if ( cmd.equals("saveP") ) {
                 String programName = request.getString("name");
                 String programText = request.getString("program");
@@ -78,24 +81,18 @@ public class RestProgram {
                 Util.addResultInfo(response, pp);
 
             } else if ( cmd.equals("runP") ) {
-                // TODO: refactor to a Processor (?)
                 String token = httpSessionState.getToken();
                 String programName = request.getString("name");
+                String configurationName = request.getString("configuration");
                 String programText = httpSessionState.getProgram();
-                String configurationName = "default"; // TODO: change frontend to supply us with the configuration name
-                if ( request.has("configurationName") ) {
-                    configurationName = request.getString("configurationName");
-                }
-                String configurationText = ""; // TODO: change frontend to supply us with the configuration xml
-                if ( request.has("configurationText") ) {
-                    configurationText = request.getString("configurationText");
-                }
+                String configurationText = httpSessionState.getConfiguration();
                 if ( httpSessionState.isUserLoggedIn() ) {
                     Program program = pp.getProgram(programName, userId);
                     programText = program.getProgramText();
-                    // TODO: change frontend
-                    // Configuration configuration = new ConfigurationProcessor().getConfiguration(session, configurationName, userId);
-                    // configurationText = configuration.getConfigurationText();
+                }
+                if ( httpSessionState.isUserLoggedIn() || configurationName.equals("Standardkonfiguration") ) {
+                    Configuration configuration = new ConfigurationProcessor(dbSession, httpSessionState).getConfiguration(configurationName, userId);
+                    configurationText = configuration.getConfigurationText();
                 }
                 LOG.info("compiler workflow started for program {} and configuration {}", programName, configurationName);
                 String message = this.compilerWorkflow.execute(dbSession, token, programName, programText, configurationText);
