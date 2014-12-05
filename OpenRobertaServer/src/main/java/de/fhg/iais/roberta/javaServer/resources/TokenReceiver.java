@@ -17,6 +17,7 @@ import com.google.inject.Inject;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 
 @Path("/token")
+@Deprecated
 public class TokenReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(TokenReceiver.class);
 
