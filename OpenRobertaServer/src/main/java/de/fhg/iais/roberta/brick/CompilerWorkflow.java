@@ -13,20 +13,14 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import de.fhg.iais.roberta.ast.syntax.action.ActorPort;
-import de.fhg.iais.roberta.ast.syntax.action.DriveDirection;
-import de.fhg.iais.roberta.ast.syntax.action.MotorSide;
-import de.fhg.iais.roberta.ast.syntax.sensor.SensorPort;
 import de.fhg.iais.roberta.ast.transformer.JaxbBlocklyProgramTransformer;
+import de.fhg.iais.roberta.ast.transformer.JaxbBrickConfigTransformer;
 import de.fhg.iais.roberta.blockly.generated.BlockSet;
-import de.fhg.iais.roberta.brickconfiguration.ev3.EV3Actor;
+import de.fhg.iais.roberta.brickconfiguration.BrickConfiguration;
 import de.fhg.iais.roberta.brickconfiguration.ev3.EV3BrickConfiguration;
-import de.fhg.iais.roberta.brickconfiguration.ev3.EV3Sensor;
 import de.fhg.iais.roberta.codegen.lejos.AstToLejosJavaVisitor;
 import de.fhg.iais.roberta.dbc.Assert;
 import de.fhg.iais.roberta.dbc.DbcException;
-import de.fhg.iais.roberta.hardwarecomponents.ev3.HardwareComponentEV3Actor;
-import de.fhg.iais.roberta.hardwarecomponents.ev3.HardwareComponentEV3Sensor;
 import de.fhg.iais.roberta.jaxb.JaxbHelper;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 
@@ -69,22 +63,25 @@ public class CompilerWorkflow {
         if ( programText == null || programText.trim().equals("") ) {
             return "program not found or program has no blocks";
         }
-        EV3BrickConfiguration brickConfiguration =
-            new EV3BrickConfiguration.Builder()
-                .setTrackWidth(13)
-                .setWheelDiameter(5.6)
-                .addActor(ActorPort.B, new EV3Actor(HardwareComponentEV3Actor.EV3_LARGE_MOTOR, true, DriveDirection.FOREWARD, MotorSide.LEFT))
-                .addActor(ActorPort.C, new EV3Actor(HardwareComponentEV3Actor.EV3_LARGE_MOTOR, true, DriveDirection.FOREWARD, MotorSide.RIGHT))
-                .addSensor(SensorPort.S1, new EV3Sensor(HardwareComponentEV3Sensor.EV3_TOUCH_SENSOR))
-                .addSensor(SensorPort.S4, new EV3Sensor(HardwareComponentEV3Sensor.EV3_ULTRASONIC_SENSOR))
-                .build();
+        //        EV3BrickConfiguration brickConfiguration =
+        //            new EV3BrickConfiguration.Builder()
+        //                .setTrackWidth(13)
+        //                .setWheelDiameter(5.6)
+        //                .addActor(ActorPort.B, new EV3Actor(HardwareComponentEV3Actor.EV3_LARGE_MOTOR, true, DriveDirection.FOREWARD, MotorSide.LEFT))
+        //                .addActor(ActorPort.C, new EV3Actor(HardwareComponentEV3Actor.EV3_LARGE_MOTOR, true, DriveDirection.FOREWARD, MotorSide.RIGHT))
+        //                .addSensor(SensorPort.S1, new EV3Sensor(HardwareComponentEV3Sensor.EV3_TOUCH_SENSOR))
+        //                .addSensor(SensorPort.S4, new EV3Sensor(HardwareComponentEV3Sensor.EV3_ULTRASONIC_SENSOR))
+        //                .build();
+        EV3BrickConfiguration brickConfiguration;
         JaxbBlocklyProgramTransformer<Void> transformer;
         try {
             transformer = generateTransformer(programText);
+            brickConfiguration = (EV3BrickConfiguration) generateConfiguration(configurationText);
         } catch ( Exception e ) {
             LOG.error("Transformer failed", e);
             return "blocks could not be transformed (message: " + e.getMessage() + ")";
         }
+
         String javaCode = AstToLejosJavaVisitor.generate(programName, brickConfiguration, transformer.getTree(), true);
         LOG.info("to be compiled:\n{}", javaCode); // only needed for EXTREME debugging
         try {
@@ -110,6 +107,19 @@ public class CompilerWorkflow {
         JaxbBlocklyProgramTransformer<Void> transformer = new JaxbBlocklyProgramTransformer<>();
         transformer.transform(project);
         return transformer;
+    }
+
+    /**
+     * return the brick configuration for given XML representation.
+     *
+     * @param blocklyXml the blockly XML as String
+     * @return brick configuration
+     * @throws Exception
+     */
+    BrickConfiguration generateConfiguration(String blocklyXml) throws Exception {
+        BlockSet project = JaxbHelper.xml2BlockSet(blocklyXml);
+        JaxbBrickConfigTransformer<Void> transformer = new JaxbBrickConfigTransformer<>();
+        return transformer.transform(project);
     }
 
     void storeGeneratedProgram(String token, String programName, String javaCode) throws Exception {

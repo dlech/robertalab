@@ -17,7 +17,9 @@ import com.google.inject.Inject;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.brick.CompilerWorkflow;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
+import de.fhg.iais.roberta.persistence.ConfigurationProcessor;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
+import de.fhg.iais.roberta.persistence.bo.Configuration;
 import de.fhg.iais.roberta.persistence.bo.Program;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.persistence.util.SessionFactoryWrapper;
@@ -83,8 +85,8 @@ public class RestProgram {
                 String programName = request.getString("name");
                 String programText = httpSessionState.getProgram();
                 String configurationName = "default"; // TODO: change frontend to supply us with the configuration name
-                if ( request.has("configurationName") ) {
-                    configurationName = request.getString("configurationName");
+                if ( request.has("configuration") ) {
+                    configurationName = request.getString("configuration");
                 }
                 String configurationText = ""; // TODO: change frontend to supply us with the configuration xml
                 if ( request.has("configurationText") ) {
@@ -94,8 +96,8 @@ public class RestProgram {
                     Program program = pp.getProgram(programName, userId);
                     programText = program.getProgramText();
                     // TODO: change frontend
-                    // Configuration configuration = new ConfigurationProcessor().getConfiguration(session, configurationName, userId);
-                    // configurationText = configuration.getConfigurationText();
+                    Configuration configuration = new ConfigurationProcessor(dbSession, httpSessionState).getConfiguration(configurationName, userId);
+                    configurationText = configuration.getConfigurationText();
                 }
                 LOG.info("compiler workflow started for program {} and configuration {}", programName, configurationName);
                 String message = this.compilerWorkflow.execute(dbSession, token, programName, programText, configurationText);

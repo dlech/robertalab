@@ -55,7 +55,9 @@ public class Administration {
         SessionFactoryWrapper sessionFactoryWrapper = new SessionFactoryWrapper("hibernate-cfg.xml", "jdbc:hsqldb:file:" + this.args[1]);
         Session nativeSession = sessionFactoryWrapper.getNativeSession();
         DbSetup dbSetup = new DbSetup(nativeSession);
+        nativeSession.beginTransaction();
         dbSetup.runDefaultRobertaSetup();
+        nativeSession.getTransaction().commit();
         nativeSession.createSQLQuery("shutdown").executeUpdate();
         nativeSession.close();
     }
