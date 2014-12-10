@@ -7,6 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import com.google.inject.Inject;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.UserProcessor;
+import de.fhg.iais.roberta.persistence.UserProgramProcessor;
 import de.fhg.iais.roberta.persistence.bo.User;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.util.ClientLogger;
@@ -45,6 +47,8 @@ public class RestUser {
             LOG.info("command is: " + cmd);
             response.put("cmd", cmd);
             UserProcessor up = new UserProcessor(dbSession, httpSessionState);
+            UserProgramProcessor upp = new UserProgramProcessor(dbSession, httpSessionState);
+            
             if ( cmd.equals("login") ) {
                 String userAccountName = request.getString("accountName");
                 String password = request.getString("password");
@@ -71,10 +75,30 @@ public class RestUser {
                 String password = request.getString("password");
                 String email = request.getString("userEmail");
                 String role = request.getString("role");
-                up.saveUser(account, password, role, email, null);
+                String tag = request.getString("tag");
+                up.saveUser(account, password, role, email,tag);
                 Util.addResultInfo(response, up);
 
-            } else if ( cmd.equals("deleteUser") ) {
+            }else if ( cmd.equals("obtainUsers") ) {
+
+                String sortBy = request.getString("sortBy");
+                int offset = request.getInt("offset");
+                String tagFilter = request.getString("tagFilter");
+                if(tagFilter == "null"){
+                	tagFilter = null;
+                }
+                JSONArray usersJSONArray  = up.getUsersJSONArray(sortBy, offset, tagFilter);
+                response.put("usersList",usersJSONArray);
+                Util.addResultInfo(response, up);
+                
+            } else if(cmd.equals("usersFromProgram")){
+            	
+            	String programName  = request.getString("programName");
+            	JSONArray usersJSONArray = upp.usersPerProgram(programName, userId);
+                response.put("usersList",usersJSONArray);
+                Util.addResultInfo(response, upp);
+                
+            }else if ( cmd.equals("deleteUser") ) {
                 String account = request.getString("accountName");
                 String password = request.getString("password");
                 up.deleteUserByAccount(account, password);

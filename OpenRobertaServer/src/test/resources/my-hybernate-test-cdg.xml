@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+    
+		<property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+		<property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
+<!--  		<property name="connection.url">jdbc:hsqldb:mem:testInMemoryDb</property>  -->
+<!-- 		<property name="connection.url">jdbc:hsqldb:file:./db/db-sharing-test</property> -->
+		<property name="connection.url">the connection.url is defined in the openRoberta-properties-file</property>
+		<property name="connection.autocommit">false</property>
+        
+        <mapping class="de.fhg.iais.roberta.persistence.bo.UserProgram"/>
+        <mapping class="de.fhg.iais.roberta.persistence.bo.Program"/>
+        <mapping class="de.fhg.iais.roberta.persistence.bo.Configuration"/>
+        <mapping class="de.fhg.iais.roberta.persistence.bo.User" />
+    </session-factory>
+</hibernate-configuration>
