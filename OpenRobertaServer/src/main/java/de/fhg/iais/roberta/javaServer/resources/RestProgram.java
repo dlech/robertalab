@@ -19,8 +19,12 @@ import de.fhg.iais.roberta.brick.CompilerWorkflow;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.ConfigurationProcessor;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
+import de.fhg.iais.roberta.persistence.UserProcessor;
+import de.fhg.iais.roberta.persistence.UserProgramProcessor;
 import de.fhg.iais.roberta.persistence.bo.Configuration;
 import de.fhg.iais.roberta.persistence.bo.Program;
+import de.fhg.iais.roberta.persistence.bo.User;
+
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.persistence.util.SessionFactoryWrapper;
 import de.fhg.iais.roberta.util.ClientLogger;
@@ -56,6 +60,9 @@ public class RestProgram {
             response.put("cmd", cmd);
             ProgramProcessor pp = new ProgramProcessor(dbSession, httpSessionState);
             ConfigurationProcessor cc = new ConfigurationProcessor(dbSession, httpSessionState);
+            UserProcessor up = new UserProcessor(dbSession, httpSessionState);
+            UserProgramProcessor upp = new UserProgramProcessor(dbSession, httpSessionState);
+            
             if ( cmd.equals("saveP") ) {
                 String programName = request.getString("name");
                 String programText = request.getString("program");
@@ -70,7 +77,16 @@ public class RestProgram {
                 }
                 Util.addResultInfo(response, pp);
 
-            } else if ( cmd.equals("deleteP") && httpSessionState.isUserLoggedIn() ) {
+            } else if (cmd.equals("shareP") && httpSessionState.isUserLoggedIn()){
+            	
+            	String programName = request.getString("programName");
+            	String userToShareName = request.getString("userToShare");
+            	String right = request.getString("right");
+                upp.shareToUser(userId, userToShareName, programName, right);
+                Util.addResultInfo(response, upp);
+            	
+            }else if ( cmd.equals("deleteP") && httpSessionState.isUserLoggedIn() ) {
+            
                 String programName = request.getString("name");
                 pp.deleteByName(programName, userId);
                 Util.addResultInfo(response, pp);

@@ -14,8 +14,10 @@
 		<property name="connection.autocommit">false</property>
 		<property name="connection.url">the connection.url is defined in the openRoberta-properties-file</property>
         
+        
         <mapping class="de.fhg.iais.roberta.persistence.bo.Program"/>
         <mapping class="de.fhg.iais.roberta.persistence.bo.Configuration"/>
         <mapping class="de.fhg.iais.roberta.persistence.bo.User" />
+        <mapping class="de.fhg.iais.roberta.persistence.bo.UserProgram" />
     </session-factory>
 </hibernate-configuration>

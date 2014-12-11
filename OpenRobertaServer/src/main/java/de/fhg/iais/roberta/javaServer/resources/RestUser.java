@@ -75,8 +75,8 @@ public class RestUser {
                 String password = request.getString("password");
                 String email = request.getString("userEmail");
                 String role = request.getString("role");
-                String tag = request.getString("tag");
-                up.saveUser(account, password, role, email,tag);
+                //String tag = request.getString("tag");
+                up.saveUser(account, password, role, email,null);
                 Util.addResultInfo(response, up);
 
             }else if ( cmd.equals("obtainUsers") ) {
