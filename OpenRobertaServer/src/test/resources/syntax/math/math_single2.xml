@@ -1,0 +1,17 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-47" y="-27">
+    <block type="variables_set" id="160" inline="true" disabled="true">
+      <field name="VAR">item</field>
+      <value name="VALUE">
+        <block type="math_single" id="164" inline="true" disabled="true">
+          <field name="OP">ROOT</field>
+          <value name="NUM">
+            <block type="math_number" id="181" disabled="true">
+              <field name="NUM">0</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+  </instance>
+</block_set>

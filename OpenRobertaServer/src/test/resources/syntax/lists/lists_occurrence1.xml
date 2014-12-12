@@ -1,0 +1,32 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="-481" y="194">
+    <block type="lists_indexOf" id="1304" inline="true" disabled="true">
+      <field name="END">LAST</field>
+      <value name="VALUE">
+        <block type="robLists_create_with" id="1322" inline="false" disabled="true">
+          <mutation items="3"></mutation>
+          <value name="ADD0">
+            <block type="math_number" id="1340" disabled="true">
+              <field name="NUM">5</field>
+            </block>
+          </value>
+          <value name="ADD1">
+            <block type="math_number" id="1353" disabled="true">
+              <field name="NUM">1</field>
+            </block>
+          </value>
+          <value name="ADD2">
+            <block type="math_number" id="1353" disabled="true">
+              <field name="NUM">2</field>
+            </block>
+          </value>
+        </block>
+      </value>
+      <value name="FIND">
+        <block type="math_number" id="1356" disabled="true">
+          <field name="NUM">2</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</block_set>

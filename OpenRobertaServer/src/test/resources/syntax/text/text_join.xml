@@ -1,0 +1,37 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="1" y="132">
+    <block type="robText_join" id="49" inline="false" disabled="true">
+      <mutation items="6"></mutation>
+      <value name="ADD0">
+        <block type="math_number" id="65" disabled="true">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ADD1">
+        <block type="math_number" id="84" disabled="true">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+      <value name="ADD2">
+        <block type="text" id="103" disabled="true">
+          <field name="TEXT">a</field>
+        </block>
+      </value>
+      <value name="ADD3">
+        <block type="text" id="121" disabled="true">
+          <field name="TEXT">b</field>
+        </block>
+      </value>
+      <value name="ADD4">
+        <block type="logic_boolean" id="126" disabled="true">
+          <field name="BOOL">TRUE</field>
+        </block>
+      </value>
+      <value name="ADD5">
+        <block type="robSensors_touch_isPressed" id="141" disabled="true">
+          <field name="SENSORPORT">1</field>
+        </block>
+      </value>
+    </block>
+  </instance>
+</block_set>
