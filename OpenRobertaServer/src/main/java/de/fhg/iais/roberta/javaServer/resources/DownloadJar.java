@@ -19,13 +19,13 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
+import de.fhg.iais.roberta.brick.BrickCommunicationData;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.dbc.DbcException;
-import de.fhg.iais.roberta.util.Pair;
 
 /**
  * REST service for downloading user program
- * 
+ *
  * @author dpyka
  */
 @Path("/download")
@@ -48,10 +48,10 @@ public class DownloadJar {
         try {
             String token = requestEntity.getString("token");
             LOG.info("/download - request for token " + token);
-
-            Pair<String, String> jarDescription = this.brickCommunicator.iAmABrickAndWantToWaitForARunButtonPress(token);
-            String fileName = jarDescription.getSecond() + ".jar";
-            File jarDir = new File(this.pathToCrosscompilerBaseDir + jarDescription.getFirst() + "/target");
+            BrickCommunicationData state = this.brickCommunicator.getState(token);
+            String programName = state.getProgramName();
+            String fileName = programName + ".jar";
+            File jarDir = new File(this.pathToCrosscompilerBaseDir + token + "/target");
             String message = "unknown";
             if ( jarDir.isDirectory() ) {
                 File jarFile = new File(jarDir, fileName);

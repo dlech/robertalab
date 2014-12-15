@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
+import de.fhg.iais.roberta.brick.BrickCommunicationData;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 
 @Path("/pushcmd")
@@ -43,20 +44,47 @@ public class BrickCommand {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response handle(JSONObject requestEntity) throws JSONException, InterruptedException {
+        // - {"macaddr":"00-9A-90-00-2B-5B","cmd":"register","token":"4ESSWLRH","brickname":"Roberta01","battery":"7.2","version":"1.0.1"}
         String cmd = requestEntity.getString(CMD);
         LOG.info("/pushcmd - " + cmd);
+        String macaddr = null;
+        String token = null;
+        String brickname = null;
+        String battery = null;
+        String version = null;
+        try {
+            macaddr = requestEntity.getString("macaddr");
+            token = requestEntity.getString("token");
+            brickname = requestEntity.getString("brickname");
+            battery = requestEntity.getString("battery");
+            version = requestEntity.getString("version");
+        } catch ( Exception e ) {
+            LOG.error("Robot request aborted. Robot uses a wrong JSON: " + requestEntity);
+            return Response.serverError().build();
+        }
+        // todo: validate version serverside
+        JSONObject response;
         switch ( cmd ) {
             case CMD_REGISTER:
-                String token = requestEntity.getString("token");
-                LOG.info("/pushcmd - agreement request for token " + token);
-                boolean result = this.brickCommunicator.iAmABrickAndWantATokenToBeAgreedUpon(token);
-                JSONObject response = new JSONObject().put("response", result ? "ok" : "error").put("cmd", CMD_REPEAT);
+                LOG.info("/pushcmd - brick sends token " + token + " for registration");
+                BrickCommunicationData state = new BrickCommunicationData(token, macaddr, brickname, version);
+                boolean result = this.brickCommunicator.brickWantsTokenToBeApproved(state);
+                response = new JSONObject().put("response", result ? "ok" : "error").put("cmd", CMD_REPEAT);
                 return Response.ok(response).build();
+            case CMD_PUSH:
+                LOG.info("/pushcmd - push request for token " + token);
+                String command = this.brickCommunicator.brickWaitsForAServerPush(token);
+                if ( command == null ) {
+                    LOG.error("No valid command issued by the server as response to a oush command request for token " + token);
+                    return Response.serverError().build();
+                } else {
+                    LOG.info("the command " + command + " is pushed to the robot");
+                    response = new JSONObject().put("cmd", command);
+                    return Response.ok(response).build();
+                }
             default:
-                Thread.sleep(5000);
-                JSONObject response = new JSONObject().put("cmd", CMD_REPEAT);
-                return Response.ok(response).build();
-                break;
+                LOG.error("Robot request aborted. Robot uses a wrong JSON: " + requestEntity);
+                return Response.serverError().build();
         }
     }
 }
