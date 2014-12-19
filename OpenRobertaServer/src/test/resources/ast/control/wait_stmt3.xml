@@ -1,226 +1,235 @@
-<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
-	<instance x="100" y="50">
-		<block type="robControls_start" id="10" deletable="false"/>
-		<block type="robControls_wait_for" id="159" inline="false">
-			<mutation wait="7"/>
-            <repetitions>
-			<value name="WAIT0">
-				<block type="logic_compare" id="160" inline="true">
-					<field name="OP">EQ</field>
-					<value name="A">
-						<block type="robSensors_getSample" id="161">
-							<mutation input="TIME"/>
-							<field name="SENSORTYPE">TIME</field>
-							<field name="SENSORNUM">1</field>
-						</block>
-					</value>
-					<value name="B">
-						<block type="math_number" id="179">
-							<field name="NUM">500</field>
-						</block>
-					</value>
-				</block>
-			</value>
-			<statement name="DO0">
-				<block type="robActions_motor_on" id="236" inline="false">
-					<field name="MOTORPORT">B</field>
-					<value name="POWER">
-						<block type="math_number" id="228">
-							<field name="NUM">30</field>
-						</block>
-					</value>
-				</block>
-			</statement>
-			<value name="WAIT1">
-				<block type="logic_compare" id="185" inline="true">
-					<field name="OP">EQ</field>
-					<value name="A">
-						<block type="robSensors_getSample" id="186">
-							<mutation input="ULTRASONIC"/>
-							<field name="SENSORTYPE">ULTRASONIC</field>
-							<field name="SENSORPORT">4</field>
-						</block>
-					</value>
-					<value name="B">
-						<block type="math_number" id="197">
-							<field name="NUM">30</field>
-						</block>
-					</value>
-				</block>
-			</value>
-			<statement name="DO1">
-				<block type="robActions_motor_on" id="236" inline="false">
-					<field name="MOTORPORT">B</field>
-					<value name="POWER">
-						<block type="math_number" id="228">
-							<field name="NUM">30</field>
-						</block>
-					</value>
-				</block>
-			</statement>
-			<value name="WAIT2">
-				<block type="logic_compare" id="188" inline="true">
-					<field name="OP">EQ</field>
-					<value name="A">
-						<block type="robSensors_getSample" id="189">
-							<mutation input="COLOUR"/>
-							<field name="SENSORTYPE">COLOUR</field>
-							<field name="SENSORPORT">3</field>
-						</block>
-					</value>
-					<value name="B">
-						<block type="robColour_picker" id="198">
-							<field name="COLOUR">#b30006</field>
-						</block>
-					</value>
-				</block>
-			</value>
-			<statement name="DO2">
-				<block type="robActions_motor_on" id="236" inline="false">
-					<field name="MOTORPORT">B</field>
-					<value name="POWER">
-						<block type="math_number" id="228">
-							<field name="NUM">30</field>
-						</block>
-					</value>
-				</block>
-			</statement>
-			<value name="WAIT3">
-				<block type="logic_compare" id="191" inline="true">
-					<field name="OP">EQ</field>
-					<value name="A">
-						<block type="robSensors_getSample" id="192">
-							<mutation input="INFRARED"/>
-							<field name="SENSORTYPE">INFRARED</field>
-							<field name="SENSORPORT">4</field>
-						</block>
-					</value>
-					<value name="B">
-						<block type="math_number" id="199">
-							<field name="NUM">30</field>
-						</block>
-					</value>
-				</block>
-			</value>
-			<statement name="DO3">
-				<block type="robActions_motor_on" id="236" inline="false">
-					<field name="MOTORPORT">B</field>
-					<value name="POWER">
-						<block type="math_number" id="228">
-							<field name="NUM">30</field>
-						</block>
-					</value>
-				</block>
-			</statement>
-			<value name="WAIT4">
-				<block type="logic_compare" id="194" inline="true">
-					<field name="OP">EQ</field>
-					<value name="A">
-						<block type="robSensors_getSample" id="195">
-							<mutation input="ENCODER"/>
-							<field name="SENSORTYPE">ENCODER</field>
-							<field name="MOTORPORT">A</field>
-						</block>
-					</value>
-					<value name="B">
-						<block type="math_number" id="200">
-							<field name="NUM">30</field>
-						</block>
-					</value>
-				</block>
-			</value>
-			<statement name="DO4">
-				<block type="robActions_motor_on" id="236" inline="false">
-					<field name="MOTORPORT">B</field>
-					<value name="POWER">
-						<block type="math_number" id="228">
-							<field name="NUM">30</field>
-						</block>
-					</value>
-				</block>
-			</statement>
-			<value name="WAIT5">
-				<block type="logic_compare" id="201" inline="true">
-					<field name="OP">EQ</field>
-					<value name="A">
-						<block type="robSensors_getSample" id="202">
-							<mutation input="KEYS_PRESSED"/>
-							<field name="SENSORTYPE">KEYS_PRESSED</field>
-							<field name="KEY">ENTER</field>
-						</block>
-					</value>
-					<value name="B">
-						<block type="logic_boolean" id="204">
-							<field name="BOOL">TRUE</field>
-						</block>
-					</value>
-				</block>
-			</value>
-			<statement name="DO5">
-				<block type="robActions_motor_on" id="236" inline="false">
-					<field name="MOTORPORT">B</field>
-					<value name="POWER">
-						<block type="math_number" id="228">
-							<field name="NUM">30</field>
-						</block>
-					</value>
-				</block>
-			</statement>
-			<value name="WAIT6">
-				<block type="logic_compare" id="205" inline="true">
-					<field name="OP">EQ</field>
-					<value name="A">
-						<block type="robSensors_getSample" id="206">
-							<mutation input="GYRO"/>
-							<field name="SENSORTYPE">GYRO</field>
-							<field name="SENSORPORT">2</field>
-						</block>
-					</value>
-					<value name="B">
-						<block type="math_number" id="208">
-							<field name="NUM">90</field>
-						</block>
-					</value>
-				</block>
-			</value>
-			<statement name="DO6">
-				<block type="robActions_motor_on" id="236" inline="false">
-					<field name="MOTORPORT">B</field>
-					<value name="POWER">
-						<block type="math_number" id="228">
-							<field name="NUM">30</field>
-						</block>
-					</value>
-				</block>
-			</statement>
-			<value name="WAIT7">
-				<block type="logic_compare" id="209" inline="true">
-					<field name="OP">EQ</field>
-					<value name="A">
-						<block type="robSensors_getSample" id="210">
-							<mutation input="TIME"/>
-							<field name="SENSORTYPE">TIME</field>
-							<field name="SENSORNUM">1</field>
-						</block>
-					</value>
-					<value name="B">
-						<block type="math_number" id="212">
-							<field name="NUM">500</field>
-						</block>
-					</value>
-				</block>
-			</value>
-			<statement name="DO7">
-				<block type="robActions_motor_on" id="227" inline="false">
-					<field name="MOTORPORT">B</field>
-					<value name="POWER">
-						<block type="math_number" id="228">
-							<field name="NUM">30</field>
-						</block>
-					</value>
-				</block>
-			</statement>
-            </repetitions>
-		</block>
-	</instance>
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="31" y="21">
+    <block type="robControls_wait_for" id="26" inline="false" disabled="true">
+      <mutation wait="7"></mutation>
+      <repetitions>
+        <value name="WAIT0">
+          <block type="logic_compare" id="27" inline="true" disabled="true">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="robSensors_getSample" id="28" disabled="true">
+                <mutation input="TOUCH"></mutation>
+                <field name="SENSORTYPE">TOUCH</field>
+                <field name="SENSORPORT">1</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="logic_boolean" id="29" disabled="true">
+                <field name="BOOL">TRUE</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="robActions_motor_on" id="64" inline="false" disabled="true">
+            <field name="MOTORPORT">B</field>
+            <value name="POWER">
+              <block type="math_number" id="65" disabled="true">
+                <field name="NUM">30</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <value name="WAIT1">
+          <block type="logic_compare" id="34" inline="true" disabled="true">
+            <field name="OP">LT</field>
+            <value name="A">
+              <block type="robSensors_getSample" id="35" disabled="true">
+                <mutation input="ULTRASONIC_PRESENCE"></mutation>
+                <field name="SENSORTYPE">ULTRASONIC_PRESENCE</field>
+                <field name="SENSORPORT">4</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number" id="55" disabled="true">
+                <field name="NUM">30</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO1">
+          <block type="robActions_motor_on" id="73" inline="false" disabled="true">
+            <field name="MOTORPORT">B</field>
+            <value name="POWER">
+              <block type="math_number" id="65" disabled="true">
+                <field name="NUM">30</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <value name="WAIT2">
+          <block type="logic_compare" id="37" inline="true" disabled="true">
+            <field name="OP">GT</field>
+            <value name="A">
+              <block type="robSensors_getSample" id="38" disabled="true">
+                <mutation input="GYRO_RATE"></mutation>
+                <field name="SENSORTYPE">GYRO_RATE</field>
+                <field name="SENSORPORT">2</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number" id="56" disabled="true">
+                <field name="NUM">90</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO2">
+          <block type="robActions_motor_on" id="73" inline="false" disabled="true">
+            <field name="MOTORPORT">B</field>
+            <value name="POWER">
+              <block type="math_number" id="65" disabled="true">
+                <field name="NUM">30</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <value name="WAIT3">
+          <block type="logic_compare" id="40" inline="true" disabled="true">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="robSensors_getSample" id="41" disabled="true">
+                <mutation input="KEYS_PRESSED"></mutation>
+                <field name="SENSORTYPE">KEYS_PRESSED</field>
+                <field name="KEY">ENTER</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="logic_boolean" id="61" disabled="true">
+                <field name="BOOL">TRUE</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO3">
+          <block type="robActions_motor_on" id="73" inline="false" disabled="true">
+            <field name="MOTORPORT">B</field>
+            <value name="POWER">
+              <block type="math_number" id="65" disabled="true">
+                <field name="NUM">30</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <value name="WAIT4">
+          <block type="logic_compare" id="43" inline="true" disabled="true">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="robSensors_getSample" id="44" disabled="true">
+                <mutation input="COLOUR_COLOUR"></mutation>
+                <field name="SENSORTYPE">COLOUR_COLOUR</field>
+                <field name="SENSORPORT">3</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="robColour_picker" id="60" disabled="true">
+                <field name="COLOUR">#b30006</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO4">
+          <block type="robActions_motor_on" id="73" inline="false" disabled="true">
+            <field name="MOTORPORT">B</field>
+            <value name="POWER">
+              <block type="math_number" id="65" disabled="true">
+                <field name="NUM">30</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <value name="WAIT5">
+          <block type="logic_compare" id="46" inline="true" disabled="true">
+            <field name="OP">GT</field>
+            <value name="A">
+              <block type="robSensors_getSample" id="47" disabled="true">
+                <mutation input="GYRO_ANGLE"></mutation>
+                <field name="SENSORTYPE">GYRO_ANGLE</field>
+                <field name="SENSORPORT">2</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number" id="57" disabled="true">
+                <field name="NUM">90</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO5">
+          <block type="robActions_motor_on" id="73" inline="false" disabled="true">
+            <field name="MOTORPORT">B</field>
+            <value name="POWER">
+              <block type="math_number" id="65" disabled="true">
+                <field name="NUM">30</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <value name="WAIT6">
+          <block type="logic_compare" id="49" inline="true" disabled="true">
+            <field name="OP">LT</field>
+            <value name="A">
+              <block type="robSensors_getSample" id="50" disabled="true">
+                <mutation input="INFRARED_DISTANCE"></mutation>
+                <field name="SENSORTYPE">INFRARED_DISTANCE</field>
+                <field name="SENSORPORT">4</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number" id="58" disabled="true">
+                <field name="NUM">30</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO6">
+          <block type="robActions_motor_on" id="73" inline="false" disabled="true">
+            <field name="MOTORPORT">B</field>
+            <value name="POWER">
+              <block type="math_number" id="65" disabled="true">
+                <field name="NUM">30</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <value name="WAIT7">
+          <block type="logic_compare" id="52" inline="true" disabled="true">
+            <field name="OP">GT</field>
+            <value name="A">
+              <block type="robSensors_getSample" id="53" disabled="true">
+                <mutation input="TIME"></mutation>
+                <field name="SENSORTYPE">TIME</field>
+                <field name="SENSORNUM">1</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number" id="59" disabled="true">
+                <field name="NUM">500</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO7">
+          <block type="robActions_motor_on" id="73" inline="false" disabled="true">
+            <field name="MOTORPORT">B</field>
+            <value name="POWER">
+              <block type="math_number" id="65" disabled="true">
+                <field name="NUM">30</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+      </repetitions>
+    </block>
+  </instance>
+  <instance x="168" y="259">
+    <block type="robActions_motor_on" id="73" inline="false" disabled="true">
+      <field name="MOTORPORT">B</field>
+      <value name="POWER">
+        <block type="math_number" id="65" disabled="true">
+          <field name="NUM">30</field>
+        </block>
+      </value>
+    </block>
+  </instance>
 </block_set>

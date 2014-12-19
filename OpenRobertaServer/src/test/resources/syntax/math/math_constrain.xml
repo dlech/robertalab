@@ -3,6 +3,7 @@
     <block type="math_constrain" id="686" inline="true" disabled="true">
       <value name="VALUE">
         <block type="robSensors_ultrasonic_getSample" id="702" disabled="true">
+          <field name="MODE">DISTANCE</field>
           <field name="SENSORPORT">4</field>
         </block>
       </value>

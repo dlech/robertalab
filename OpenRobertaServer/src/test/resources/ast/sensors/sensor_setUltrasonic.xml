@@ -1,8 +1,14 @@
-<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
-        <instance x="-72" y="1">
-    <block type="robSensors_ultrasonic_setMode" id="177">
-      <field name="SENSORPORT">4</field>
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="1" y="57">
+    <block type="robSensors_ultrasonic_getSample" id="40" disabled="true">
       <field name="MODE">DISTANCE</field>
+      <field name="SENSORPORT">4</field>
+    </block>
+  </instance>
+  <instance x="1" y="98">
+    <block type="robSensors_ultrasonic_getSample" id="52" disabled="true">
+      <field name="MODE">PRESENCE</field>
+      <field name="SENSORPORT">2</field>
     </block>
   </instance>
 </block_set>

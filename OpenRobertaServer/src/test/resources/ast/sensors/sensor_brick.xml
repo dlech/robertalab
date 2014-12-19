@@ -15,14 +15,7 @@
             </block>
           </value>
         </block>
-        <block type="variables_set" id="867" inline="true">
-          <field name="VAR">item</field>
-          <value name="VALUE">
-            <block type="robSensors_key_isPressedAndReleased" id="969">
-              <field name="KEY">LEFT</field>
-            </block>
-          </value>
-        </block>
+      
       </statement>
     </block>
   </instance>

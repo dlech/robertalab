@@ -60,11 +60,13 @@
                 <field name="OP">ADD</field>
                 <value name="A">
                   <block type="robSensors_encoder_getSample" id="344">
+                    <field name="MODE">ROTATION</field>
                     <field name="MOTORPORT">A</field>
                   </block>
                 </value>
                 <value name="B">
                   <block type="robSensors_infrared_getSample" id="328">
+                    <field name="MODE">DISTANCE</field>               
                     <field name="SENSORPORT">4</field>
                   </block>
                 </value>
@@ -72,17 +74,14 @@
             </value>
             <value name="B">
               <block type="robSensors_ultrasonic_getSample" id="230">
+              <field name="MODE">DISTANCE</field>
                 <field name="SENSORPORT">4</field>
               </block>
             </value>
           </block>
         </value>
         <statement name="DO0">
-          <block type="robSensors_infrared_setMode" id="348">
-            <field name="SENSORPORT">4</field>
-            <field name="MODE">SEEK</field>
-          </block>
-          <block type="robActions_brickLight_off" id="619"></block>
+             <block type="robActions_brickLight_off" id="619"></block>
         </statement>
         <statement name="ELSE">
           <block type="robSensors_gyro_reset" id="553">

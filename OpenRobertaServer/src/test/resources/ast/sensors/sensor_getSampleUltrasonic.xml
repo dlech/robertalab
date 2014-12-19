@@ -1,7 +1,0 @@
-<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
-    <instance x="-79" y="105">
-    <block type="robSensors_ultrasonic_getSample" id="222">
-      <field name="SENSORPORT">4</field>
-    </block>
-  </instance>
-</block_set>
