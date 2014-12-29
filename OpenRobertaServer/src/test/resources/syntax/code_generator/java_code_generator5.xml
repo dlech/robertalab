@@ -1,6 +1,8 @@
 <block_set  xmlns="http://de.fhg.iais.roberta.blockly">
       <instance x="-8" y="1">
-    <block type="robControls_start" id="468"></block>
+    <block type="robControls_start" id="468" deletable="false">
+      <mutation declare="false"></mutation>
+    </block>
     <block type="robActions_motor_on" id="487" inline="false">
       <field name="MOTORPORT">B</field>
     </block>

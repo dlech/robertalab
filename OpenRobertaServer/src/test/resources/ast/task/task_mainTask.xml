@@ -1,5 +1,49 @@
-<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
-  <instance x="11" y="35">
-    <block type="robControls_start" id="315"></block>
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="140" y="103">
+    <block type="robControls_start" id="22" deletable="false">
+      <mutation declare="true"></mutation>
+      <statement name="ST">
+        <block type="variables_declare" id="24" inline="true" deletable="false" movable="false">
+          <mutation next="true" datatype="Number"></mutation>
+          <field name="TYPE">Number</field>
+          <field name="VAR">item</field>
+          <value name="VALUE">
+            <block type="math_number" id="25">
+              <field name="NUM">0</field>
+            </block>
+          </value>
+        </block>
+        <block type="variables_declare" id="26" inline="true" deletable="false" movable="false">
+          <mutation next="true" datatype="String"></mutation>
+          <field name="TYPE">String</field>
+          <field name="VAR">item2</field>
+          <value name="VALUE">
+            <block type="text" id="30">
+              <field name="TEXT"></field>
+            </block>
+          </value>
+        </block>
+        <block type="variables_declare" id="28" inline="true" deletable="false" movable="false">
+          <mutation next="true" datatype="Boolean"></mutation>
+          <field name="TYPE">Boolean</field>
+          <field name="VAR">item3</field>
+          <value name="VALUE">
+            <block type="logic_boolean" id="31">
+              <field name="BOOL">TRUE</field>
+            </block>
+          </value>
+        </block>
+        <block type="variables_declare" id="32" inline="true" deletable="false" movable="false">
+          <mutation next="false" datatype="Colour"></mutation>
+          <field name="TYPE">Colour</field>
+          <field name="VAR">item4</field>
+          <value name="VALUE">
+            <block type="robColour_picker" id="34">
+              <field name="COLOUR">#585858</field>
+            </block>
+          </value>
+        </block>
+      </statement>
+    </block>
   </instance>
 </block_set>

@@ -37,6 +37,7 @@
         <xs:attribute name="collapsed" type="xs:boolean" use="optional"/>        
         <xs:attribute name="disabled" type="xs:boolean" use="optional"/>
         <xs:attribute name="deletable" type="xs:boolean" use="optional"/>
+        <xs:attribute name="movable" type="xs:boolean" use="optional"/>
     </xs:complexType>
     <xs:complexType  name="field">
         <xs:simpleContent>
@@ -104,7 +105,10 @@
         <xs:attribute name="at2" type="xs:boolean" use="optional"/>
         <xs:attribute name="statement" type="xs:boolean" use="optional"/>
         <xs:attribute name="divisor_input" type="xs:boolean" use="optional"/>
+        <xs:attribute name="next" type="xs:boolean" use="optional"/>
+        <xs:attribute name="declare" type="xs:boolean" use="optional"/>
         <xs:attribute name="input" type="xs:string" use="optional"/>
+        <xs:attribute name="datatype" type="xs:string" use="optional"/>
     </xs:complexType>   
     <xs:complexType name="arg">
         <xs:attribute name="name" type="xs:string"/>

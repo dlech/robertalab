@@ -1,6 +1,8 @@
 <block_set  xmlns="http://de.fhg.iais.roberta.blockly">
    <instance x="100" y="50">
-		<block type="robControls_start" id="10" deletable="false"/>
+		<block type="robControls_start" id="10" deletable="false">
+      <mutation declare="false"></mutation>
+    </block>
 		<block type="robControls_wait_for" id="159" inline="false">
 			<value name="WAIT0">
 				<block type="logic_compare" id="160" inline="true">

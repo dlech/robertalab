@@ -1,0 +1,7 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="10" y="83">
+    <block type="robControls_start" id="29" deletable="false">
+      <mutation declare="false"></mutation>
+    </block>
+  </instance>
+</block_set>
