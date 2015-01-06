@@ -7,6 +7,7 @@
       <value name="LIST">
         <block type="robLists_create_with" id="1428" inline="false" >
           <mutation items="3"></mutation>
+          <field name="LIST_TYPE">Number</field>
           <value name="ADD0">
             <block type="math_number" id="1442" >
               <field name="NUM">55</field>

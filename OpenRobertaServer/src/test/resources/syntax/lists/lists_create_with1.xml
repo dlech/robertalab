@@ -2,6 +2,7 @@
   <instance x="-361" y="124">
     <block type="robLists_create_with" id="983" inline="false" >
       <mutation items="3"></mutation>
+      <field name="LIST_TYPE">Number</field>
       <value name="ADD0">
         <block type="text" id="1043" >
           <field name="TEXT">a</field>

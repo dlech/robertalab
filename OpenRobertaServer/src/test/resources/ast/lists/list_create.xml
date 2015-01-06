@@ -2,6 +2,7 @@
  <instance x="-20" y="92">
     <block type="lists_create_with" id="322" inline="false">
       <mutation items="3"></mutation>
+      <field name="LIST_TYPE">Number</field>
       <value name="ADD0">
         <block type="text" id="367">
           <field name="TEXT">Text1</field>
