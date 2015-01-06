@@ -48,7 +48,7 @@ public class RestUser {
             response.put("cmd", cmd);
             UserProcessor up = new UserProcessor(dbSession, httpSessionState);
             UserProgramProcessor upp = new UserProgramProcessor(dbSession, httpSessionState);
-            
+
             if ( cmd.equals("login") ) {
                 String userAccountName = request.getString("accountName");
                 String password = request.getString("password");
@@ -76,29 +76,22 @@ public class RestUser {
                 String email = request.getString("userEmail");
                 String role = request.getString("role");
                 //String tag = request.getString("tag");
-                up.saveUser(account, password, role, email,null);
+                up.saveUser(account, password, role, email, null);
                 Util.addResultInfo(response, up);
 
-            }else if ( cmd.equals("obtainUsers") ) {
+            } else if ( cmd.equals("obtainUsers") ) {
 
                 String sortBy = request.getString("sortBy");
                 int offset = request.getInt("offset");
                 String tagFilter = request.getString("tagFilter");
-                if(tagFilter == "null"){
-                	tagFilter = null;
+                if ( tagFilter == "null" ) {
+                    tagFilter = null;
                 }
-                JSONArray usersJSONArray  = up.getUsersJSONArray(sortBy, offset, tagFilter);
-                response.put("usersList",usersJSONArray);
+                JSONArray usersJSONArray = up.getUsersJSONArray(sortBy, offset, tagFilter);
+                response.put("usersList", usersJSONArray);
                 Util.addResultInfo(response, up);
-                
-            } else if(cmd.equals("usersFromProgram")){
-            	
-            	String programName  = request.getString("programName");
-            	JSONArray usersJSONArray = upp.usersPerProgram(programName, userId);
-                response.put("usersList",usersJSONArray);
-                Util.addResultInfo(response, upp);
-                
-            }else if ( cmd.equals("deleteUser") ) {
+
+            } else if ( cmd.equals("deleteUser") ) {
                 String account = request.getString("accountName");
                 String password = request.getString("password");
                 up.deleteUserByAccount(account, password);
