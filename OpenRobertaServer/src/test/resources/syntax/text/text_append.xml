@@ -1,25 +1,25 @@
 <block_set xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="14" y="87">
-    <block type="text_append" id="146" inline="false" disabled="true">
+    <block type="text_append" id="146" inline="false" >
       <field name="VAR">item</field>
       <value name="TEXT">
-        <block type="robSensors_touch_isPressed" id="162" disabled="true">
+        <block type="robSensors_touch_isPressed" id="162" >
           <field name="SENSORPORT">1</field>
         </block>
       </value>
     </block>
-    <block type="text_append" id="164" inline="false" disabled="true">
+    <block type="text_append" id="164" inline="false" >
       <field name="VAR">item</field>
       <value name="TEXT">
-        <block type="math_number" id="167" disabled="true">
+        <block type="math_number" id="167" >
           <field name="NUM">0</field>
         </block>
       </value>
     </block>
-    <block type="text_append" id="186" inline="false" disabled="true">
+    <block type="text_append" id="186" inline="false" >
       <field name="VAR">item</field>
       <value name="TEXT">
-        <block type="text" id="189" disabled="true">
+        <block type="text" id="189" >
           <field name="TEXT">aaa</field>
         </block>
       </value>

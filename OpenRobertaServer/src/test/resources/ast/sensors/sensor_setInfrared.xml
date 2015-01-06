@@ -1,12 +1,12 @@
 <block_set xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-23" y="157">
-    <block type="robSensors_infrared_getSample" id="82" disabled="true">
+    <block type="robSensors_infrared_getSample" id="82">
       <field name="MODE">DISTANCE</field>
       <field name="SENSORPORT">4</field>
     </block>
   </instance>
   <instance x="-19" y="199">
-    <block type="robSensors_infrared_getSample" id="91" disabled="true">
+    <block type="robSensors_infrared_getSample" id="91">
       <field name="MODE">SEEK</field>
       <field name="SENSORPORT">3</field>
     </block>

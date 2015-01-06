@@ -1,5 +1,5 @@
 <block_set xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-262" y="2">
-    <block type="lists_create_empty" id="841" disabled="true"></block>
+    <block type="lists_create_empty" id="841" ></block>
   </instance>
 </block_set>

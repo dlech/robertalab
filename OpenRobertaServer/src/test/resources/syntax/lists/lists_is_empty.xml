@@ -1,21 +1,21 @@
 <block_set xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-474" y="287">
-    <block type="lists_isEmpty" id="1269" inline="true" disabled="true">
+    <block type="lists_isEmpty" id="1269" inline="true" >
       <value name="VALUE">
-        <block type="lists_create_with" id="1226" inline="false" disabled="true">
+        <block type="lists_create_with" id="1226" inline="false" >
           <mutation items="3"></mutation>
           <value name="ADD0">
-            <block type="math_number" id="1241" disabled="true">
+            <block type="math_number" id="1241" >
               <field name="NUM">0</field>
             </block>
           </value>
           <value name="ADD1">
-            <block type="math_number" id="1260" disabled="true">
+            <block type="math_number" id="1260" >
               <field name="NUM">0</field>
             </block>
           </value>
           <value name="ADD2">
-            <block type="math_number" id="1260" disabled="true">
+            <block type="math_number" id="1260" >
               <field name="NUM">0</field>
             </block>
           </value>

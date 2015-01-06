@@ -1,12 +1,12 @@
 <block_set xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-20" y="94">
-    <block type="robSensors_encoder_getSample" id="110" disabled="true">
+    <block type="robSensors_encoder_getSample" id="110" >
       <field name="MODE">ROTATION</field>
       <field name="MOTORPORT">A</field>
     </block>
   </instance>
   <instance x="-15" y="129">
-    <block type="robSensors_encoder_getSample" id="117" disabled="true">
+    <block type="robSensors_encoder_getSample" id="117" >
       <field name="MODE">DEGREE</field>
       <field name="MOTORPORT">D</field>
     </block>
