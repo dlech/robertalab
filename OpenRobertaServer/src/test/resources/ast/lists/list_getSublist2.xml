@@ -6,6 +6,7 @@
       <field name="WHERE2">LAST</field>
       <value name="LIST">
         <block type="variables_get" id="458" disabled="true">
+        <mutation datatype="Array_String"></mutation>
           <field name="VAR">liste</field>
         </block>
       </value>

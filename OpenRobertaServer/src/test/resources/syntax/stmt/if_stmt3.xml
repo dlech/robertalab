@@ -26,6 +26,7 @@
         </value>
         <statement name="DO0">
           <block type="variables_set" id="52" inline="true">
+          <mutation datatype="Number"></mutation>
             <field name="VAR">item</field>
             <value name="VALUE">
               <block type="math_arithmetic" id="53" inline="true">
@@ -44,6 +45,7 @@
             </value>
           </block>
           <block type="variables_set" id="56" inline="true">
+          <mutation datatype="Number"></mutation>
             <field name="VAR">item</field>
             <value name="VALUE">
               <block type="math_arithmetic" id="57" inline="true">
@@ -64,6 +66,7 @@
         </statement>
         <statement name="ELSE">
           <block type="variables_set" id="60" inline="true">
+          <mutation datatype="Number"></mutation>
             <field name="VAR">item</field>
             <value name="VALUE">
               <block type="math_arithmetic" id="61" inline="true">

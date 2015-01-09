@@ -3,6 +3,7 @@
     <block type="lists_length" id="454" inline="false">
       <value name="VALUE">
         <block type="variables_get" id="507">
+          <mutation datatype="Array_Number"></mutation>
           <field name="VAR">item</field>
         </block>
       </value>

@@ -49,6 +49,7 @@
         </value>
         <statement name="DO0">
           <block type="variables_set" id="52" inline="true">
+          <mutation datatype="Number"></mutation>
             <field name="VAR">item</field>
             <value name="VALUE">
               <block type="math_arithmetic" id="53" inline="true">
@@ -67,6 +68,7 @@
             </value>
           </block>
           <block type="variables_set" id="56" inline="true">
+            <mutation datatype="Number"></mutation>
             <field name="VAR">item</field>
             <value name="VALUE">
               <block type="math_arithmetic" id="57" inline="true">
@@ -87,6 +89,7 @@
         </statement>
         <statement name="ELSE">
           <block type="variables_set" id="60" inline="true">
+            <mutation datatype="Number"></mutation>
             <field name="VAR">item</field>
             <value name="VALUE">
               <block type="math_arithmetic" id="61" inline="true">
@@ -117,6 +120,7 @@
       </value>
       <statement name="DO0">
         <block type="variables_set" id="66" inline="true">
+        <mutation datatype="Number"></mutation>
           <field name="VAR">item</field>
           <value name="VALUE">
             <block type="math_arithmetic" id="67" inline="true">
@@ -135,6 +139,7 @@
           </value>
         </block>
         <block type="variables_set" id="70" inline="true">
+          <mutation datatype="Number"></mutation>
           <field name="VAR">item</field>
           <value name="VALUE">
             <block type="math_arithmetic" id="71" inline="true">
@@ -166,6 +171,7 @@
         </value>
         <statement name="DO0">
           <block type="variables_set" id="81" inline="true">
+            <mutation datatype="Number"></mutation>
             <field name="VAR">item</field>
             <value name="VALUE">
               <block type="math_arithmetic" id="82" inline="true">
@@ -184,6 +190,7 @@
             </value>
           </block>
           <block type="variables_set" id="85" inline="true">
+          <mutation datatype="Number"></mutation>
             <field name="VAR">item</field>
             <value name="VALUE">
               <block type="math_arithmetic" id="86" inline="true">
@@ -202,6 +209,7 @@
             </value>
           </block>
           <block type="variables_set" id="101" inline="true">
+          <mutation datatype="Number"></mutation>
             <field name="VAR">item</field>
             <value name="VALUE">
               <block type="math_arithmetic" id="102" inline="true">
@@ -227,6 +235,7 @@
         </value>
         <statement name="DO1">
           <block type="variables_set" id="93" inline="true">
+          <mutation datatype="Number"></mutation>
             <field name="VAR">item</field>
             <value name="VALUE">
               <block type="math_arithmetic" id="94" inline="true">
@@ -245,6 +254,7 @@
             </value>
           </block>
           <block type="variables_set" id="97" inline="true">
+          <mutation datatype="Number"></mutation>
             <field name="VAR">item</field>
             <value name="VALUE">
               <block type="math_arithmetic" id="98" inline="true">
@@ -265,6 +275,7 @@
         </statement>
         <statement name="ELSE">
           <block type="variables_set" id="89" inline="true">
+          <mutation datatype="Number"></mutation>
             <field name="VAR">item</field>
             <value name="VALUE">
               <block type="math_arithmetic" id="90" inline="true">

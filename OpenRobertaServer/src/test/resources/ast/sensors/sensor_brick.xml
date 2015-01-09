@@ -8,6 +8,7 @@
       </value>
       <statement name="DO0">
         <block type="variables_set" id="866" inline="true">
+          <mutation datatype="Number"></mutation>
           <field name="VAR">item</field>
           <value name="VALUE">
             <block type="robSensors_key_isPressed" id="966">

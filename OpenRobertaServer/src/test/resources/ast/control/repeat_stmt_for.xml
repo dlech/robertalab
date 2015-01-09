@@ -19,7 +19,12 @@
       </value>
       <statement name="DO">
         <block type="text_append" id="461" inline="false">
+           <value name="VAR">
+        <block type="variables_get" id="52">
+          <mutation datatype="String"></mutation>
           <field name="VAR">item</field>
+        </block>
+      </value>
           <value name="TEXT">
             <block type="text" id="462">
               <field name="TEXT">kllk</field>

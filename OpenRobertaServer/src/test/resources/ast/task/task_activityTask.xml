@@ -3,6 +3,7 @@
     <block type="robControls_activity" id="342" inline="true">
       <value name="ACTIVITY">
         <block type="variables_get" id="343">
+          <mutation datatype="Number"></mutation>
           <field name="VAR">zwei</field>
         </block>
       </value>
