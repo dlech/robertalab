@@ -1,5 +1,7 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -20,6 +22,9 @@ import de.fhg.iais.roberta.brick.BrickCommunicator;
 @Path("/pushcmd")
 public class BrickCommand {
     private static final Logger LOG = LoggerFactory.getLogger(BrickCommand.class);
+
+    private static final int EVERY_REQUEST = 100; // after EVERY_PING many ping requests have arrived, a log entry is written
+    private static final AtomicInteger pushRequestCounterForLogging = new AtomicInteger(0);
 
     // brickdata + cmds send to server
     private static final String CMD = "cmd";
@@ -46,7 +51,6 @@ public class BrickCommand {
     public Response handle(JSONObject requestEntity) throws JSONException, InterruptedException {
         // - {"macaddr":"00-9A-90-00-2B-5B","cmd":"register","token":"4ESSWLRH","brickname":"Roberta01","battery":"7.2","version":"1.0.1"}
         String cmd = requestEntity.getString(CMD);
-        LOG.info("/pushcmd - " + cmd);
         String macaddr = null;
         String token = null;
         String brickname = null;
@@ -72,13 +76,19 @@ public class BrickCommand {
                 response = new JSONObject().put("response", result ? "ok" : "error").put("cmd", CMD_REPEAT);
                 return Response.ok(response).build();
             case CMD_PUSH:
-                LOG.info("/pushcmd - push request for token " + token);
+                int counter = pushRequestCounterForLogging.incrementAndGet();
+                boolean logPush = counter % EVERY_REQUEST == 0;
+                if ( logPush ) {
+                    LOG.info("/pushcmd - push request for token " + token + " [count:" + counter + "]");
+                }
                 String command = this.brickCommunicator.brickWaitsForAServerPush(token);
                 if ( command == null ) {
-                    LOG.error("No valid command issued by the server as response to a oush command request for token " + token);
+                    LOG.error("No valid command issued by the server as response to a push command request for token " + token);
                     return Response.serverError().build();
                 } else {
-                    LOG.info("the command " + command + " is pushed to the robot");
+                    if ( !command.equals("repeat") || logPush ) {
+                        LOG.info("the command " + command + " is pushed to the robot [count:" + counter + "]");
+                    }
                     response = new JSONObject().put("cmd", command);
                     return Response.ok(response).build();
                 }
