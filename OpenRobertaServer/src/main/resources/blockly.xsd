@@ -108,6 +108,9 @@
         <xs:attribute name="declare" type="xs:boolean" use="optional"/>
         <xs:attribute name="input" type="xs:string" use="optional"/>
         <xs:attribute name="datatype" type="xs:string" use="optional"/>
+        <xs:attribute name="declaration_type" type="xs:string" use="optional"/>
+        <xs:attribute name="list_type" type="xs:string" use="optional"/>
+        <xs:attribute name="return_type" type="xs:string" use="optional"/>
     </xs:complexType>   
     <xs:complexType name="arg">
         <xs:attribute name="name" type="xs:string"/>

@@ -1,6 +1,7 @@
 <block_set  xmlns="http://de.fhg.iais.roberta.blockly">
  <instance x="-436" y="284">
     <block type="controls_forEach" id="340" inline="false">
+      <field name="TYPE">String</field>
       <field name="VAR">j</field>
       <value name="LIST">
         <block type="lists_create_empty" id="382">

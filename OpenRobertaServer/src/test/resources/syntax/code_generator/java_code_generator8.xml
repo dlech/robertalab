@@ -3,7 +3,7 @@
     <block type="robControls_start" id="29" deletable="false">
       <mutation declare="true"></mutation>
       <statement name="ST">
-        <block type="variables_declare" id="84" inline="true" deletable="false" movable="false">
+        <block type="robGlobalvariables_declare" id="84" inline="true" deletable="false" movable="false">
           <mutation next="true" datatype="Number"></mutation>
           <field name="TYPE">Number</field>
           <field name="VAR">item</field>
@@ -13,7 +13,7 @@
             </block>
           </value>
         </block>
-        <block type="variables_declare" id="86" inline="true" deletable="false" movable="false">
+        <block type="robGlobalvariables_declare" id="86" inline="true" deletable="false" movable="false">
           <mutation next="true" datatype="String"></mutation>
           <field name="TYPE">String</field>
           <field name="VAR">item2</field>
@@ -23,7 +23,7 @@
             </block>
           </value>
         </block>
-        <block type="variables_declare" id="88" inline="true" deletable="false" movable="false">
+        <block type="robGlobalvariables_declare" id="88" inline="true" deletable="false" movable="false">
           <mutation next="false" datatype="Boolean"></mutation>
           <field name="TYPE">Boolean</field>
           <field name="VAR">item3</field>
