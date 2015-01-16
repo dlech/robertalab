@@ -1,6 +1,7 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -24,6 +25,10 @@ import de.fhg.iais.roberta.util.Util;
 @Path("/ping")
 public class Ping {
     private static final Logger LOG = LoggerFactory.getLogger(Ping.class);
+
+    private static final int EVERY_REQUEST = 100; // after EVERY_PING many ping requests have arrived, a log entry is written
+    private static final AtomicInteger pingCounterForLogging = new AtomicInteger(0);
+
     private final String version;
     private final BrickCommunicator brickCommunicator;
 
@@ -38,7 +43,10 @@ public class Ping {
     @Produces(MediaType.APPLICATION_JSON)
     public Response handle(@OraData HttpSessionState httpSessionState, JSONObject fullRequest) throws Exception {
         int logLen = new ClientLogger().log(LOG, fullRequest);
-        LOG.info("/ping");
+        int counter = pingCounterForLogging.incrementAndGet();
+        if ( counter % EVERY_REQUEST == 0 ) {
+            LOG.info("/ping [count:" + counter + "]");
+        }
         Date date = new Date();
         JSONObject response =
             new JSONObject().put("version", this.version).put("date", date.getTime()).put("dateAsString", date.toString()).put("logged", logLen);
