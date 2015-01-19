@@ -72,16 +72,14 @@ public class RestConfiguration {
 
             } else {
                 LOG.error("Invalid command: " + cmd);
-                response.put("rc", "error");
-                response.put("cause", "invalid command");
+                response.put("rc", "error").put("message", "command.invalid");
             }
             dbSession.commit();
         } catch ( Exception e ) {
             dbSession.rollback();
-            LOG.error("exception", e);
-            response.put("rc", "error");
-            String msg = e.getMessage();
-            response.put("cause", msg == null ? "no message" : msg);
+            String errorTicketId = Util.getErrorTicketId();
+            LOG.error("Exception. Error ticket: " + errorTicketId, e);
+            response.put("rc", "error").put("message", Util.SERVER_ERROR).append("parameters", errorTicketId);
         } finally {
             if ( dbSession != null ) {
                 dbSession.close();

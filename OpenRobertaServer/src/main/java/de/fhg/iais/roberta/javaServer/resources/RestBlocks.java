@@ -46,42 +46,35 @@ public class RestBlocks {
             response.put("cmd", cmd);
             if ( cmd.equals("setToken") ) {
                 String token = request.getString("token");
-                String rc = null;
                 if ( this.brickCommunicator.aTokenAgreementWasSent(token) ) {
-                    rc = "ok";
                     httpSessionState.setToken(token);
-                    LOG.info("token " + token + " is registered in the session");
+                    response.put("rc", "ok").put("message", "token.set.success");
+                    LOG.info("success: token " + token + " is registered in the session");
                 } else {
-                    rc = "error";
+                    response.put("rc", "error").put("message", "token.set.error.no_robot_waiting");
+                    LOG.info("error: token " + token + " is not awaited and thus not registered in the session");
                 }
-                response.put("rc", rc);
-                LOG.info("set token: " + rc);
-
             } else if ( cmd.equals("loadT") ) {
                 String name = request.getString("name");
                 String template = this.templates.get(name);
-                String rc = template == null ? "error" : "ok";
-                response.put("rc", rc);
                 if ( template == null ) {
-                    response.put("cause", "toolbox not found");
+                    response.put("rc", "error").put("message", "toolbox.load.error.not_found");
+                    LOG.info("error: toolbox: " + name + " not found");
                 } else {
-                    response.put("data", template);
+                    response.put("rc", "ok").put("message", "toolbox.load.success").put("data", template);
+                    ;
+                    LOG.info("success: toolbox: " + name + " returned to client");
                 }
-                LOG.info("loading toolbox: " + rc);
-
             } else {
                 LOG.error("Invalid command: " + cmd);
-                response.put("rc", "error");
-                response.put("cause", "invalid command");
-
+                response.put("rc", "error").put("message", "command.invalid");
             }
             dbSession.commit();
         } catch ( Exception e ) {
             dbSession.rollback();
-            LOG.error("exception", e);
-            response.put("rc", "error");
-            String msg = e.getMessage();
-            response.put("cause", msg == null ? "no message" : msg);
+            String errorTicketId = Util.getErrorTicketId();
+            LOG.error("Exception. Error ticket: " + errorTicketId, e);
+            response.put("rc", "error").put("message", Util.SERVER_ERROR).append("parameters", errorTicketId);
         } finally {
             if ( dbSession != null ) {
                 dbSession.close();

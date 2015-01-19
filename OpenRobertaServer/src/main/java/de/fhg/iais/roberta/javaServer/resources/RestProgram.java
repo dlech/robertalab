@@ -19,12 +19,9 @@ import de.fhg.iais.roberta.brick.CompilerWorkflow;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.ConfigurationProcessor;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
-import de.fhg.iais.roberta.persistence.UserProcessor;
 import de.fhg.iais.roberta.persistence.UserProgramProcessor;
 import de.fhg.iais.roberta.persistence.bo.Configuration;
 import de.fhg.iais.roberta.persistence.bo.Program;
-import de.fhg.iais.roberta.persistence.bo.User;
-
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.persistence.util.SessionFactoryWrapper;
 import de.fhg.iais.roberta.util.ClientLogger;
@@ -59,10 +56,8 @@ public class RestProgram {
             LOG.info("command is: " + cmd);
             response.put("cmd", cmd);
             ProgramProcessor pp = new ProgramProcessor(dbSession, httpSessionState);
-            ConfigurationProcessor cc = new ConfigurationProcessor(dbSession, httpSessionState);
-            UserProcessor up = new UserProcessor(dbSession, httpSessionState);
             UserProgramProcessor upp = new UserProgramProcessor(dbSession, httpSessionState);
-            
+
             if ( cmd.equals("saveP") ) {
                 String programName = request.getString("name");
                 String programText = request.getString("program");
@@ -77,16 +72,14 @@ public class RestProgram {
                 }
                 Util.addResultInfo(response, pp);
 
-            } else if (cmd.equals("shareP") && httpSessionState.isUserLoggedIn()){
-            	
-            	String programName = request.getString("programName");
-            	String userToShareName = request.getString("userToShare");
-            	String right = request.getString("right");
+            } else if ( cmd.equals("shareP") && httpSessionState.isUserLoggedIn() ) {
+                String programName = request.getString("programName");
+                String userToShareName = request.getString("userToShare");
+                String right = request.getString("right");
                 upp.shareToUser(userId, userToShareName, programName, right);
                 Util.addResultInfo(response, upp);
-            	
-            }else if ( cmd.equals("deleteP") && httpSessionState.isUserLoggedIn() ) {
-            
+
+            } else if ( cmd.equals("deleteP") && httpSessionState.isUserLoggedIn() ) {
                 String programName = request.getString("name");
                 pp.deleteByName(programName, userId);
                 Util.addResultInfo(response, pp);
@@ -111,28 +104,28 @@ public class RestProgram {
                     configurationText = configuration.getConfigurationText();
                 }
                 LOG.info("compiler workflow started for program {} and configuration {}", programName, configurationName);
-                String message = this.compilerWorkflow.execute(dbSession, token, programName, programText, configurationText);
-                if ( message == null ) {
+                String messageKey = this.compilerWorkflow.execute(dbSession, token, programName, programText, configurationText);
+                if ( messageKey == null ) {
                     // everything is fine
-                    message = this.brickCommunicator.theRunButtonWasPressed(token, programName, configurationName);
+                    boolean wasRobotWaiting = this.brickCommunicator.theRunButtonWasPressed(token, programName, configurationName);
+                    if ( wasRobotWaiting ) {
+                        response.put("rc", "ok").put("message", "robot.push.run");
+                    } else {
+                        response.put("rc", "error").put("message", "robot.not_waiting");
+                    }
+                } else {
+                    response.put("rc", "error").put("data", messageKey);
                 }
-                response.put("rc", "ok");
-                response.put("data", message);
-                LOG.info("running program: " + message);
-
             } else {
                 LOG.error("Invalid command: " + cmd);
-                response.put("rc", "error");
-                response.put("cause", "invalid command");
-
+                response.put("rc", "error").put("message", "command.invalid");
             }
             dbSession.commit();
         } catch ( Exception e ) {
             dbSession.rollback();
-            LOG.error("exception", e);
-            response.put("rc", "error");
-            String msg = e.getMessage();
-            response.put("cause", msg == null ? "no message" : msg);
+            String errorTicketId = Util.getErrorTicketId();
+            LOG.error("Exception. Error ticket: " + errorTicketId, e);
+            response.put("rc", "error").put("message", Util.SERVER_ERROR).append("parameters", errorTicketId);
         } finally {
             if ( dbSession != null ) {
                 dbSession.close();
