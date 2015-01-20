@@ -89,7 +89,7 @@
             <xs:element name="value" minOccurs="0" maxOccurs="unbounded" type="value"/>
             <xs:element name="statement" minOccurs="0" maxOccurs="unbounded" type="statement"/>
         </xs:sequence>
-    </xs:complexType>   
+    </xs:complexType>     
     <xs:complexType name="mutation">
         <xs:sequence>
             <xs:element name="arg" minOccurs="0" maxOccurs="unbounded" type="arg"/>
@@ -111,6 +111,7 @@
         <xs:attribute name="declaration_type" type="xs:string" use="optional"/>
         <xs:attribute name="list_type" type="xs:string" use="optional"/>
         <xs:attribute name="return_type" type="xs:string" use="optional"/>
+        <xs:attribute name="operator_range" type="xs:string" use="optional"/>
     </xs:complexType>   
     <xs:complexType name="arg">
         <xs:attribute name="name" type="xs:string"/>
