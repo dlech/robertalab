@@ -4,6 +4,7 @@
       <field name="OP">SUM</field>
       <value name="LIST">
         <block type="lists_create_empty" id="194" >
+            <mutation list_type="Number"></mutation>
             <field name="LIST_TYPE">Number</field>
         </block>
       </value>
@@ -14,6 +15,7 @@
       <field name="OP">MIN</field>
       <value name="LIST">
         <block type="lists_create_empty" id="194" >
+        <mutation list_type="Number"></mutation>
             <field name="LIST_TYPE">Number</field>
         </block>
       </value>
@@ -24,6 +26,7 @@
       <field name="OP">MAX</field>
       <value name="LIST">
         <block type="lists_create_empty" id="194" >
+        <mutation list_type="Number"></mutation>
             <field name="LIST_TYPE">Number</field>
         </block>
       </value>
@@ -34,6 +37,7 @@
       <field name="OP">AVERAGE</field>
       <value name="LIST">
              <block type="lists_create_empty" id="194" >
+             <mutation list_type="Number"></mutation>
             <field name="LIST_TYPE">Number</field>
         </block>
       </value>
@@ -44,6 +48,7 @@
       <field name="OP">MEDIAN</field>
       <value name="LIST">
                <block type="lists_create_empty" id="194" >
+               <mutation list_type="Number"></mutation>
             <field name="LIST_TYPE">Number</field>
         </block>
       </value>
@@ -54,6 +59,7 @@
       <field name="OP">MODE</field>
       <value name="LIST">
               <block type="lists_create_empty" id="194" >
+              <mutation list_type="Number"></mutation>
             <field name="LIST_TYPE">Number</field>
         </block>
       </value>
@@ -64,6 +70,7 @@
       <field name="OP">STD_DEV</field>
       <value name="LIST">
                <block type="lists_create_empty" id="194" >
+               <mutation list_type="Number"></mutation>
             <field name="LIST_TYPE">Number</field>
         </block>
       </value>
@@ -74,6 +81,7 @@
       <field name="OP">RANDOM</field>
       <value name="LIST">
                <block type="lists_create_empty" id="194" >
+               <mutation list_type="Number"></mutation>
             <field name="LIST_TYPE">Number</field>
         </block>
       </value>
