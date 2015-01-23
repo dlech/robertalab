@@ -99,7 +99,7 @@ public class RestUser {
 
             } else {
                 LOG.error("Invalid command: " + cmd);
-                response.put("rc", "error").put("message", "command.invalid");
+                response.put("rc", "error").put("message", Util.COMMAND_INVALID);
             }
             dbSession.commit();
         } catch ( Exception e ) {
