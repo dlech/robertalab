@@ -49,19 +49,21 @@ public class BrickCommand {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response handle(JSONObject requestEntity) throws JSONException, InterruptedException {
-        // - {"macaddr":"00-9A-90-00-2B-5B","cmd":"register","token":"4ESSWLRH","brickname":"Roberta01","battery":"7.2","version":"1.0.1"}
+        // - {"macaddr":"00-9A-90-00-2B-5B","cmd":"register","token":"4ESSWLRH","brickname":"Roberta01","battery":"7.2","lejosversion":"0.9.0-beta", "menuversion":"1.0.1"}
         String cmd = requestEntity.getString(CMD);
         String macaddr = null;
         String token = null;
         String brickname = null;
         String battery = null;
-        String version = null;
+        String menuversion = null;
+        String lejosversion = null;
         try {
             macaddr = requestEntity.getString("macaddr");
             token = requestEntity.getString("token");
             brickname = requestEntity.getString("brickname");
             battery = requestEntity.getString("battery");
-            version = requestEntity.getString("version");
+            menuversion = requestEntity.getString("menuversion");
+            lejosversion = requestEntity.getString("lejosversion");
         } catch ( Exception e ) {
             LOG.error("Robot request aborted. Robot uses a wrong JSON: " + requestEntity);
             return Response.serverError().build();
@@ -71,7 +73,7 @@ public class BrickCommand {
         switch ( cmd ) {
             case CMD_REGISTER:
                 LOG.info("/pushcmd - brick sends token " + token + " for registration");
-                BrickCommunicationData state = new BrickCommunicationData(token, macaddr, brickname, version);
+                BrickCommunicationData state = new BrickCommunicationData(token, macaddr, brickname, menuversion, lejosversion);
                 boolean result = this.brickCommunicator.brickWantsTokenToBeApproved(state);
                 response = new JSONObject().put("response", result ? "ok" : "error").put("cmd", CMD_REPEAT);
                 return Response.ok(response).build();

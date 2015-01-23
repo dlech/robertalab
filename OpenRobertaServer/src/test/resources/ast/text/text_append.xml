@@ -1,7 +1,12 @@
 <block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="14" y="93">
     <block type="text_append" id="74" inline="false">
-      <field name="VAR">item</field>
+<value name="VAR">
+        <block type="variables_get" id="52">
+          <mutation datatype="String"></mutation>
+          <field name="VAR">item</field>
+        </block>
+      </value>
       <value name="TEXT">
         <block type="text" id="75">
           <field name="TEXT">text</field>

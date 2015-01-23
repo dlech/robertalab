@@ -11,6 +11,7 @@
           <field name="VAR">item</field>
           <value name="VALUE">
             <block type="robSensors_ultrasonic_getSample" id="926">
+                <field name="MODE">DISTANCE</field>
               <field name="SENSORPORT">4</field>
             </block>
           </value>
@@ -19,6 +20,7 @@
           <field name="VAR">item</field>
           <value name="VALUE">
             <block type="robSensors_colour_getSample" id="933">
+              <field name="MODE">RGB</field>
               <field name="SENSORPORT">3</field>
             </block>
           </value>
@@ -27,6 +29,7 @@
           <field name="VAR">item</field>
           <value name="VALUE">
             <block type="robSensors_infrared_getSample" id="944">
+            <field name="MODE">DISTANCE</field>
               <field name="SENSORPORT">4</field>
             </block>
           </value>
@@ -35,6 +38,7 @@
           <field name="VAR">item</field>
           <value name="VALUE">
             <block type="robSensors_encoder_getSample" id="949">
+                <field name="MODE">ROTATION</field>
               <field name="MOTORPORT">A</field>
             </block>
           </value>
@@ -43,6 +47,7 @@
           <field name="VAR">item</field>
           <value name="VALUE">
             <block type="robSensors_gyro_getSample" id="956">
+                <field name="MODE">ANGLE</field>
               <field name="SENSORPORT">2</field>
             </block>
           </value>

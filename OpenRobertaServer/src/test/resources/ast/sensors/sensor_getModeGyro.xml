@@ -1,7 +1,0 @@
-<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
-  <instance x="-6" y="55">
-    <block type="robSensors_gyro_getMode" id="40">
-      <field name="SENSORPORT">2</field>
-    </block>
-  </instance>
-</block_set>

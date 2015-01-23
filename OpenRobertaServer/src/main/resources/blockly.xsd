@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--W3C Schema erstellt mit XMLSpy v2011 rel. 3 sp1 (http://www.altova.com)-->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://de.fhg.iais.roberta.blockly" targetNamespace="http://de.fhg.iais.roberta.blockly"
     elementFormDefault="qualified">
    <xs:element name="block_set">
@@ -37,6 +36,7 @@
         <xs:attribute name="collapsed" type="xs:boolean" use="optional"/>        
         <xs:attribute name="disabled" type="xs:boolean" use="optional"/>
         <xs:attribute name="deletable" type="xs:boolean" use="optional"/>
+        <xs:attribute name="movable" type="xs:boolean" use="optional"/>
     </xs:complexType>
     <xs:complexType  name="field">
         <xs:simpleContent>
@@ -89,7 +89,7 @@
             <xs:element name="value" minOccurs="0" maxOccurs="unbounded" type="value"/>
             <xs:element name="statement" minOccurs="0" maxOccurs="unbounded" type="statement"/>
         </xs:sequence>
-    </xs:complexType>   
+    </xs:complexType>     
     <xs:complexType name="mutation">
         <xs:sequence>
             <xs:element name="arg" minOccurs="0" maxOccurs="unbounded" type="arg"/>
@@ -104,7 +104,15 @@
         <xs:attribute name="at2" type="xs:boolean" use="optional"/>
         <xs:attribute name="statement" type="xs:boolean" use="optional"/>
         <xs:attribute name="divisor_input" type="xs:boolean" use="optional"/>
+        <xs:attribute name="next" type="xs:boolean" use="optional"/>
+        <xs:attribute name="declare" type="xs:boolean" use="optional"/>
         <xs:attribute name="input" type="xs:string" use="optional"/>
+        <xs:attribute name="datatype" type="xs:string" use="optional"/>
+        <xs:attribute name="declaration_type" type="xs:string" use="optional"/>
+        <xs:attribute name="list_type" type="xs:string" use="optional"/>
+        <xs:attribute name="return_type" type="xs:string" use="optional"/>
+        <xs:attribute name="operator_range" type="xs:string" use="optional"/>
+        <xs:attribute name="mode" type="xs:string" use="optional"/>
     </xs:complexType>   
     <xs:complexType name="arg">
         <xs:attribute name="name" type="xs:string"/>

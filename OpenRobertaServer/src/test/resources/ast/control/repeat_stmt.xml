@@ -1,5 +1,5 @@
 <block_set  xmlns="http://de.fhg.iais.roberta.blockly">
-      <instance x="33" y="-573">
+    <instance x="33" y="-573">
     <block type="controls_repeat_ext" id="52" inline="true">
       <value name="TIMES">
         <block type="math_number" id="53">
@@ -8,7 +8,12 @@
       </value>
       <statement name="DO">
         <block type="text_append" id="175" inline="false">
-          <field name="VAR">item</field>
+          <value name="VAR">
+                <block type="variables_get" id="59">
+                    <mutation datatype="String"></mutation>
+                <field name="VAR">item3</field>
+            </block>
+          </value>
           <value name="TEXT">
             <block type="text" id="176">
               <field name="TEXT">Proba</field>
@@ -16,7 +21,12 @@
           </value>
         </block>
         <block type="text_append" id="177" inline="false">
-          <field name="VAR">item</field>
+           <value name="VAR">
+                <block type="variables_get" id="59">
+                    <mutation datatype="String"></mutation>
+                <field name="VAR">item3</field>
+            </block>
+          </value>
           <value name="TEXT">
             <block type="text" id="178">
               <field name="TEXT">Proba1</field>

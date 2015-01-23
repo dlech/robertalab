@@ -6,6 +6,7 @@
       <field name="WHERE">RANDOM</field>
       <value name="LIST">
         <block type="variables_get" id="360" disabled="true">
+        <mutation datatype="Array_Number"></mutation>
           <field name="VAR">liste</field>
         </block>
       </value>

@@ -1,5 +1,7 @@
 <block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="10" y="63">
-    <block type="lists_create_empty" id="307"></block>
+    <block type="lists_create_empty" id="307">
+        <field name="LIST_TYPE">String</field>
+    </block>
   </instance>
 </block_set>

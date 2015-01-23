@@ -8,6 +8,7 @@
       </value>
       <statement name="DO0">
         <block type="variables_set" id="866" inline="true">
+          <mutation datatype="Number"></mutation>
           <field name="VAR">item</field>
           <value name="VALUE">
             <block type="robSensors_key_isPressed" id="966">
@@ -15,14 +16,7 @@
             </block>
           </value>
         </block>
-        <block type="variables_set" id="867" inline="true">
-          <field name="VAR">item</field>
-          <value name="VALUE">
-            <block type="robSensors_key_isPressedAndReleased" id="969">
-              <field name="KEY">LEFT</field>
-            </block>
-          </value>
-        </block>
+      
       </statement>
     </block>
   </instance>

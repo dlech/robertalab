@@ -109,16 +109,16 @@ public class RestProgram {
                     // everything is fine
                     boolean wasRobotWaiting = this.brickCommunicator.theRunButtonWasPressed(token, programName, configurationName);
                     if ( wasRobotWaiting ) {
-                        response.put("rc", "ok").put("message", "robot.push.run");
+                        response.put("rc", "ok").put("message", Util.ROBOT_PUSH_RUN);
                     } else {
-                        response.put("rc", "error").put("message", "robot.not_waiting");
+                        response.put("rc", "error").put("message", Util.ROBOT_NOT_WAITING);
                     }
                 } else {
                     response.put("rc", "error").put("data", messageKey);
                 }
             } else {
                 LOG.error("Invalid command: " + cmd);
-                response.put("rc", "error").put("message", "command.invalid");
+                response.put("rc", "error").put("message", Util.COMMAND_INVALID);
             }
             dbSession.commit();
         } catch ( Exception e ) {

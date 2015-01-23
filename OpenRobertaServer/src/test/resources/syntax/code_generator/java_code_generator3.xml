@@ -39,6 +39,7 @@
                   </value>
                   <value name="B">
                     <block type="robSensors_ultrasonic_getSample" id="527">
+                      <field name="MODE">DISTANCE</field>
                       <field name="SENSORPORT">4</field>
                     </block>
                   </value>
@@ -60,14 +61,10 @@
                 </block>
               </statement>
               <statement name="ELSE">
-                <block type="robSensors_ultrasonic_setMode" id="522">
-                  <field name="SENSORPORT">4</field>
-                  <field name="MODE">DISTANCE</field>
-                </block>
-                <block type="controls_whileUntil" id="633" inline="false">
+                  <block type="controls_whileUntil" id="633" inline="false">
                   <field name="MODE">UNTIL</field>
                   <value name="BOOL">
-                    <block type="robSensors_key_isPressedAndReleased" id="661">
+                    <block type="robSensors_key_isPressed" id="661">
                       <field name="KEY">UP</field>
                     </block>
                   </value>

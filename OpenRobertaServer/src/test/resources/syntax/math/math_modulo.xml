@@ -1,13 +1,13 @@
 <block_set xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="-216" y="14">
-    <block type="math_modulo" id="645" inline="true" disabled="true">
+    <block type="math_modulo" id="645" inline="true">
       <value name="DIVIDEND">
-        <block type="math_number" id="654" disabled="true">
+        <block type="math_number" id="654">
           <field name="NUM">1</field>
         </block>
       </value>
       <value name="DIVISOR">
-        <block type="math_number" id="673" disabled="true">
+        <block type="math_number" id="673">
           <field name="NUM">0</field>
         </block>
       </value>

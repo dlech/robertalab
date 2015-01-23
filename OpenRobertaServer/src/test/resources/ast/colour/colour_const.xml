@@ -11,6 +11,8 @@
           </value>
           <value name="B">
             <block type="robSensors_colour_getSample" id="86" disabled="true">
+              <mutation mode="RGB"></mutation>
+              <field name="MODE">RGB</field>
               <field name="SENSORPORT">3</field>
             </block>
           </value>
