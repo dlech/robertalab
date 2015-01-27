@@ -16,6 +16,7 @@ import com.google.inject.Inject;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.util.ClientLogger;
+import de.fhg.iais.roberta.util.Key;
 import de.fhg.iais.roberta.util.Util;
 
 @Path("/robot")
@@ -48,21 +49,21 @@ public class RestRobot {
                     // everything is fine
                     boolean isPossible = this.brickCommunicator.firmwareUpdateRequested(token);
                     if ( isPossible ) {
-                        response.put("rc", "ok").put("message", Util.ROBOT_FIRMWAREUPDATE_POSSIBLE);
+                        Util.addSuccessInfo(response, Key.ROBOT_FIRMWAREUPDATE_POSSIBLE);
                     } else {
-                        response.put("rc", "error").put("message", Util.ROBOT_FIRMWAREUPDATE_IMPOSSIBLE);
+                        Util.addErrorInfo(response, Key.ROBOT_FIRMWAREUPDATE_IMPOSSIBLE);
                     }
                 } else {
-                    response.put("rc", "error").put("data", Util.ROBOT_NOT_CONNECTED);
+                    Util.addErrorInfo(response, Key.ROBOT_NOT_CONNECTED);
                 }
             } else {
                 LOG.error("Invalid command: " + cmd);
-                response.put("rc", "error").put("message", Util.COMMAND_INVALID);
+                Util.addErrorInfo(response, Key.COMMAND_INVALID);
             }
         } catch ( Exception e ) {
             String errorTicketId = Util.getErrorTicketId();
             LOG.error("Exception. Error ticket: " + errorTicketId, e);
-            response.put("rc", "error").put("message", Util.SERVER_ERROR).append("parameters", errorTicketId);
+            Util.addErrorInfo(response, Key.SERVER_ERROR).append("parameters", errorTicketId);
         }
         Util.addFrontendInfo(response, httpSessionState, this.brickCommunicator);
         return Response.ok(response).build();

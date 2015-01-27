@@ -18,6 +18,7 @@ import de.fhg.iais.roberta.brick.Templates;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.util.ClientLogger;
+import de.fhg.iais.roberta.util.Key;
 import de.fhg.iais.roberta.util.Util;
 
 @Path("/blocks")
@@ -48,33 +49,32 @@ public class RestBlocks {
                 String token = request.getString("token");
                 if ( this.brickCommunicator.aTokenAgreementWasSent(token) ) {
                     httpSessionState.setToken(token);
-                    response.put("rc", "ok").put("message", Util.TOKEN_SET_SUCCESS);
+                    Util.addSuccessInfo(response, Key.TOKEN_SET_SUCCESS);
                     LOG.info("success: token " + token + " is registered in the session");
                 } else {
-                    response.put("rc", "error").put("message", Util.TOKEN_SET_ERROR_NO_ROBOT_WAITING);
+                    Util.addErrorInfo(response, Key.TOKEN_SET_ERROR_NO_ROBOT_WAITING);
                     LOG.info("error: token " + token + " is not awaited and thus not registered in the session");
                 }
             } else if ( cmd.equals("loadT") ) {
                 String name = request.getString("name");
                 String template = this.templates.get(name);
                 if ( template == null ) {
-                    response.put("rc", "error").put("message", Util.TOOLBOX_LOAD_ERROR_NOT_FOUND);
+                    Util.addErrorInfo(response, Key.TOOLBOX_LOAD_ERROR_NOT_FOUND);
                     LOG.info("error: toolbox: " + name + " not found");
                 } else {
-                    response.put("rc", "ok").put("message", Util.TOOLBOX_LOAD_SUCCESS).put("data", template);
-                    ;
+                    Util.addSuccessInfo(response, Key.TOOLBOX_LOAD_SUCCESS).put("data", template);
                     LOG.info("success: toolbox: " + name + " returned to client");
                 }
             } else {
                 LOG.error("Invalid command: " + cmd);
-                response.put("rc", "error").put("message", Util.COMMAND_INVALID);
+                Util.addErrorInfo(response, Key.COMMAND_INVALID);
             }
             dbSession.commit();
         } catch ( Exception e ) {
             dbSession.rollback();
             String errorTicketId = Util.getErrorTicketId();
             LOG.error("Exception. Error ticket: " + errorTicketId, e);
-            response.put("rc", "error").put("message", Util.SERVER_ERROR).append("parameters", errorTicketId);
+            Util.addErrorInfo(response, Key.SERVER_ERROR).append("parameters", errorTicketId);
         } finally {
             if ( dbSession != null ) {
                 dbSession.close();

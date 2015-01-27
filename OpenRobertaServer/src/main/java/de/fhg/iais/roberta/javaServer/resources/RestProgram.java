@@ -17,14 +17,13 @@ import com.google.inject.Inject;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.brick.CompilerWorkflow;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
-import de.fhg.iais.roberta.persistence.ConfigurationProcessor;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
 import de.fhg.iais.roberta.persistence.UserProgramProcessor;
-import de.fhg.iais.roberta.persistence.bo.Configuration;
 import de.fhg.iais.roberta.persistence.bo.Program;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.persistence.util.SessionFactoryWrapper;
 import de.fhg.iais.roberta.util.ClientLogger;
+import de.fhg.iais.roberta.util.Key;
 import de.fhg.iais.roberta.util.Util;
 
 @Path("/program")
@@ -92,40 +91,37 @@ public class RestProgram {
             } else if ( cmd.equals("runP") ) {
                 String token = httpSessionState.getToken();
                 String programName = request.getString("name");
-                String configurationName = request.getString("configuration");
-                String programText = httpSessionState.getProgram();
-                String configurationText = httpSessionState.getConfiguration();
-                if ( httpSessionState.isUserLoggedIn() ) {
-                    Program program = pp.getProgram(programName, userId);
-                    programText = program.getProgramText();
+                String programText = request.optString("programText");
+                String configurationText = request.optString("configurationText");
+                if ( programText == null || programText.equals("") ) {
+                    programText = httpSessionState.getProgram();
                 }
-                if ( httpSessionState.isUserLoggedIn() || configurationName.equals("Standardkonfiguration") ) {
-                    Configuration configuration = new ConfigurationProcessor(dbSession, httpSessionState).getConfiguration(configurationName, userId);
-                    configurationText = configuration.getConfigurationText();
+                if ( configurationText == null || configurationText.equals("") ) {
+                    configurationText = httpSessionState.getConfiguration();
                 }
-                LOG.info("compiler workflow started for program {} and configuration {}", programName, configurationName);
-                String messageKey = this.compilerWorkflow.execute(dbSession, token, programName, programText, configurationText);
+                LOG.info("compiler workflow started for program {}", programName);
+                Key messageKey = this.compilerWorkflow.execute(dbSession, token, programName, programText, configurationText);
                 if ( messageKey == null ) {
                     // everything is fine
-                    boolean wasRobotWaiting = this.brickCommunicator.theRunButtonWasPressed(token, programName, configurationName);
+                    boolean wasRobotWaiting = this.brickCommunicator.theRunButtonWasPressed(token, programName);
                     if ( wasRobotWaiting ) {
-                        response.put("rc", "ok").put("message", Util.ROBOT_PUSH_RUN);
+                        Util.addSuccessInfo(response, Key.ROBOT_PUSH_RUN);
                     } else {
-                        response.put("rc", "error").put("message", Util.ROBOT_NOT_WAITING);
+                        Util.addErrorInfo(response, Key.ROBOT_NOT_WAITING);
                     }
                 } else {
                     response.put("rc", "error").put("data", messageKey);
                 }
             } else {
                 LOG.error("Invalid command: " + cmd);
-                response.put("rc", "error").put("message", Util.COMMAND_INVALID);
+                Util.addErrorInfo(response, Key.COMMAND_INVALID);
             }
             dbSession.commit();
         } catch ( Exception e ) {
             dbSession.rollback();
             String errorTicketId = Util.getErrorTicketId();
             LOG.error("Exception. Error ticket: " + errorTicketId, e);
-            response.put("rc", "error").put("message", Util.SERVER_ERROR).append("parameters", errorTicketId);
+            Util.addErrorInfo(response, Key.SERVER_ERROR).append("parameters", errorTicketId);
         } finally {
             if ( dbSession != null ) {
                 dbSession.close();
