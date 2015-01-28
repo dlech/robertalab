@@ -53,7 +53,7 @@ public class RestRobot {
                         response.put("rc", "error").put("message", Util.ROBOT_FIRMWAREUPDATE_IMPOSSIBLE);
                     }
                 } else {
-                    response.put("rc", "error").put("data", Util.ROBOT_NOT_CONNECTED);
+                    response.put("rc", "error").put("message", Util.ROBOT_NOT_CONNECTED);
                 }
             } else {
                 LOG.error("Invalid command: " + cmd);
