@@ -143,6 +143,20 @@ public class BasicSharingInteractionTest {
             assertEntityRc(response, "ok");
         }
         assertEquals(MAX_TOTAL_FRIENDS / 2, getOneInt("select count(*) from USER_PROGRAM"));
+        
+        //Access List of Programs for master
+        this.response = this.restProgram.command(this.s1, mkD("{'cmd':'loadPN'}"));
+        assertEntityRc(response, "ok");
+
+        //Login with user pid-2
+        this.response =
+            this.restUser.command(this.s2, this.sessionFactoryWrapper.getSession(), mkD("{'cmd':'login';'accountName':'pid-0';'password':'dip-0'}"));
+        assertEntityRc(response, "ok");
+        assertTrue(this.s2.isUserLoggedIn());
+
+        //Access List of Programs for user pid-2
+        this.response = this.restProgram.command(this.s2, mkD("{'cmd':'loadPN'}"));
+        assertEntityRc(response, "ok");
     }
 
     private int getOneInt(String sqlStmt) {
