@@ -1,5 +1,8 @@
-<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
-  <instance x="32" y="12">
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="34" y="20">
+    <block type="robControls_start" id="44" deletable="false">
+      <mutation declare="false"></mutation>
+    </block>
     <block type="robControls_if" id="184" inline="false">
       <mutation elseif="1"></mutation>
       <repetitions>
@@ -16,6 +19,7 @@
         </statement>
         <value name="IF1">
           <block type="logic_compare" id="217" inline="true">
+            <mutation operator_range="NUM"></mutation>
             <field name="OP">EQ</field>
             <value name="A">
               <block type="robColour_picker" id="227">
@@ -24,6 +28,7 @@
             </value>
             <value name="B">
               <block type="robSensors_colour_getSample" id="225">
+                <mutation mode="COLOUR"></mutation>
                 <field name="MODE">COLOUR</field>
                 <field name="SENSORPORT">3</field>
               </block>

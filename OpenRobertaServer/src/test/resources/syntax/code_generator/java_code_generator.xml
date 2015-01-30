@@ -1,5 +1,8 @@
-<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
-     <instance x="45" y="122">
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="53" y="89">
+    <block type="robControls_start" id="25" deletable="false">
+      <mutation declare="false"></mutation>
+    </block>
     <block type="robActions_display_text" id="56" inline="false">
       <value name="OUT">
         <block type="text" id="57">

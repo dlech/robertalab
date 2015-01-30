@@ -1,5 +1,8 @@
 <block_set  xmlns="http://de.fhg.iais.roberta.blockly">
      <instance x="66" y="112">
+        <block type="robControls_start" id="44" deletable="false">
+      <mutation declare="false"></mutation>
+    </block>
     <block type="robControls_if" id="205" inline="false">
       <value name="IF0">
         <block type="logic_compare" id="444" inline="true">

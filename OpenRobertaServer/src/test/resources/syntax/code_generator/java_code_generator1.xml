@@ -1,5 +1,8 @@
-<block_set  xmlns="http://de.fhg.iais.roberta.blockly">
-      <instance x="13" y="112">
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="18" y="79">
+    <block type="robControls_start" id="27" deletable="false">
+      <mutation declare="false"></mutation>
+    </block>
     <block type="controls_repeat_ext" id="121" inline="true">
       <value name="TIMES">
         <block type="math_number" id="122">
