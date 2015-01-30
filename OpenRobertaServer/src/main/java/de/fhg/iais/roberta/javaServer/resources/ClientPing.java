@@ -19,12 +19,13 @@ import com.google.inject.name.Named;
 
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
+import de.fhg.iais.roberta.persistence.util.HttpSessionState;
 import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Util;
 
 @Path("/ping")
-public class Ping {
-    private static final Logger LOG = LoggerFactory.getLogger(Ping.class);
+public class ClientPing {
+    private static final Logger LOG = LoggerFactory.getLogger(ClientPing.class);
 
     private static final int EVERY_REQUEST = 100; // after EVERY_PING many ping requests have arrived, a log entry is written
     private static final AtomicInteger pingCounterForLogging = new AtomicInteger(0);
@@ -33,7 +34,7 @@ public class Ping {
     private final BrickCommunicator brickCommunicator;
 
     @Inject
-    public Ping(@Named("version") String version, BrickCommunicator brickCommunicator) {
+    public ClientPing(@Named("version") String version, BrickCommunicator brickCommunicator) {
         this.version = version;
         this.brickCommunicator = brickCommunicator;
     }

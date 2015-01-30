@@ -19,18 +19,19 @@ import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.ConfigurationProcessor;
 import de.fhg.iais.roberta.persistence.bo.Configuration;
 import de.fhg.iais.roberta.persistence.util.DbSession;
+import de.fhg.iais.roberta.persistence.util.HttpSessionState;
 import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Key;
 import de.fhg.iais.roberta.util.Util;
 
 @Path("/conf")
-public class RestConfiguration {
-    private static final Logger LOG = LoggerFactory.getLogger(RestConfiguration.class);
+public class ClientConfiguration {
+    private static final Logger LOG = LoggerFactory.getLogger(ClientConfiguration.class);
 
     private final BrickCommunicator brickCommunicator;
 
     @Inject
-    public RestConfiguration(BrickCommunicator brickCommunicator) {
+    public ClientConfiguration(BrickCommunicator brickCommunicator) {
         this.brickCommunicator = brickCommunicator;
     }
 
@@ -50,7 +51,13 @@ public class RestConfiguration {
             if ( cmd.equals("saveC") ) {
                 String configurationName = request.getString("name");
                 String configurationText = request.getString("configuration");
-                cp.updateConfiguration(configurationName, userId, configurationText);
+                cp.updateConfiguration(configurationName, userId, configurationText, true);
+                Util.addResultInfo(response, cp);
+
+            } else if ( cmd.equals("saveAsC") ) {
+                String configurationName = request.getString("name");
+                String configurationText = request.getString("configuration");
+                cp.updateConfiguration(configurationName, userId, configurationText, false);
                 Util.addResultInfo(response, cp);
 
             } else if ( cmd.equals("loadC") && httpSessionState.isUserLoggedIn() ) {

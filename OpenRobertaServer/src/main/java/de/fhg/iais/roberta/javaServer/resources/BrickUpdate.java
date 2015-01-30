@@ -19,9 +19,6 @@ import com.google.inject.name.Named;
 
 /**
  * REST service for updating brick libraries and menu.<br>
- * Uses openRoberta.properties for file path references.
- *
- * @author dpyka
  */
 @Path("/update")
 public class BrickUpdate {

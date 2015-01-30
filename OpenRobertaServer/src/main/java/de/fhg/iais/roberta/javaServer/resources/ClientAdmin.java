@@ -17,19 +17,20 @@ import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.brick.Templates;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.util.DbSession;
+import de.fhg.iais.roberta.persistence.util.HttpSessionState;
 import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Key;
 import de.fhg.iais.roberta.util.Util;
 
-@Path("/blocks")
-public class RestBlocks {
-    private static final Logger LOG = LoggerFactory.getLogger(RestBlocks.class);
+@Path("/admin")
+public class ClientAdmin {
+    private static final Logger LOG = LoggerFactory.getLogger(ClientAdmin.class);
 
     private final Templates templates;
     private final BrickCommunicator brickCommunicator;
 
     @Inject
-    public RestBlocks(Templates templates, BrickCommunicator brickCommunicator) {
+    public ClientAdmin(Templates templates, BrickCommunicator brickCommunicator) {
         this.templates = templates;
         this.brickCommunicator = brickCommunicator;
     }
@@ -64,6 +65,19 @@ public class RestBlocks {
                 } else {
                     Util.addSuccessInfo(response, Key.TOOLBOX_LOAD_SUCCESS).put("data", template);
                     LOG.info("success: toolbox: " + name + " returned to client");
+                }
+            } else if ( cmd.equals("updateFirmware") ) {
+                String token = httpSessionState.getToken();
+                if ( token != null ) {
+                    // everything is fine
+                    boolean isPossible = this.brickCommunicator.firmwareUpdateRequested(token);
+                    if ( isPossible ) {
+                        Util.addSuccessInfo(response, Key.ROBOT_FIRMWAREUPDATE_POSSIBLE);
+                    } else {
+                        Util.addErrorInfo(response, Key.ROBOT_FIRMWAREUPDATE_IMPOSSIBLE);
+                    }
+                } else {
+                    Util.addErrorInfo(response, Key.ROBOT_NOT_CONNECTED);
                 }
             } else {
                 LOG.error("Invalid command: " + cmd);

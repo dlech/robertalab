@@ -21,21 +21,22 @@ import de.fhg.iais.roberta.persistence.ProgramProcessor;
 import de.fhg.iais.roberta.persistence.UserProgramProcessor;
 import de.fhg.iais.roberta.persistence.bo.Program;
 import de.fhg.iais.roberta.persistence.util.DbSession;
+import de.fhg.iais.roberta.persistence.util.HttpSessionState;
 import de.fhg.iais.roberta.persistence.util.SessionFactoryWrapper;
 import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Key;
 import de.fhg.iais.roberta.util.Util;
 
 @Path("/program")
-public class RestProgram {
-    private static final Logger LOG = LoggerFactory.getLogger(RestProgram.class);
+public class ClientProgram {
+    private static final Logger LOG = LoggerFactory.getLogger(ClientProgram.class);
 
     private final SessionFactoryWrapper sessionFactoryWrapper;
     private final BrickCommunicator brickCommunicator;
     private final CompilerWorkflow compilerWorkflow;
 
     @Inject
-    public RestProgram(SessionFactoryWrapper sessionFactoryWrapper, BrickCommunicator brickCommunicator, CompilerWorkflow compilerWorkflow) {
+    public ClientProgram(SessionFactoryWrapper sessionFactoryWrapper, BrickCommunicator brickCommunicator, CompilerWorkflow compilerWorkflow) {
         this.sessionFactoryWrapper = sessionFactoryWrapper;
         this.brickCommunicator = brickCommunicator;
         this.compilerWorkflow = compilerWorkflow;
@@ -60,7 +61,13 @@ public class RestProgram {
             if ( cmd.equals("saveP") ) {
                 String programName = request.getString("name");
                 String programText = request.getString("program");
-                pp.updateProgram(programName, userId, programText);
+                pp.updateProgram(programName, userId, programText, true);
+                Util.addResultInfo(response, pp);
+
+            } else if ( cmd.equals("saveAsP") ) {
+                String programName = request.getString("name");
+                String programText = request.getString("program");
+                pp.updateProgram(programName, userId, programText, false);
                 Util.addResultInfo(response, pp);
 
             } else if ( cmd.equals("loadP") && httpSessionState.isUserLoggedIn() ) {
@@ -93,12 +100,6 @@ public class RestProgram {
                 String programName = request.getString("name");
                 String programText = request.optString("programText");
                 String configurationText = request.optString("configurationText");
-                if ( programText == null || programText.equals("") ) {
-                    programText = httpSessionState.getProgram();
-                }
-                if ( configurationText == null || configurationText.equals("") ) {
-                    configurationText = httpSessionState.getConfiguration();
-                }
                 LOG.info("compiler workflow started for program {}", programName);
                 Key messageKey = this.compilerWorkflow.execute(dbSession, token, programName, programText, configurationText);
                 if ( messageKey == null ) {

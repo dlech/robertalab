@@ -25,18 +25,16 @@ import de.fhg.iais.roberta.dbc.DbcException;
 
 /**
  * REST service for downloading user program
- *
- * @author dpyka
  */
 @Path("/download")
-public class DownloadJar {
-    private static final Logger LOG = LoggerFactory.getLogger(DownloadJar.class);
+public class BrickDownloadJar {
+    private static final Logger LOG = LoggerFactory.getLogger(BrickDownloadJar.class);
 
     private final BrickCommunicator brickCommunicator;
     private final String pathToCrosscompilerBaseDir;
 
     @Inject
-    public DownloadJar(BrickCommunicator brickCommunicator, @Named("crosscompiler.basedir") String pathToCrosscompilerBaseDir) {
+    public BrickDownloadJar(BrickCommunicator brickCommunicator, @Named("crosscompiler.basedir") String pathToCrosscompilerBaseDir) {
         this.brickCommunicator = brickCommunicator;
         this.pathToCrosscompilerBaseDir = pathToCrosscompilerBaseDir;
     }

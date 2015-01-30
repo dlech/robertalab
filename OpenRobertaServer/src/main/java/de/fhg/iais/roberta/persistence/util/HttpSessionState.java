@@ -1,4 +1,4 @@
-package de.fhg.iais.roberta.javaServer.resources;
+package de.fhg.iais.roberta.persistence.util;
 
 import de.fhg.iais.roberta.dbc.Assert;
 

@@ -20,18 +20,19 @@ import de.fhg.iais.roberta.persistence.UserProcessor;
 import de.fhg.iais.roberta.persistence.UserProgramProcessor;
 import de.fhg.iais.roberta.persistence.bo.User;
 import de.fhg.iais.roberta.persistence.util.DbSession;
+import de.fhg.iais.roberta.persistence.util.HttpSessionState;
 import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Key;
 import de.fhg.iais.roberta.util.Util;
 
 @Path("/user")
-public class RestUser {
-    private static final Logger LOG = LoggerFactory.getLogger(RestUser.class);
+public class ClientUser {
+    private static final Logger LOG = LoggerFactory.getLogger(ClientUser.class);
 
     private final BrickCommunicator brickCommunicator;
 
     @Inject
-    public RestUser(BrickCommunicator brickCommunicator) {
+    public ClientUser(BrickCommunicator brickCommunicator) {
         this.brickCommunicator = brickCommunicator;
     }
 

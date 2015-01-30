@@ -26,17 +26,10 @@ public class BrickCommand {
     private static final int EVERY_REQUEST = 100; // after EVERY_PING many ping requests have arrived, a log entry is written
     private static final AtomicInteger pushRequestCounterForLogging = new AtomicInteger(0);
 
-    // brickdata + cmds send to server
     private static final String CMD = "cmd";
     private static final String CMD_REGISTER = "register";
     private static final String CMD_PUSH = "push";
-
-    // cmds brick receives from server
     private static final String CMD_REPEAT = "repeat";
-    private static final String CMD_ABORT = "abort";
-    private static final String CMD_UPDATE = "update";
-    private static final String CMD_DOWNLOAD = "download";
-    private static final String CMD_CONFIGURATION = "configuration";
 
     private final BrickCommunicator brickCommunicator;
 
@@ -54,14 +47,12 @@ public class BrickCommand {
         String macaddr = null;
         String token = null;
         String brickname = null;
-        String battery = null;
         String menuversion = null;
         String lejosversion = null;
         try {
             macaddr = requestEntity.getString("macaddr");
             token = requestEntity.getString("token");
             brickname = requestEntity.getString("brickname");
-            battery = requestEntity.getString("battery");
             menuversion = requestEntity.getString("menuversion");
             lejosversion = requestEntity.getString("lejosversion");
         } catch ( Exception e ) {
@@ -88,10 +79,10 @@ public class BrickCommand {
                     LOG.error("No valid command issued by the server as response to a push command request for token " + token);
                     return Response.serverError().build();
                 } else {
-                    if ( !command.equals("repeat") || logPush ) {
+                    if ( !command.equals(CMD_REPEAT) || logPush ) {
                         LOG.info("the command " + command + " is pushed to the robot [count:" + counter + "]");
                     }
-                    response = new JSONObject().put("cmd", command);
+                    response = new JSONObject().put(CMD, command);
                     return Response.ok(response).build();
                 }
             default:
