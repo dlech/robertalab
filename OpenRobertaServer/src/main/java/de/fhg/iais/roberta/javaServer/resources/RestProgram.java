@@ -110,7 +110,7 @@ public class RestProgram {
                         Util.addErrorInfo(response, Key.ROBOT_NOT_WAITING);
                     }
                 } else {
-                    response.put("rc", "error").put("data", messageKey);
+                    response.put("rc", "error").put("message", messageKey);
                 }
             } else {
                 LOG.error("Invalid command: " + cmd);
