@@ -1,252 +1,229 @@
 <block_set xmlns="http://de.fhg.iais.roberta.blockly">
-  <instance x="-8" y="-179">
-    <block type="robControls_start" id="59" deletable="false"></block>
-    <block type="robSensors_ultrasonic_setMode" id="31">
-      <field name="SENSORPORT">4</field>
-      <field name="MODE">DISTANCE</field>
+  <instance x="1" y="7">
+    <block type="robControls_start" id="34" deletable="false">
+      <mutation declare="true"></mutation>
+      <statement name="ST">
+        <block type="robGlobalvariables_declare" id="118" inline="true" deletable="false" movable="false">
+          <mutation next="true" declaration_type="Number"></mutation>
+          <field name="VAR">variablenName</field>
+          <field name="TYPE">Number</field>
+          <value name="VALUE">
+            <block type="math_number" id="119">
+              <field name="NUM">0</field>
+            </block>
+          </value>
+        </block>
+        <block type="robGlobalvariables_declare" id="176" inline="true" deletable="false" movable="false">
+          <mutation next="true" declaration_type="Boolean"></mutation>
+          <field name="VAR">variablenName2</field>
+          <field name="TYPE">Boolean</field>
+          <value name="VALUE">
+            <block type="logic_boolean" id="178">
+              <field name="BOOL">TRUE</field>
+            </block>
+          </value>
+        </block>
+        <block type="robGlobalvariables_declare" id="219" inline="true" deletable="false" movable="false">
+          <mutation next="true" declaration_type="Colour"></mutation>
+          <field name="VAR">variablenName3</field>
+          <field name="TYPE">Colour</field>
+          <value name="VALUE">
+            <block type="robColour_picker" id="221">
+              <field name="COLOUR">#585858</field>
+            </block>
+          </value>
+        </block>
+        <block type="robGlobalvariables_declare" id="222" inline="true" deletable="false" movable="false">
+          <mutation next="false" declaration_type="Array_Number"></mutation>
+          <field name="VAR">variablenName4</field>
+          <field name="TYPE">Array_Number</field>
+          <value name="VALUE">
+            <block type="robLists_create_with" id="224" inline="false">
+              <mutation items="3" list_type="Number"></mutation>
+              <field name="LIST_TYPE">Number</field>
+              <value name="ADD0">
+                <block type="math_number" id="225">
+                  <field name="NUM">0</field>
+                </block>
+              </value>
+              <value name="ADD1">
+                <block type="math_number" id="226">
+                  <field name="NUM">0</field>
+                </block>
+              </value>
+              <value name="ADD2">
+                <block type="math_number" id="227">
+                  <field name="NUM">0</field>
+                </block>
+              </value>
+            </block>
+          </value>
+        </block>
+      </statement>
     </block>
-    <block type="robSensors_colour_setMode" id="47">
-      <field name="SENSORPORT">3</field>
-      <field name="MODE">COLOUR</field>
-    </block>
-    <block type="robSensors_gyro_reset" id="113">
-      <field name="SENSORPORT">2</field>
-    </block>
-    <block type="robSensors_encoder_setMode" id="79">
-      <field name="MOTORPORT">A</field>
-      <field name="MODE">ROTATION</field>
-    </block>
-    <block type="robSensors_infrared_setMode" id="67">
-      <field name="SENSORPORT">4</field>
-      <field name="MODE">DISTANCE</field>
-    </block>
-    <block type="robSensors_encoder_reset" id="91">
-      <field name="MOTORPORT">A</field>
-    </block>
-    <block type="robSensors_gyro_setMode" id="101">
-      <field name="SENSORPORT">2</field>
-      <field name="MODE">ANGLE</field>
-    </block>
-    <block type="robActions_display_text" id="138" inline="false">
-      <value name="OUT">
-        <block type="robSensors_gyro_getSample" id="119">
-          <field name="SENSORPORT">2</field>
-        </block>
-      </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-    </block>
-    <block type="robActions_display_text" id="150" inline="false">
-      <value name="OUT">
-        <block type="robSensors_timer_getSample" id="121">
-          <field name="SENSORNUM">1</field>
-        </block>
-      </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-    </block>
-    <block type="robActions_display_text" id="150" inline="false">
-      <value name="OUT">
-        <block type="robSensors_encoder_getSample" id="97">
-          <field name="MOTORPORT">A</field>
-        </block>
-      </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-    </block>
-    <block type="robActions_display_text" id="169" inline="false">
-      <value name="OUT">
-        <block type="robSensors_gyro_getMode" id="107">
-          <field name="SENSORPORT">2</field>
-        </block>
-      </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-    </block>
-    <block type="robActions_display_text" id="150" inline="false">
-      <value name="OUT">
-        <block type="robSensors_infrared_getSample" id="77">
+    <block type="variables_set" id="174" inline="false">
+      <mutation datatype="Number"></mutation>
+      <field name="VAR">variablenName</field>
+      <value name="VALUE">
+        <block type="robSensors_ultrasonic_getSample" id="185">
+          <mutation mode="DISTANCE"></mutation>
+          <field name="MODE">DISTANCE</field>
           <field name="SENSORPORT">4</field>
         </block>
       </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
-        </block>
-      </value>
     </block>
-    <block type="robActions_display_text" id="169" inline="false">
-      <value name="OUT">
-        <block type="robSensors_key_isPressed" id="99">
-          <field name="KEY">ENTER</field>
-        </block>
-      </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-    </block>
-    <block type="robActions_display_text" id="150" inline="false">
-      <value name="OUT">
-        <block type="robSensors_ultrasonic_getSample" id="45">
-          <field name="SENSORPORT">4</field>
-        </block>
-      </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-    </block>
-    <block type="robActions_display_text" id="169" inline="false">
-      <value name="OUT">
-        <block type="robSensors_ultrasonic_getMode" id="40">
-          <field name="SENSORPORT">4</field>
-        </block>
-      </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-    </block>
-    <block type="robActions_display_text" id="150" inline="false">
-      <value name="OUT">
-        <block type="robSensors_colour_getSample" id="57">
-          <field name="SENSORPORT">3</field>
-        </block>
-      </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-    </block>
-    <block type="robActions_display_text" id="150" inline="false">
-      <value name="OUT">
-        <block type="robSensors_touch_isPressed" id="29">
+    <block type="variables_set" id="182" inline="false">
+      <mutation datatype="Boolean"></mutation>
+      <field name="VAR">variablenName2</field>
+      <value name="VALUE">
+        <block type="robSensors_touch_isPressed" id="161">
           <field name="SENSORPORT">1</field>
         </block>
       </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
+    </block>
+    <block type="variables_set" id="196" inline="false">
+      <mutation datatype="Boolean"></mutation>
+      <field name="VAR">variablenName2</field>
+      <value name="VALUE">
+        <block type="robSensors_ultrasonic_getSample" id="185">
+          <mutation mode="PRESENCE"></mutation>
+          <field name="MODE">PRESENCE</field>
+          <field name="SENSORPORT">2</field>
         </block>
       </value>
     </block>
-    <block type="robActions_display_text" id="169" inline="false">
-      <value name="OUT">
-        <block type="robSensors_encoder_getMode" id="85">
-          <field name="MOTORPORT">A</field>
-        </block>
-      </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-    </block>
-    <block type="robActions_display_text" id="169" inline="false">
-      <value name="OUT">
-        <block type="robSensors_infrared_getMode" id="72">
-          <field name="SENSORPORT">4</field>
-        </block>
-      </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
-        </block>
-      </value>
-    </block>
-    <block type="robActions_display_text" id="169" inline="false">
-      <value name="OUT">
-        <block type="robSensors_colour_getMode" id="52">
+    <block type="variables_set" id="211" inline="false">
+      <mutation datatype="Number"></mutation>
+      <field name="VAR">variablenName</field>
+      <value name="VALUE">
+        <block type="robSensors_colour_getSample" id="201">
+          <mutation mode="RED"></mutation>
+          <field name="MODE">RED</field>
           <field name="SENSORPORT">3</field>
         </block>
       </value>
-      <value name="COL">
-        <block type="math_number" id="140">
-          <field name="NUM">0</field>
+    </block>
+    <block type="variables_set" id="214" inline="false">
+      <mutation datatype="Colour"></mutation>
+      <field name="VAR">variablenName3</field>
+      <value name="VALUE">
+        <block type="robSensors_colour_getSample" id="201">
+          <mutation mode="COLOUR"></mutation>
+          <field name="MODE">COLOUR</field>
+          <field name="SENSORPORT">3</field>
         </block>
       </value>
-      <value name="ROW">
-        <block type="math_number" id="141">
-          <field name="NUM">0</field>
+    </block>
+    <block type="variables_set" id="214" inline="false">
+      <mutation datatype="Number"></mutation>
+      <field name="VAR">variablenName</field>
+      <value name="VALUE">
+        <block type="robSensors_colour_getSample" id="201">
+          <mutation mode="AMBIENTLIGHT"></mutation>
+          <field name="MODE">AMBIENTLIGHT</field>
+          <field name="SENSORPORT">3</field>
         </block>
       </value>
+    </block>
+    <block type="variables_set" id="228" inline="false">
+      <mutation datatype="Array_Number"></mutation>
+      <field name="VAR">variablenName4</field>
+      <value name="VALUE">
+        <block type="robSensors_colour_getSample" id="201">
+          <mutation mode="RGB"></mutation>
+          <field name="MODE">RGB</field>
+          <field name="SENSORPORT">3</field>
+        </block>
+      </value>
+    </block>
+    <block type="variables_set" id="244" inline="false">
+      <mutation datatype="Number"></mutation>
+      <field name="VAR">variablenName</field>
+      <value name="VALUE">
+        <block type="robSensors_infrared_getSample" id="234">
+          <mutation mode="DISTANCE"></mutation>
+          <field name="MODE">DISTANCE</field>
+          <field name="SENSORPORT">4</field>
+        </block>
+      </value>
+    </block>
+    <block type="variables_set" id="257" inline="false">
+      <mutation datatype="Array_Number"></mutation>
+      <field name="VAR">variablenName4</field>
+      <value name="VALUE">
+        <block type="robSensors_infrared_getSample" id="255">
+          <mutation mode="SEEK"></mutation>
+          <field name="MODE">SEEK</field>
+          <field name="SENSORPORT">1</field>
+        </block>
+      </value>
+    </block>
+    <block type="robSensors_encoder_reset" id="264">
+      <field name="MOTORPORT">A</field>
+    </block>
+    <block type="variables_set" id="284" inline="false">
+      <mutation datatype="Number"></mutation>
+      <field name="VAR">variablenName</field>
+      <value name="VALUE">
+        <block type="robSensors_encoder_getSample" id="277">
+          <field name="MODE">ROTATION</field>
+          <field name="MOTORPORT">A</field>
+        </block>
+      </value>
+    </block>
+    <block type="variables_set" id="288" inline="false">
+      <mutation datatype="Number"></mutation>
+      <field name="VAR">variablenName</field>
+      <value name="VALUE">
+        <block type="robSensors_encoder_getSample" id="277">
+          <field name="MODE">DEGREE</field>
+          <field name="MOTORPORT">D</field>
+        </block>
+      </value>
+    </block>
+    <block type="variables_set" id="303" inline="false">
+      <mutation datatype="Boolean"></mutation>
+      <field name="VAR">variablenName2</field>
+      <value name="VALUE">
+        <block type="robSensors_key_isPressed" id="297">
+          <field name="KEY">ENTER</field>
+        </block>
+      </value>
+    </block>
+    <block type="robSensors_gyro_reset" id="313">
+      <field name="SENSORPORT">2</field>
+    </block>
+    <block type="variables_set" id="330" inline="false">
+      <mutation datatype="Number"></mutation>
+      <field name="VAR">variablenName</field>
+      <value name="VALUE">
+        <block type="robSensors_gyro_getSample" id="326">
+          <field name="MODE">ANGLE</field>
+          <field name="SENSORPORT">2</field>
+        </block>
+      </value>
+    </block>
+    <block type="variables_set" id="349" inline="false">
+      <mutation datatype="Number"></mutation>
+      <field name="VAR">variablenName</field>
+      <value name="VALUE">
+        <block type="robSensors_gyro_getSample" id="326">
+          <field name="MODE">RATE</field>
+          <field name="SENSORPORT">1</field>
+        </block>
+      </value>
+    </block>
+    <block type="variables_set" id="349" inline="false">
+      <mutation datatype="Number"></mutation>
+      <field name="VAR">variablenName</field>
+      <value name="VALUE">
+        <block type="robSensors_timer_getSample" id="345">
+          <field name="SENSORNUM">2</field>
+        </block>
+      </value>
+    </block>
+    <block type="robSensors_timer_reset" id="364">
+      <field name="SENSORNUM">2</field>
     </block>
   </instance>
 </block_set>
