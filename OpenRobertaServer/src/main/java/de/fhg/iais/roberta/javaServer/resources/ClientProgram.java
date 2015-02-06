@@ -104,11 +104,15 @@ public class ClientProgram {
                 Key messageKey = this.compilerWorkflow.execute(dbSession, token, programName, programText, configurationText);
                 if ( messageKey == null ) {
                     // everything is fine
-                    boolean wasRobotWaiting = this.brickCommunicator.theRunButtonWasPressed(token, programName);
-                    if ( wasRobotWaiting ) {
-                        Util.addSuccessInfo(response, Key.ROBOT_PUSH_RUN);
+                    if ( token == null ) {
+                        Util.addErrorInfo(response, Key.ROBOT_NOT_CONNECTED);
                     } else {
-                        Util.addErrorInfo(response, Key.ROBOT_NOT_WAITING);
+                        boolean wasRobotWaiting = this.brickCommunicator.theRunButtonWasPressed(token, programName);
+                        if ( wasRobotWaiting ) {
+                            Util.addSuccessInfo(response, Key.ROBOT_PUSH_RUN);
+                        } else {
+                            Util.addErrorInfo(response, Key.ROBOT_NOT_WAITING);
+                        }
                     }
                 } else {
                     response.put("rc", "error").put("message", messageKey);
