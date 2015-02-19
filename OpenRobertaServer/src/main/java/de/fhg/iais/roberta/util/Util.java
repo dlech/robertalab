@@ -74,7 +74,9 @@ public class Util {
     public static final String OWNER_DOES_NOT_EXIST = "ORA_OWNER_DOES_NOT_EXIST";
     public static final String PROGRAM_TO_SHARE_DOES_NOT_EXIST = "ORA_PROGRAM_TO_SHARE_DOES_NOT_EXIST";
     public static final String USER_TO_SHARE_DOES_NOT_EXIST = "ORA_USER_TO_SHARE_DOES_NOT_EXIST";
-
+    public static final String PROGRAM_SHARED = "PROGRAM_SHARED";
+    public static final String PROGRAM_UNSHARED = "PROGRAM_UNSHARED";
+    
     private Util() {
         // no objects
     }

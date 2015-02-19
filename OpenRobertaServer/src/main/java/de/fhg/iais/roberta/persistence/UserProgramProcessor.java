@@ -69,10 +69,10 @@ public class UserProgramProcessor extends AbstractProcessor {
         UserProgramDao userProgramDao = new UserProgramDao(this.dbSession);
         if ( right.equals("NONE") ) {
             int userProgram = userProgramDao.deleteUserProgram(userToShare, programToShare);
-            setSuccess(Util.SERVER_ERROR);
+            setSuccess(Util.PROGRAM_UNSHARED);
         } else {
             UserProgram userProgram = userProgramDao.persistUserProgram(userToShare, programToShare, right);
-            setSuccess(Util.SERVER_ERROR);
+            setSuccess(Util.PROGRAM_SHARED);
         }
 
     }

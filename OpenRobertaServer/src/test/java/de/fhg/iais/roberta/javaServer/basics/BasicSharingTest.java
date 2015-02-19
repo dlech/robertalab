@@ -20,11 +20,16 @@ import de.fhg.iais.roberta.brick.CompilerWorkflow;
 import de.fhg.iais.roberta.javaServer.resources.HttpSessionState;
 import de.fhg.iais.roberta.javaServer.resources.RestProgram;
 import de.fhg.iais.roberta.javaServer.resources.RestUser;
+import de.fhg.iais.roberta.persistence.bo.Program;
+import de.fhg.iais.roberta.persistence.bo.User;
+import de.fhg.iais.roberta.persistence.dao.ProgramDao;
+import de.fhg.iais.roberta.persistence.dao.UserDao;
+import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.persistence.util.DbSetup;
 import de.fhg.iais.roberta.persistence.util.SessionFactoryWrapper;
 import de.fhg.iais.roberta.util.Util;
 
-public class BasicSharingInteractionTest {
+public class BasicSharingTest {
 
     private static final int MAX_TOTAL_FRIENDS = 30;
 
@@ -48,7 +53,7 @@ public class BasicSharingInteractionTest {
     @Before
     public void setup() throws Exception {
 
-        Properties properties = Util.loadProperties("classpath:openRoberta-basicSharingInteraction.properties");
+        Properties properties = Util.loadProperties("classpath:openRoberta-basicSharing.properties");
         this.connectionUrl = properties.getProperty("hibernate.connection.url");
         this.buildXml = properties.getProperty("crosscompiler.build.xml");
         this.crosscompilerBasedir = properties.getProperty("crosscompiler.basedir");
@@ -72,6 +77,11 @@ public class BasicSharingInteractionTest {
     @Test
     public void test() throws Exception {
         assertTrue(!this.s1.isUserLoggedIn() && !this.s2.isUserLoggedIn());
+
+        DbSession hSession = this.sessionFactoryWrapper.getSession();
+        UserDao userDao = new UserDao(hSession);
+        ProgramDao programDao = new ProgramDao(hSession);
+
         // USER,PROGRAM AND USER_PROGRM table empty; create user "pid" with success; USER table has 1 row; create same user with error; create second user "minscha"
         assertEquals(0, getOneInt("select count(*) from USER"));
         assertEquals(0, getOneInt("select count(*) from PROGRAM"));
@@ -92,84 +102,90 @@ public class BasicSharingInteractionTest {
         this.response = this.restProgram.command(this.s1, mkD("{'cmd':'saveP';'name':'toShare';'program':'<program>...</program>'}"));
         assertEntityRc(this.response, "ok");
         assertEquals(1, getOneInt("select count(*) from PROGRAM"));
-        this.response = this.restProgram.command(this.s1, mkD("{'cmd':'saveP';'name':'mine';'program':'<program>...</program>'}"));
-        this.response = this.restProgram.command(this.s1, mkD("{'cmd':'saveP';'name':'mine2';'program':'<program>...</program>'}"));
 
-        //CREATE EACH FRIEND AND ONE PROGRAM PER FRIEND
-        for ( int userNumber = 0; userNumber < MAX_TOTAL_FRIENDS; userNumber += 1 ) {
-            HttpSessionState s = HttpSessionState.init();
-            assertTrue(!s.isUserLoggedIn());
-            this.response =
-                this.restUser.command(s, this.sessionFactoryWrapper.getSession(), mkD("{'cmd':'createUser';'accountName':'pid-"
-                    + userNumber
-                    + "';'password':'dip-"
-                    + userNumber
-                    + "';'userEmail':'cavy@home';'role':'STUDENT'}"));
-            assertEntityRc(this.response, "ok");
-            assertEquals(2 + userNumber, getOneInt("select count(*) from USER"));
-            this.response =
-                this.restUser.command(s, this.sessionFactoryWrapper.getSession(), mkD("{'cmd':'login';'accountName':'pid-"
-                    + userNumber
-                    + "';'password':'dip-"
-                    + userNumber
-                    + "'}"));
-            assertEntityRc(response, "ok");
-            assertTrue(s.isUserLoggedIn());
-            this.response = this.restProgram.command(s, mkD("{'cmd':'saveP';'name':'test" + userNumber + "';'program':'<program>...</program>'}"));
-            assertEquals(4 + userNumber, getOneInt("select count(*) from PROGRAM"));
-            assertEntityRc(this.response, "ok");
+        //CREATE FRIEND AND ONE PROGRAM PER FRIEND
+        HttpSessionState s = HttpSessionState.init();
+        assertTrue(!s.isUserLoggedIn());
+        this.response =
+            this.restUser.command(
+                s,
+                this.sessionFactoryWrapper.getSession(),
+                mkD("{'cmd':'createUser';'accountName':'pid-0';'password':'dip-0';'userEmail':'cavy@home';'role':'STUDENT'}"));
+        assertEntityRc(this.response, "ok");
+        assertEquals(2, getOneInt("select count(*) from USER"));
+        this.response = this.restUser.command(s, this.sessionFactoryWrapper.getSession(), mkD("{'cmd':'login';'accountName':'pid-0';'password':'dip-0'}"));
+        assertEntityRc(response, "ok");
+        assertTrue(s.isUserLoggedIn());
+        this.response = this.restProgram.command(s, mkD("{'cmd':'saveP';'name':'test0';'program':'<program>...</program>'}"));
+        assertEquals(2, getOneInt("select count(*) from PROGRAM"));
+        assertEntityRc(this.response, "ok");
+        assertEquals(2, getOneInt("select count(*) from USER"));
 
-        }
-        assertEquals(MAX_TOTAL_FRIENDS + 1, getOneInt("select count(*) from USER"));
         //Login with master
         this.response =
             this.restUser.command(this.s1, this.sessionFactoryWrapper.getSession(), mkD("{'cmd':'login';'accountName':'master';'password':'master-p'}"));
         assertEntityRc(response, "ok");
         assertTrue(this.s1.isUserLoggedIn());
 
-        //Share with write rights pair friends
-        for ( int userNumber = 0; userNumber < MAX_TOTAL_FRIENDS; userNumber += 2 ) {
-            this.response =
-                this.restProgram.command(this.s1, mkD("{'cmd':'shareP';'userToShare':'pid-" + userNumber + "';'programName':'toShare';'right':'WRITE'}"));
-            assertEntityRc(response, "ok");
-        }
-        //Share with read rights odd friends
-        for ( int userNumber = 1; userNumber < MAX_TOTAL_FRIENDS; userNumber += 2 ) {
-            this.response =
-                this.restProgram.command(this.s1, mkD("{'cmd':'shareP';'userToShare':'pid-" + userNumber + "';'programName':'toShare';'right':'READ'}"));
-            assertEntityRc(response, "ok");
-        }
-        assertEquals(MAX_TOTAL_FRIENDS, getOneInt("select count(*) from USER_PROGRAM"));
-        //Eliminate write rights for pair users 
-        for ( int userNumber = 1; userNumber < MAX_TOTAL_FRIENDS; userNumber += 2 ) {
-            this.response =
-                this.restProgram.command(this.s1, mkD("{'cmd':'shareP';'userToShare':'pid-" + userNumber + "';'programName':'toShare';'right':'NONE'}"));
-            assertEntityRc(response, "ok");
-        }
-        assertEquals(MAX_TOTAL_FRIENDS / 2, getOneInt("select count(*) from USER_PROGRAM"));
-
-        //Access List of Programs for master
-        this.response = this.restProgram.command(this.s1, mkD("{'cmd':'loadPN'}"));
-        JSONObject responseObject = (JSONObject) response.getEntity();
-        JSONArray programNames = responseObject.getJSONArray("programNames");
-        assertEquals(3, programNames.length());
-        assertEntityRc(response, "ok");
-
-        //Login with user pid-2
+        //Login with user pid-0
         this.response =
             this.restUser.command(this.s2, this.sessionFactoryWrapper.getSession(), mkD("{'cmd':'login';'accountName':'pid-0';'password':'dip-0'}"));
         assertEntityRc(response, "ok");
         assertTrue(this.s2.isUserLoggedIn());
 
-        //Access List of Programs for user pid-2
+        //Share 
+        this.response = this.restProgram.command(this.s1, mkD("{'cmd':'shareP';'userToShare':'pid-0';'programName':'toShare';'right':'WRITE'}"));
+        assertEntityRc(response, "ok");
+
+        //Here we make sure that the share has the right user and the right shared program
+        User owner = userDao.load(s1.getUserId());
+        Program program = programDao.load("toShare", owner);
+        Object[] result1 = getOneResult("select * from USER_PROGRAM");
+        assertEquals(1, getOneInt("select count(*) from USER_PROGRAM"));
+        assertEquals(s2.getUserId(), (int) result1[1]);
+        assertEquals(program.getId(), (int) result1[2]);
+        assertEquals("WRITE", result1[3].toString());
+
+        //Change to read rights 
+        this.response = this.restProgram.command(this.s1, mkD("{'cmd':'shareP';'userToShare':'pid-0';'programName':'toShare';'right':'READ'}"));
+        assertEntityRc(response, "ok");
+        assertEquals(1, getOneInt("select count(*) from USER_PROGRAM"));
+        Object[] result2 = getOneResult("select * from USER_PROGRAM");
+        assertEquals("READ", result2[3].toString());
+
+        //Access List of Programs for user pid-0
         this.response = this.restProgram.command(this.s2, mkD("{'cmd':'loadPN'}"));
+        JSONObject responseObject = (JSONObject) response.getEntity();
+        JSONArray programNames = responseObject.getJSONArray("programNames");
+        JSONArray programInfo = programNames.getJSONArray(programNames.length() - 1);
+        String ownerName = programInfo.getString(1);
+        assertEquals("master", ownerName);
+        assertEntityRc(response, "ok");
+
+        //Access List of Programs for master
+        this.response = this.restProgram.command(this.s1, mkD("{'cmd':'loadPN'}"));
         JSONObject responseObject2 = (JSONObject) response.getEntity();
         JSONArray programNames2 = responseObject2.getJSONArray("programNames");
-        assertEquals(2, programNames2.length());
+        JSONArray programInfo2 = programNames2.getJSONArray(0);
+        JSONArray sharedUsersList2 = programInfo2.getJSONArray(programInfo2.length() - 1);
+        JSONArray sharedUser = sharedUsersList2.getJSONArray(0);
+        String userShared = sharedUser.getString(0);
+        String rigth = sharedUser.getString(1);
+        assertEquals("pid-0", userShared);
+        assertEquals("READ", rigth);
+        assertEntityRc(response, "ok");
+
+        //Eliminate write rights for pair users 
+        this.response = this.restProgram.command(this.s1, mkD("{'cmd':'shareP';'userToShare':'pid-0';'programName':'toShare';'right':'NONE'}"));
+        assertEquals(0, getOneInt("select count(*) from USER_PROGRAM"));
         assertEntityRc(response, "ok");
     }
 
     private int getOneInt(String sqlStmt) {
         return this.memoryDbSetup.getOneInt(sqlStmt);
+    }
+
+    private Object[] getOneResult(String sqlStmt) {
+        return this.memoryDbSetup.getOneResult(sqlStmt);
     }
 }

@@ -38,4 +38,9 @@ public class DbSetup {
         return ((BigInteger) this.dbExecutor.oneValueSelect(sqlStmt)).intValue();
     }
 
+    public Object[] getOneResult(String sqlStmt) {
+
+        Object[] objectArray = (Object[]) this.dbExecutor.oneValueSelect(sqlStmt);
+        return objectArray;
+    }
 }
