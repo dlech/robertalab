@@ -22,7 +22,12 @@
           </value>
         </block>
         <block type="math_change" id="161" inline="true">
-          <field name="VAR">item</field>
+          <value name="VAR">
+        <block type="variables_get" id="69">
+          <mutation datatype="Number"></mutation>
+          <field name="VAR">variablenName</field>
+        </block>
+      </value>
           <value name="DELTA">
             <block type="math_number" id="162">
               <field name="NUM">1</field>

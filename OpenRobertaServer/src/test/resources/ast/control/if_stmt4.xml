@@ -20,7 +20,12 @@
         </value>
         <statement name="DO0">
           <block type="math_change" id="5" inline="true">
-            <field name="VAR">item</field>
+             <value name="VAR">
+        <block type="variables_get" id="69">
+          <mutation datatype="Number"></mutation>
+          <field name="VAR">variablenName</field>
+        </block>
+      </value>
             <value name="DELTA">
               <block type="math_number" id="6">
                 <field name="NUM">1</field>
