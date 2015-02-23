@@ -1,0 +1,20 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="42" y="46">
+    <block type="robControls_start" id="34" deletable="false">
+      <mutation declare="false"></mutation>
+    </block>
+    <block type="controls_repeat" id="23">
+      <field name="TIMES">10</field>
+      <statement name="DO">
+        <block type="robActions_motorDiff_on" id="75" inline="false">
+          <field name="DIRECTION">FOREWARD</field>
+          <value name="POWER">
+            <block type="math_number" id="76">
+              <field name="NUM">50</field>
+            </block>
+          </value>
+        </block>
+      </statement>
+    </block>
+  </instance>
+</block_set>
