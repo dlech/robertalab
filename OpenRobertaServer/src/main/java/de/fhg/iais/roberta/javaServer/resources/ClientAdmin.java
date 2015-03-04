@@ -54,7 +54,7 @@ public class ClientAdmin {
                     LOG.info("success: token " + token + " is registered in the session");
                 } else {
                     Util.addErrorInfo(response, Key.TOKEN_SET_ERROR_NO_ROBOT_WAITING);
-                    LOG.info("error: token " + token + " is not awaited and thus not registered in the session");
+                    LOG.info("error: token " + token + " not registered in the session");
                 }
             } else if ( cmd.equals("loadT") ) {
                 String name = request.getString("name");

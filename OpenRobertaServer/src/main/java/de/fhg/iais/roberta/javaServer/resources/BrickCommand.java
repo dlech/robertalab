@@ -30,6 +30,7 @@ public class BrickCommand {
     private static final String CMD_REGISTER = "register";
     private static final String CMD_PUSH = "push";
     private static final String CMD_REPEAT = "repeat";
+    private static final String CMD_ABORT = "abort";
 
     private final BrickCommunicator brickCommunicator;
 
@@ -68,7 +69,7 @@ public class BrickCommand {
                 LOG.info("/pushcmd - brick sends token " + token + " for registration");
                 BrickCommunicationData state = new BrickCommunicationData(token, macaddr, brickname, batteryvoltage, menuversion, lejosversion);
                 boolean result = this.brickCommunicator.brickWantsTokenToBeApproved(state);
-                response = new JSONObject().put("response", result ? "ok" : "error").put("cmd", CMD_REPEAT);
+                response = new JSONObject().put("response", result ? "ok" : "error").put("cmd", result ? CMD_REPEAT : CMD_ABORT);
                 return Response.ok(response).build();
             case CMD_PUSH:
                 int counter = pushRequestCounterForLogging.incrementAndGet();
