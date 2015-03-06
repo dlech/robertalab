@@ -18,7 +18,7 @@
             <mutation operator_range="BOOL"></mutation>
             <field name="OP">EQ</field>
             <value name="A">
-              <block type="robSensors_getSample" id="37">
+              <block type="robSensors_getSample" id="37" deletable="false" movable="false">
                 <mutation input="TOUCH"></mutation>
                 <field name="SENSORTYPE">TOUCH</field>
                 <field name="SENSORPORT">1</field>
@@ -52,7 +52,7 @@
             <mutation operator_range="NUM"></mutation>
             <field name="OP">LT</field>
             <value name="A">
-              <block type="robSensors_getSample" id="44">
+              <block type="robSensors_getSample" id="44" deletable="false" movable="false">
                 <mutation input="ULTRASONIC_DISTANCE"></mutation>
                 <field name="SENSORTYPE">ULTRASONIC_DISTANCE</field>
                 <field name="SENSORPORT">4</field>
@@ -86,7 +86,7 @@
             <mutation operator_range="BOOL"></mutation>
             <field name="OP">EQ</field>
             <value name="A">
-              <block type="robSensors_getSample" id="47">
+              <block type="robSensors_getSample" id="47" deletable="false" movable="false">
                 <mutation input="ULTRASONIC_PRESENCE"></mutation>
                 <field name="SENSORTYPE">ULTRASONIC_PRESENCE</field>
                 <field name="SENSORPORT">4</field>
@@ -120,7 +120,7 @@
             <mutation operator_range="COLOUR"></mutation>
             <field name="OP">EQ</field>
             <value name="A">
-              <block type="robSensors_getSample" id="50">
+              <block type="robSensors_getSample" id="50" deletable="false" movable="false">
                 <mutation input="COLOUR_COLOUR"></mutation>
                 <field name="SENSORTYPE">COLOUR_COLOUR</field>
                 <field name="SENSORPORT">3</field>
@@ -154,7 +154,7 @@
             <mutation operator_range="NUM"></mutation>
             <field name="OP">LT</field>
             <value name="A">
-              <block type="robSensors_getSample" id="53">
+              <block type="robSensors_getSample" id="53" deletable="false" movable="false">
                 <mutation input="COLOUR_LIGHT"></mutation>
                 <field name="SENSORTYPE">COLOUR_LIGHT</field>
                 <field name="SENSORPORT">3</field>
@@ -188,7 +188,7 @@
             <mutation operator_range="NUM"></mutation>
             <field name="OP">LT</field>
             <value name="A">
-              <block type="robSensors_getSample" id="56">
+              <block type="robSensors_getSample" id="56" deletable="false" movable="false">
                 <mutation input="COLOUR_AMBIENTLIGHT"></mutation>
                 <field name="SENSORTYPE">COLOUR_AMBIENTLIGHT</field>
                 <field name="SENSORPORT">3</field>
@@ -222,7 +222,7 @@
             <mutation operator_range="NUM"></mutation>
             <field name="OP">LT</field>
             <value name="A">
-              <block type="robSensors_getSample" id="64">
+              <block type="robSensors_getSample" id="64" deletable="false" movable="false">
                 <mutation input="INFRARED_DISTANCE"></mutation>
                 <field name="SENSORTYPE">INFRARED_DISTANCE</field>
                 <field name="SENSORPORT">4</field>
@@ -256,7 +256,7 @@
             <mutation operator_range="NUM_REV"></mutation>
             <field name="OP">GT</field>
             <value name="A">
-              <block type="robSensors_getSample" id="67">
+              <block type="robSensors_getSample" id="67" deletable="false" movable="false">
                 <mutation input="ENCODER_ROTATION"></mutation>
                 <field name="SENSORTYPE">ENCODER_ROTATION</field>
                 <field name="MOTORPORT">A</field>
@@ -290,7 +290,7 @@
             <mutation operator_range="NUM_REV"></mutation>
             <field name="OP">GT</field>
             <value name="A">
-              <block type="robSensors_getSample" id="70">
+              <block type="robSensors_getSample" id="70" deletable="false" movable="false">
                 <mutation input="ENCODER_DEGREE"></mutation>
                 <field name="SENSORTYPE">ENCODER_DEGREE</field>
                 <field name="MOTORPORT">A</field>
@@ -324,7 +324,7 @@
             <mutation operator_range="BOOL"></mutation>
             <field name="OP">EQ</field>
             <value name="A">
-              <block type="robSensors_getSample" id="73">
+              <block type="robSensors_getSample" id="73" deletable="false" movable="false">
                 <mutation input="KEYS_PRESSED"></mutation>
                 <field name="SENSORTYPE">KEYS_PRESSED</field>
                 <field name="KEY">ENTER</field>
@@ -358,7 +358,7 @@
             <mutation operator_range="NUM_REV"></mutation>
             <field name="OP">GT</field>
             <value name="A">
-              <block type="robSensors_getSample" id="76">
+              <block type="robSensors_getSample" id="76" deletable="false" movable="false">
                 <mutation input="GYRO_ANGLE"></mutation>
                 <field name="SENSORTYPE">GYRO_ANGLE</field>
                 <field name="SENSORPORT">2</field>
@@ -392,7 +392,7 @@
             <mutation operator_range="NUM_REV"></mutation>
             <field name="OP">GT</field>
             <value name="A">
-              <block type="robSensors_getSample" id="84">
+              <block type="robSensors_getSample" id="84" deletable="false" movable="false">
                 <mutation input="GYRO_RATE"></mutation>
                 <field name="SENSORTYPE">GYRO_RATE</field>
                 <field name="SENSORPORT">2</field>
@@ -426,7 +426,7 @@
             <mutation operator_range="NUM_REV"></mutation>
             <field name="OP">GT</field>
             <value name="A">
-              <block type="robSensors_getSample" id="88">
+              <block type="robSensors_getSample" id="88" deletable="false" movable="false">
                 <mutation input="TIME"></mutation>
                 <field name="SENSORTYPE">TIME</field>
                 <field name="SENSORNUM">1</field>

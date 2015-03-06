@@ -7,12 +7,12 @@
           <field name="LIST_TYPE">Number</field>
           <value name="ADD0">
             <block type="math_number" id="1241" >
-              <field name="NUM">0</field>
+              <field name="NUM">0.1</field>
             </block>
           </value>
           <value name="ADD1">
             <block type="math_number" id="1260" >
-              <field name="NUM">0</field>
+              <field name="NUM">0.0</field>
             </block>
           </value>
           <value name="ADD2">
