@@ -16,6 +16,7 @@ import com.google.inject.Inject;
 
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
+import de.fhg.iais.roberta.jaxb.ConfigurationHelper;
 import de.fhg.iais.roberta.persistence.ConfigurationProcessor;
 import de.fhg.iais.roberta.persistence.bo.Configuration;
 import de.fhg.iais.roberta.persistence.util.DbSession;
@@ -50,13 +51,15 @@ public class ClientConfiguration {
             ConfigurationProcessor cp = new ConfigurationProcessor(dbSession, httpSessionState);
             if ( cmd.equals("saveC") ) {
                 String configurationName = request.getString("name");
-                String configurationText = request.getString("configuration");
+                String configurationXml = request.getString("configuration");
+                String configurationText = ConfigurationHelper.xmlString2textString(configurationName, configurationXml);
                 cp.updateConfiguration(configurationName, userId, configurationText, true);
                 Util.addResultInfo(response, cp);
 
             } else if ( cmd.equals("saveAsC") ) {
                 String configurationName = request.getString("name");
-                String configurationText = request.getString("configuration");
+                String configurationXml = request.getString("configuration");
+                String configurationText = ConfigurationHelper.xmlString2textString(configurationName, configurationXml);
                 cp.updateConfiguration(configurationName, userId, configurationText, false);
                 Util.addResultInfo(response, cp);
 
@@ -64,7 +67,8 @@ public class ClientConfiguration {
                 String configurationName = request.getString("name");
                 Configuration configuration = cp.getConfiguration(configurationName, userId);
                 if ( configuration != null ) {
-                    response.put("data", configuration.getConfigurationText());
+                    String configurationXml = ConfigurationHelper.textString2xmlString(configuration.getConfigurationText());
+                    response.put("data", configurationXml);
                 }
                 Util.addResultInfo(response, cp);
 

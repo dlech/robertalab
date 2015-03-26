@@ -10,14 +10,14 @@
             <value name='S4'>
                 <block id='3' type='robBrick_ultrasonic'/>
             </value>
-            <value name='MB'>
+            <value name='B'>
                 <block id='4' type='robBrick_motor_big'>
                     <field name='MOTOR_REGULATION'>TRUE</field>
                     <field name='MOTOR_REVERSE'>OFF</field>
                     <field name='MOTOR_DRIVE'>RIGHT</field>
                 </block>
             </value>
-            <value name='MC'>
+            <value name='C'>
                 <block id='5' type='robBrick_motor_big'>
                     <field name='MOTOR_REGULATION'>TRUE</field>
                     <field name='MOTOR_REVERSE'>OFF</field>
