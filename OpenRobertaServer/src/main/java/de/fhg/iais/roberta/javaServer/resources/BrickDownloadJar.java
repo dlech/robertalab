@@ -22,6 +22,7 @@ import com.google.inject.name.Named;
 import de.fhg.iais.roberta.brick.BrickCommunicationData;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.dbc.DbcException;
+import de.fhg.iais.roberta.util.AliveData;
 
 /**
  * REST service for downloading user program
@@ -43,6 +44,7 @@ public class BrickDownloadJar {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response handle(JSONObject requestEntity) throws JSONException {
+        AliveData.rememberRobotCall();
         try {
             String token = requestEntity.getString("token");
             LOG.info("/download - request for token " + token);

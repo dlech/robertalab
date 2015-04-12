@@ -18,12 +18,13 @@ import com.google.inject.Inject;
 
 import de.fhg.iais.roberta.brick.BrickCommunicationData;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
+import de.fhg.iais.roberta.util.AliveData;
 
 @Path("/pushcmd")
 public class BrickCommand {
     private static final Logger LOG = LoggerFactory.getLogger(BrickCommand.class);
 
-    private static final int EVERY_REQUEST = 100; // after EVERY_PING many ping requests have arrived, a log entry is written
+    private static final int EVERY_REQUEST = 100; // after EVERY_REQUEST many /pushcmd requests have arrived, a log entry is written
     private static final AtomicInteger pushRequestCounterForLogging = new AtomicInteger(0);
 
     private static final String CMD = "cmd";
@@ -43,7 +44,7 @@ public class BrickCommand {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response handle(JSONObject requestEntity) throws JSONException, InterruptedException {
-        // - {"macaddr":"20-E5-2A-2E-79-E8","cmd":"register","token":"VUUY1O7I","brickname":"Roberta01","lejosversion":"0.9.0-beta","battery":"8.3","menuversion":"1.0.1"}
+        AliveData.rememberRobotCall();
         String cmd = requestEntity.getString(CMD);
         String macaddr = null;
         String token = null;
@@ -75,6 +76,7 @@ public class BrickCommand {
                 int counter = pushRequestCounterForLogging.incrementAndGet();
                 boolean logPush = counter % EVERY_REQUEST == 0;
                 if ( logPush ) {
+                    pushRequestCounterForLogging.set(0);
                     LOG.info("/pushcmd - push request for token " + token + " [count:" + counter + "]");
                 }
                 String command = this.brickCommunicator.brickWaitsForAServerPush(token);

@@ -18,6 +18,7 @@ import de.fhg.iais.roberta.brick.Templates;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.persistence.util.HttpSessionState;
+import de.fhg.iais.roberta.util.AliveData;
 import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Key;
 import de.fhg.iais.roberta.util.Util;
@@ -39,6 +40,7 @@ public class ClientAdmin {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response command(@OraData HttpSessionState httpSessionState, @OraData DbSession dbSession, JSONObject fullRequest) throws Exception {
+        AliveData.rememberClientCall();
         new ClientLogger().log(LOG, fullRequest);
         JSONObject response = new JSONObject();
         try {

@@ -20,6 +20,7 @@ import com.google.inject.name.Named;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.util.HttpSessionState;
+import de.fhg.iais.roberta.util.AliveData;
 import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Util;
 
@@ -43,6 +44,7 @@ public class ClientPing {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response handle(@OraData HttpSessionState httpSessionState, JSONObject fullRequest) throws Exception {
+        AliveData.rememberClientCall();
         int logLen = new ClientLogger().log(LOG, fullRequest);
         int counter = pingCounterForLogging.incrementAndGet();
         if ( counter % EVERY_REQUEST == 0 ) {

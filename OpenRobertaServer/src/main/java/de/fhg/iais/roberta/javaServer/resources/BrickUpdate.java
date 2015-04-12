@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
+import de.fhg.iais.roberta.util.AliveData;
+
 /**
  * REST service for updating brick libraries and menu.<br>
  */
@@ -35,6 +37,7 @@ public class BrickUpdate {
     @Path("/runtime")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getRuntime() throws FileNotFoundException {
+        AliveData.rememberRobotCall();
         LOG.info("/update/runtime called");
         File jar = new File(this.robotUpdateResourcesDir + "/OpenRobertaRuntime.jar");
         ResponseBuilder response = Response.ok(new FileInputStream(jar));
@@ -46,6 +49,7 @@ public class BrickUpdate {
     @Path("/shared")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getShared() throws FileNotFoundException {
+        AliveData.rememberRobotCall();
         LOG.info("/update/shared called");
         File jar = new File(this.robotUpdateResourcesDir + "/OpenRobertaShared.jar");
         ResponseBuilder response = Response.ok(new FileInputStream(jar));
@@ -57,6 +61,7 @@ public class BrickUpdate {
     @Path("/jsonlib")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getJsonLib() throws FileNotFoundException {
+        AliveData.rememberRobotCall();
         LOG.info("/update/jsonlib called");
         File jar = new File(this.robotUpdateResourcesDir + "/json.jar");
         ResponseBuilder response = Response.ok(new FileInputStream(jar));
@@ -68,6 +73,7 @@ public class BrickUpdate {
     @Path("/ev3menu")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getMenu() throws FileNotFoundException {
+        AliveData.rememberRobotCall();
         LOG.info("/update/ev3menu called");
         File jar = new File(this.robotUpdateResourcesDir + "/EV3Menu.jar");
         ResponseBuilder response = Response.ok(new FileInputStream(jar));

@@ -21,6 +21,7 @@ import de.fhg.iais.roberta.persistence.UserProgramProcessor;
 import de.fhg.iais.roberta.persistence.bo.User;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.persistence.util.HttpSessionState;
+import de.fhg.iais.roberta.util.AliveData;
 import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Key;
 import de.fhg.iais.roberta.util.Util;
@@ -40,6 +41,7 @@ public class ClientUser {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response command(@OraData HttpSessionState httpSessionState, @OraData DbSession dbSession, JSONObject fullRequest) throws Exception {
+        AliveData.rememberClientCall();
         new ClientLogger().log(LOG, fullRequest);
         final int userId = httpSessionState.getUserId();
         JSONObject response = new JSONObject();
@@ -64,7 +66,8 @@ public class ClientUser {
                     response.put("userId", id);
                     response.put("userRole", user.getRole());
                     response.put("userAccountName", account);
-                    LOG.info("logon: user {} with id {} logged in", account, id);
+                    LOG.info("login: user {} with id {} logged in", account, id);
+                    AliveData.rememberLogin();
                 }
 
             } else if ( cmd.equals("logout") && httpSessionState.isUserLoggedIn() ) {

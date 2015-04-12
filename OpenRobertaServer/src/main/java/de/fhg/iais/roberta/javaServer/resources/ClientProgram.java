@@ -23,6 +23,7 @@ import de.fhg.iais.roberta.persistence.bo.Program;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.persistence.util.HttpSessionState;
 import de.fhg.iais.roberta.persistence.util.SessionFactoryWrapper;
+import de.fhg.iais.roberta.util.AliveData;
 import de.fhg.iais.roberta.util.ClientLogger;
 import de.fhg.iais.roberta.util.Key;
 import de.fhg.iais.roberta.util.Util;
@@ -46,6 +47,7 @@ public class ClientProgram {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response command(@OraData HttpSessionState httpSessionState, JSONObject fullRequest) throws Exception {
+        AliveData.rememberClientCall();
         new ClientLogger().log(LOG, fullRequest);
         final int userId = httpSessionState.getUserId();
         JSONObject response = new JSONObject();
