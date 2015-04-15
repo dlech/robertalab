@@ -8,7 +8,7 @@
           <field name="VAR">variablenName2</field>
           <field name="TYPE">Connection</field>
           <value name="VALUE">
-            <block type="com_waitForConnection" id="167"></block>
+            <block type="robCommunication_waitForConnection" id="167"></block>
           </value>
         </block>
         <block type="robGlobalvariables_declare" id="193" inline="true" deletable="false" movable="false">
@@ -16,7 +16,7 @@
           <field name="VAR">variablenName</field>
           <field name="TYPE">Connection</field>
           <value name="VALUE">
-            <block type="com_startConnection" id="195" inline="true">
+            <block type="robCommunication_startConnection" id="195" inline="true">
               <value name="ADDRESS">
                 <block type="text" id="211">
                   <field name="TEXT"></field>
@@ -27,7 +27,7 @@
         </block>
       </statement>
     </block>
-    <block type="com_sendBlock" id="217" inline="false">
+    <block type="robCommunication_sendBlock" id="217" inline="false">
       <value name="sendData">
         <block type="text" id="223">
           <field name="TEXT"></field>
@@ -42,7 +42,7 @@
     </block>
     <block type="robActions_display_text" id="173" inline="false">
       <value name="OUT">
-        <block type="com_receiveBlock" id="187" inline="false">
+        <block type="robCommunication_receiveBlock" id="187" inline="false">
           <value name="CONNECTION">
             <block type="variables_get" id="190">
               <mutation datatype="Connection"></mutation>
