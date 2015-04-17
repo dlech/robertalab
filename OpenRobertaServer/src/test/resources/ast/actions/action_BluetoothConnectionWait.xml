@@ -8,7 +8,7 @@
           <field name="VAR">variablenName</field>
           <field name="TYPE">Connection</field>
           <value name="VALUE">
-            <block type="com_waitForConnection" id="120"></block>
+            <block type="robCommunication_waitForConnection" id="120"></block>
           </value>
         </block>
       </statement>

@@ -8,7 +8,7 @@
           <field name="VAR">variablenName2</field>
           <field name="TYPE">Connection</field>
           <value name="VALUE">
-            <block type="com_startConnection" id="129" inline="true">
+            <block type="robCommunication_startConnection" id="129" inline="true">
               <value name="ADDRESS">
                 <block type="text" id="145">
                   <field name="TEXT"></field>
@@ -19,7 +19,7 @@
         </block>
       </statement>
     </block>
-    <block type="com_sendBlock" id="151" inline="false">
+    <block type="robCommunication_sendBlock" id="151" inline="false">
       <value name="sendData">
         <block type="text" id="158">
           <field name="TEXT"></field>
