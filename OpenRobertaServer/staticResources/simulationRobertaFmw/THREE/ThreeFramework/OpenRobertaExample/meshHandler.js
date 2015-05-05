@@ -145,6 +145,7 @@ var group = new THREE.Object3D();
 	bumperGeometry.faces.push(new THREE.Face3(5,7,13)); 
 	bumperGeometry.faces.push(new THREE.Face3(7,13,15)); 
 	bumperGeometry.faces.push(new THREE.Face3(7,14,15)); 
+	
 	bumperGeometry.faces.push(new THREE.Face3(7,6,14)); 
 	
 	
