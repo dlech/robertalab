@@ -17,8 +17,8 @@ import com.google.inject.Inject;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.brick.CompilerWorkflow;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
+import de.fhg.iais.roberta.persistence.AccessRightProcessor;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
-import de.fhg.iais.roberta.persistence.UserProgramProcessor;
 import de.fhg.iais.roberta.persistence.bo.Program;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.persistence.util.HttpSessionState;
@@ -58,18 +58,19 @@ public class ClientProgram {
             LOG.info("command is: " + cmd);
             response.put("cmd", cmd);
             ProgramProcessor pp = new ProgramProcessor(dbSession, httpSessionState);
-            UserProgramProcessor upp = new UserProgramProcessor(dbSession, httpSessionState);
+            AccessRightProcessor upp = new AccessRightProcessor(dbSession, httpSessionState);
 
             if ( cmd.equals("saveP") ) {
                 String programName = request.getString("name");
                 String programText = request.getString("program");
-                pp.updateProgram(programName, userId, programText, true);
+                boolean isShared = request.optBoolean("shared", false);
+                pp.updateProgram(programName, userId, programText, true, !isShared);
                 Util.addResultInfo(response, pp);
 
             } else if ( cmd.equals("saveAsP") ) {
                 String programName = request.getString("name");
                 String programText = request.getString("program");
-                pp.updateProgram(programName, userId, programText, false);
+                pp.updateProgram(programName, userId, programText, true, true);
                 Util.addResultInfo(response, pp);
 
             } else if ( cmd.equals("loadP") && httpSessionState.isUserLoggedIn() ) {

@@ -17,7 +17,7 @@ import com.google.inject.Inject;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.UserProcessor;
-import de.fhg.iais.roberta.persistence.UserProgramProcessor;
+import de.fhg.iais.roberta.persistence.AccessRightProcessor;
 import de.fhg.iais.roberta.persistence.bo.User;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.persistence.util.HttpSessionState;
@@ -51,7 +51,7 @@ public class ClientUser {
             LOG.info("command is: " + cmd);
             response.put("cmd", cmd);
             UserProcessor up = new UserProcessor(dbSession, httpSessionState);
-            UserProgramProcessor upp = new UserProgramProcessor(dbSession, httpSessionState);
+            AccessRightProcessor upp = new AccessRightProcessor(dbSession, httpSessionState);
 
             if ( cmd.equals("login") ) {
                 String userAccountName = request.getString("accountName");
