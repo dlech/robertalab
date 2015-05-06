@@ -17,7 +17,6 @@
         <block type="robBrick_motor_middle" id="5" inline="false" disabled="true">
           <field name="MOTOR_REGULATION">TRUE</field>
           <field name="MOTOR_REVERSE">FOREWARD</field>
-          <field name="MOTOR_DRIVE">NONE</field>
         </block>
       </value>
       <value name="B">

@@ -8,9 +8,8 @@
       </value>
       <value name="A">
         <block type="robBrick_motor_middle" id="3" disabled="true">
-          <field name="MOTOR_REGULATION">TRUE</field>
-          <field name="MOTOR_REVERSE">FOREWARD</field>
-          <field name="MOTOR_DRIVE">NONE</field>
+          <field name="MOTOR_REGULATION">TRUE</field>         
+          <field name="MOTOR_REVERSE">OFF</field>
         </block>
       </value>
     </block>
