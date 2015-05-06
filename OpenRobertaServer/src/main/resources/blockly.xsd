@@ -35,6 +35,7 @@
         <xs:attribute name="inline" type="xs:boolean" use="optional"/>
         <xs:attribute name="collapsed" type="xs:boolean" use="optional"/>        
         <xs:attribute name="disabled" type="xs:boolean" use="optional"/>
+        <xs:attribute name="intask" type="xs:boolean" use="optional"/>
         <xs:attribute name="deletable" type="xs:boolean" use="optional"/>
         <xs:attribute name="movable" type="xs:boolean" use="optional"/>
     </xs:complexType>
