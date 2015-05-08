@@ -79,7 +79,7 @@ public class BrickCommand {
                     pushRequestCounterForLogging.set(0);
                     LOG.info("/pushcmd - push request for token " + token + " [count:" + counter + "]");
                 }
-                String command = this.brickCommunicator.brickWaitsForAServerPush(token);
+                String command = this.brickCommunicator.brickWaitsForAServerPush(token, batteryvoltage);
                 if ( command == null ) {
                     LOG.error("No valid command issued by the server as response to a push command request for token " + token);
                     return Response.serverError().build();
