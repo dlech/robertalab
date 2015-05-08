@@ -1,6 +1,6 @@
 <block_set xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="31" y="21">
-    <block type="robControls_wait_for" id="26" inline="false" disabled="true">
+    <block type="robControls_wait_for" id="26" inline="false">
       <mutation wait="7"></mutation>
       <repetitions>
         <value name="WAIT0">
@@ -166,10 +166,10 @@
           </block>
         </statement>
         <value name="WAIT6">
-          <block type="logic_compare" id="49" inline="true" disabled="true">
+          <block type="logic_compare" id="49" inline="true">
             <field name="OP">LT</field>
             <value name="A">
-              <block type="robSensors_getSample" id="50" disabled="true">
+              <block type="robSensors_getSample" id="50">
                 <mutation input="INFRARED_DISTANCE"></mutation>
                 <field name="SENSORTYPE">INFRARED_DISTANCE</field>
                 <field name="SENSORPORT">4</field>
