@@ -175,7 +175,7 @@ function instanceMeshes(){
                  ]; 
 				*/ // seems no supported
 				 playgroundGeometry = new THREE.Geometry(); 
-                playgroundGeometry.vertices.push(new THREE.Vector3(-6,  6, 0.0));   // we should change the camera position as well with the new location of pg
+                playgroundGeometry.vertices.push(new THREE.Vector3(-6,  6, 0.0)); 
                 playgroundGeometry.vertices.push(new THREE.Vector3( 6, 6, 0.0)); 
                 playgroundGeometry.vertices.push(new THREE.Vector3( 6, -6, 0.0)); 
                 playgroundGeometry.vertices.push(new THREE.Vector3(-6, -6, 0.0)); 

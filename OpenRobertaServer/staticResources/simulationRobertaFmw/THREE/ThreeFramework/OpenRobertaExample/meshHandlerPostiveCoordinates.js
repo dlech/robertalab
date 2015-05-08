@@ -175,10 +175,10 @@ function instanceMeshes(){
                  ]; 
 				*/ // seems no supported
 				 playgroundGeometry = new THREE.Geometry(); 
-                playgroundGeometry.vertices.push(new THREE.Vector3(-6,  6, 0.0));   // we should change the camera position as well with the new location of pg
-                playgroundGeometry.vertices.push(new THREE.Vector3( 6, 6, 0.0)); 
-                playgroundGeometry.vertices.push(new THREE.Vector3( 6, -6, 0.0)); 
-                playgroundGeometry.vertices.push(new THREE.Vector3(-6, -6, 0.0)); 
+                playgroundGeometry.vertices.push(new THREE.Vector3(0,  12, 0.0));   // we should change the camera position as well with the new location of pg
+                playgroundGeometry.vertices.push(new THREE.Vector3( 12, 12, 0.0)); 
+                playgroundGeometry.vertices.push(new THREE.Vector3( 12, 0, 0.0)); 
+                playgroundGeometry.vertices.push(new THREE.Vector3(0, 0, 0.0)); 
                 playgroundGeometry.faces.push(new THREE.Face3(0, 1, 2)); 
                 playgroundGeometry.faces.push(new THREE.Face3(0, 2, 3));
 				
@@ -267,10 +267,10 @@ function instanceMeshes(){
 				
 				
 				playgroundMesh = new THREE.Mesh(playgroundGeometry, playMaterial); 
-                playgroundMesh.position.set(0, 0.0, -1.5); 
+                playgroundMesh.position.set(0, 0.0, 0); // change from -1.5 to 0  on z axes 
 				
 				obstacleShepereMesh = new THREE.Mesh(obstacleSphereGeo, sphereMaterial) ;
-				obstacleShepereMesh.position.set(3,4,0)
+				obstacleShepereMesh.position.set(9,10,1) // change form 3,4, 0 to 9, 10 , 1. The z value is one because Sphere's ratio is one as well.
 				
 				
 				octoedroMesh = new THREE.Mesh(longboxGeometry, longBoxMaterial);
