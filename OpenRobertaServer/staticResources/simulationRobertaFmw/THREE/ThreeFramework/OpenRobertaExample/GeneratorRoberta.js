@@ -21,6 +21,8 @@ var ROTATION_Z_INDEX = 5 ;
 var NO_COLOR = "NONE" ;
 
 
+var DISTANCE_BTW_WHEELS = 13.5 ;
+var WHEEL_RADIOS = 2.8  ;
 
 function applyWheelRotationX(novaPosition ){
  
