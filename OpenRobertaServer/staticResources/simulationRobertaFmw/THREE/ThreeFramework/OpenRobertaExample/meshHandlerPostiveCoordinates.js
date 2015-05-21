@@ -27,10 +27,10 @@ function instanceMeshes(){
 	
 	//group = new THREE.Object3D();
 	squareGeometry = new THREE.Geometry(); 
-	squareGeometry.vertices.push(new THREE.Vector3(-.5,  0.5, 0.0)); 
-	squareGeometry.vertices.push(new THREE.Vector3( .5, 0.5, 0.0)); 
-	squareGeometry.vertices.push(new THREE.Vector3( .5, -0.5, 0.0)); 
-	squareGeometry.vertices.push(new THREE.Vector3(-.5, -0.5, 0.0)); 
+	squareGeometry.vertices.push(new THREE.Vector3(0,  1, 0.0)); // change from -.5,  0.5, 0.0 to  0,1,0 in order to keep positive values 
+	squareGeometry.vertices.push(new THREE.Vector3( 1, 1, 0.0)); // change from .5,  0.5, 0.0 to  1,1,0  
+	squareGeometry.vertices.push(new THREE.Vector3( 1, 0, 0.0)); // change from .5, - 0.5, 0.0 to  1,0,0 
+	squareGeometry.vertices.push(new THREE.Vector3( 0, 0, 0.0)); // change from -.5, - 0.5, 0.0 to  0,0,0 
 	squareGeometry.faces.push(new THREE.Face3(0, 1, 2)); 
 	squareGeometry.faces.push(new THREE.Face3(0, 2, 3)); 
 	 
@@ -158,7 +158,7 @@ function instanceMeshes(){
 	
 	
 				
-				var skyBoxGeometry = new THREE.BoxGeometry( 1,2, 1 );
+				var skyBoxGeometry = new THREE.BoxGeometry( 1,1, 1 );
 				var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x00FF00, side:THREE.DoubleSide } );
 				
 				
@@ -242,27 +242,27 @@ function instanceMeshes(){
 				var material = new THREE.LineBasicMaterial( { color : 0x000000,  linewidth: 9} ); 
 				curveObject = new THREE.Line( geometry, material );
                 
-				curveObject.position.set(-.4,0,.001)
+				curveObject.position.set(6,6,.001)//  change from  -.4,0,.001 to 6,6, .001
 				
                 squareMesh = new THREE.Mesh(squareGeometry, squareMaterial); 
-                squareMesh.position.set(0, 0.0, 0.0); 
+                squareMesh.position.set(-.5, -.5, 1); // change from  -.5.-.5, 0 to -.5.-.5, 1
                 
 				
 				
 				
 				lightSensoMesh = new THREE.Mesh(ligthSensoGeo,ligthSensoMat) ;
 				//lightSensoMesh.position.set(.5625,0,-0.0625) ; optimal one 20 april 2015 , 17 hrs
-				lightSensoMesh.position.set(0,0,-0.0625) ;
+				lightSensoMesh.position.set(0,0,.9375) ;// change from 0,0,-0.0625 to 0., 0, .9375 = (1 - -0.0625)
 				
 				
 				
 				
 				skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
-				skyBox.position.set(0, -.5 ,-.5);  //to modify in positive values 
+				skyBox.position.set(2,1 ,0);  //to modify in positive values, change from  0, -.5 ,-.5 to  2,1,0
 				
 				
 				bumperMesh = new THREE.Mesh(bumperGeometry,bumperMat) ;
-				bumperMesh.position.set(.625,0,-.2) ;
+				bumperMesh.position.set(.625,0,.6) ; 
 				
 				
 				
@@ -270,9 +270,10 @@ function instanceMeshes(){
                 playgroundMesh.position.set(0, 0.0, 0); // change from -1.5 to 0  on z axes 
 				
 				obstacleShepereMesh = new THREE.Mesh(obstacleSphereGeo, sphereMaterial) ;
-				obstacleShepereMesh.position.set(9,10,1) // change form 3,4, 0 to 9, 10 , 1. The z value is one because Sphere's ratio is one as well.
+				obstacleShepereMesh.position.set(4,6,1) // change form 3,4, 0 to 8, 10 , 1. 
+				//The z value is one because Sphere's ratio is one as well.
 				
 				
 				octoedroMesh = new THREE.Mesh(longboxGeometry, longBoxMaterial);
-				octoedroMesh.position.set(-4,-3,0);
+				octoedroMesh.position.set(6,7,.5); // change form -4,-3, 0 to 5, 7 , .5.
 }	

@@ -22,7 +22,9 @@
 		  <!script src = "http://threejs.org/build/three.min.js"></script>
 		<!script src = "Detector.js"></script> <! one can ask this condition on the site face as well.>
 		<script src = "GeneratorRoberta.js"></script>
-		<script src = "meshHandler.js"></script>
+		<!script src = "meshHandler.js"></script>
+		<script src = "meshHandlerPostiveCoordinates.js"></script>
+		<script src = "robotMotionHandler.js"></script>
 		<script src="../build/three.min.js"></script>
 
 		<script src="js/renderers/Projector.js"></script>
@@ -125,24 +127,25 @@
 				
 				// taking cube example the new camera configuration is settled 
 				camera = new THREE.PerspectiveCamera( 50,  window.innerWidth / window.innerHeight, 1, 1000 );
-				camera.position.y = 0;
-				camera.position.x = 0;
+				camera.position.y = 6;
+				camera.position.x = 6;
 				camera.position.z = 14;
+				//camera.rotation.y = .90 ;
 				scene.add(camera); 
   
               
 				
 				instanceMeshes(); // calling for meshHandler a method which instances the meshes with their materials and properties.
-				group.position.set(-3,+1,-.5);
+				group.position.set(0,6,0); // change from -3, 1, -.5 to 0,6,0 to keep positive values 
 				
 				var cloneCube = octoedroMesh.clone();
-				cloneCube.position.set(2,-1.5,1);
+				cloneCube.position.set(3,5.5,.5);// change from 2, -1.5, 1 to 8,5.5,.5to keep positive values
 				
 				playgroundMesh.add(curveObject);
 				playgroundMesh.add(obstacleShepereMesh);
 				playgroundMesh.add(octoedroMesh);
-				playgroundMesh.add(cloneCube);
-				
+				//playgroundMesh.add(cloneCube); This time it is not required 
+ 				
 				scene.add(playgroundMesh);
 				
 				scene.add(skyBox);
@@ -161,7 +164,7 @@
 					// collidable list objects 	
 					collidableMeshList.push(obstacleShepereMesh);
 					collidableMeshList.push(skyBox);
-					collidableMeshList.push(cloneCube);
+					//collidableMeshList.push(cloneCube); This example does not need this figure 
 					collidableMeshList.push(octoedroMesh);
 					
 					colorReadableMeshList.push(curveObject);

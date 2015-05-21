@@ -9,14 +9,15 @@ var deltaX  ;
 var deltaY   ;
 var rightSpdPerFrame ;
 var leftSpdPerFrame ;
-var AVERAGE_FPS;
+var AVERAGE_FPS = 35;
 var DEG_BY_VOLT_SECOND = 1000 ;
+var robotMotionValues = [] ;
 
 
 function calculateTheta(){
 	
 	//if(CURRENT_MEASURE == "Degree"){
-		rightSpdPerFrame = rightMotorSpeed*VOLTAGE_LEVEL*DEG_BY_VOLT_SECOND/AVERAGE_FPS  ;// Warning can the sin and cos should be for 
+		rightSpdPerFrame = rightMotorSpeed*VOLTAGE_LEVEL*DEG_BY_VOLT_SECOND/AVERAGE_FPS  ;// Warning  the sin and cos should be for 
 																							//Degree format otherwise it should be translated to radians
 		leftSpdPerFrame = leftMotorSpeed*VOLTAGE_LEVEL*DEG_BY_VOLT_SECOND/AVERAGE_FPS	;
 		theta = WHEEL_RATIO/DISTANCE_BTW_WHEELS*(rightSpdPerFrame-leftSpdPerFrame) ;
@@ -24,10 +25,7 @@ function calculateTheta(){
 		
 		//rightSpdPerFrame = rightMotorSpeed*VOLTAGE_LEVEL*1000/avgFPS
 	//}
-		
-	
-	
-	
+
 }
 
 
@@ -48,5 +46,24 @@ function calculateDeltaY(){
 	
 	deltaY = WHEEL_RATIO/2*(rightSpdPerFrame+leftSpdPerFrame)*Math.sin(theta) ;  // + instead - 
 	
+	
+}
+
+
+function getRobotMotion( robertaOutPut) {
+	
+	rightMotorSpeed =  robertaOutPut[0];
+	leftMotorSpeed =  robertaOutPut[1];
+	
+	calculateTheta() ;
+	calculateDeltaX() ;
+	calculateDeltaY();
+	
+	robotMotionValues[0] = theta ;
+	robotMotionValues[1] = deltaX ;
+	robotMotionValues[2] = deltaY;
+	
+	
+	return robotMotionValues ;
 	
 }

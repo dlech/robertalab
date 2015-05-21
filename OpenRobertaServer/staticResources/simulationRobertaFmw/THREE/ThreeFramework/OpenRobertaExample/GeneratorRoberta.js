@@ -2,7 +2,7 @@
 var meterCounter = 0 ;
 var specialSituationCounter = 0 ;
 var specialDistance = .5 ; 
-var GOAL_DISTANCE = 6 ;
+var GOAL_DISTANCE = 8 ;
 var rotationRobot = 0 ;
 var speedRotation = .002 ;// change from .001 to .002 
 var motorRotation = 20 ;
