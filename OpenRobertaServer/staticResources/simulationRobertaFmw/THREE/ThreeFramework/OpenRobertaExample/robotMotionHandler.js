@@ -4,13 +4,13 @@ var WHEEL_RATIO  = 2.8;
 var theta ;
 var DISTANCE_BTW_WHEELS = 13.5;
 var CURRENT_MEASURE = "Degree" ;
-var VOLTAGE_LEVEL = 10;
+var VOLTAGE_LEVEL = 8;
 var deltaX  ;
 var deltaY   ;
 var rightSpdPerFrame ;
 var leftSpdPerFrame ;
 var AVERAGE_FPS = 35;
-var DEG_BY_VOLT_SECOND = 1000 ;
+var DEG_BY_VOLT_SECOND = 1000 ;// Data taken from LEJOS  Documentation
 var robotMotionValues = [] ;
 
 
