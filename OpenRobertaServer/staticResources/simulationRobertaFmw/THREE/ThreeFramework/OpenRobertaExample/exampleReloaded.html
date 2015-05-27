@@ -88,7 +88,7 @@
               // update the rotation values and call 'renderScene()' in a loop. 
    
               // Animate the scene 
-              animateScene(); 
+              animateScene(new Date().getTime()); // adding new Timer  NewDate on 26Mai
    
               /** 
                * Initialze the scene. 
@@ -129,7 +129,7 @@
 				camera = new THREE.PerspectiveCamera( 50,  window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.y = 6;
 				camera.position.x = 6;
-				camera.position.z = 14;
+				camera.position.z = 30;
 				//camera.rotation.y = .90 ;
 				scene.add(camera); 
   
@@ -182,7 +182,7 @@
              /** 
               * Animate the scene and call rendering. 
               */ 
-             function animateScene(){ 
+             function animateScene(t){  // adding time t 26mai 
               
 				renderScene(); 		
 				
@@ -231,10 +231,12 @@
 				gatherInputData();	
 				transformBrick(setInputValuesRoboterta(inpoutValuesRobot)) ; // calling Open Roberta Generator.
 				
-                requestAnimationFrame(animateScene); 
+				//transformBrick(getRobotMotion(setInputValuesRoboterta(inpoutValuesRobot)));
+                
+				requestAnimationFrame(animateScene, renderer.domElement); 
 				//console.log();
                  // Map the 3D scene down to the 2D screen (render the frame) 
-                // renderScene(); 
+                //renderScene(); 
 				stats.update();
              } 
   
@@ -250,9 +252,12 @@
 			 
 				//inpoutValuesRobot = valuesBrick;
 				group.position.x += valuesBrick[POSITION_X_INDEX] ;
+					//group.position.x += valuesBrick[DELTA_X_INDEX];
 				//group.position.y += valuesBrick[POSITION_Y_INDEX] ;
-				if(valuesBrick[ROTATION_Z_INDEX]>0){
+					//group.position.y += valuesBrick[DELTA_Y_INDEX] ;
+				if(valuesBrick[ROTATION_Z_INDEX]>0){ // change from ROTATION_Z_INDEX to THETA_INDEX because it comes from robotMotionHandler instead GeneratorRoberta
 				
+					//group.rotation.z += valuesBrick[ROTATION_Z_INDEX] ;
 					group.rotation.z += valuesBrick[ROTATION_Z_INDEX] ;
 				}else{
 					group.rotation.z = 0;

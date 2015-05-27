@@ -242,7 +242,7 @@ function instanceMeshes(){
 				var material = new THREE.LineBasicMaterial( { color : 0x000000,  linewidth: 9} ); 
 				curveObject = new THREE.Line( geometry, material );
                 
-				curveObject.position.set(6,6,.001)//  change from  -.4,0,.001 to 6,6, .001
+				curveObject.position.set(6,9,.001)//  change from  -.4,0,.001 to 6,6, .001, latest y = 2
 				
                 squareMesh = new THREE.Mesh(squareGeometry, squareMaterial); 
                 squareMesh.position.set(-.5, -.5, 1); // change from  -.5.-.5, 0 to -.5.-.5, 1

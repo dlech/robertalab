@@ -2,7 +2,7 @@
 var meterCounter = 0 ;
 var specialSituationCounter = 0 ;
 var specialDistance = .5 ; 
-var GOAL_DISTANCE = 8 ;
+var GOAL_DISTANCE = 8 ;// change from 8 to 2 
 var rotationRobot = 0 ;
 var speedRotation = .002 ;// change from .001 to .002 
 var motorRotation = 20 ;
@@ -18,7 +18,18 @@ var COLLISION_FLAG_INDEX =  2;
 var LIGHT_COLOR_FLAG_INDEX = 3 ;
 var LIGHT_COLOR_INDEX = 4 ;
 var ROTATION_Z_INDEX = 5 ;
+var RIGHT_MOTOR_SPD_INDEX =  6 ;
+var LEFT_MOTOR_SPD_INDEX =  7  ;
+
+//New indexes
+var DELTA_X_INDEX = 1 ;
+var DELTA_Y_INDEX =  2;
+var THETA_INDEX = 0 ;
+
+
+//Constants Strings
 var NO_COLOR = "NONE" ;
+
 
 
 var DISTANCE_BTW_WHEELS = 13.5 ;
@@ -70,7 +81,7 @@ function setInputValuesRoboterta(arguments){
 	inputBot = arguments;
 	readColor();
 	applyWheelRotationX(inputBot[POSITION_X_INDEX] );
-	
+	//runCircularFinder(inputBot[POSITION_X_INDEX]) ;
 	
 	return outPutBot ;
 	
@@ -118,12 +129,14 @@ function readColor(){
 			
 			
 		}
+		//return  inputBot[LIGHT_COLOR_INDEX]
 	}else{
 		outPutBot[LIGHT_COLOR_FLAG_INDEX] = false ;
 		outPutBot[ROTATION_Z_INDEX]= 0 ; 
 	
 		
 	}
+	//return NO_COLOR ;
 	
 }
 
@@ -217,6 +230,42 @@ function  applyMovemment(){
 	
 }
 
-
+function runCircularFinder(novaPosition){
+	
+	 var rightMotorSpeed ;
+	 var leftMotorSpeed ;
+	 
+	 meterCounter += Math.abs(novaPosition - botValues[POSITION_X_INDEX]);// diff btw old and new x position  
+	if(isNaN(meterCounter))
+	{
+	 
+		meterCounter =  0 ;
+	
+	 
+	}
+ 
+	botValues[POSITION_X_INDEX] = novaPosition;
+	if(meterCounter< GOAL_DISTANCE){
+		rightMotorSpeed = .5 ;
+		leftMotorSpeed = .5;
+	 
+	}else{
+		if(inputBot[LIGHT_COLOR_INDEX] != "000000")
+		{
+			rightMotorSpeed = .3;
+			leftMotorSpeed = .5;
+		}else{
+			rightMotorSpeed = 0 ;
+			leftMotorSpeed = 0;
+		}
+	
+		
+	}
+  
+	outPutBot[RIGHT_MOTOR_SPD_INDEX]= rightMotorSpeed; 
+	outPutBot[LEFT_MOTOR_SPD_INDEX]= leftMotorSpeed; 
+	
+	//return outPutBot ;
+}
 
 
