@@ -98,6 +98,12 @@ public class ClientProgram {
                 response.put("programNames", programInfo);
                 Util.addResultInfo(response, pp);
 
+            } else if ( cmd.equals("loadPR") && httpSessionState.isUserLoggedIn() ) {
+                String programName = request.getString("name");
+                JSONArray relations = pp.getProgramRelations(programName, userId);
+                response.put("relations", relations);
+                Util.addResultInfo(response, pp);
+
             } else if ( cmd.equals("runP") ) {
                 String token = httpSessionState.getToken();
                 String programName = request.getString("name");
