@@ -2,7 +2,7 @@
 var meterCounter = 0 ;
 var specialSituationCounter = 0 ;
 var specialDistance = .5 ; 
-var GOAL_DISTANCE = 8 ;// change from 8 to 2 
+var GOAL_DISTANCE = 5 ;// change from 8 to 5 
 var rotationRobot = 0 ;
 var speedRotation = .002 ;// change from .001 to .002 
 var motorRotation = 20 ;
@@ -25,6 +25,7 @@ var LEFT_MOTOR_SPD_INDEX =  7  ;
 var DELTA_X_INDEX = 1 ;
 var DELTA_Y_INDEX =  2;
 var THETA_INDEX = 0 ;
+//var TIME_DELTA_INDEX = 4 ;
 
 
 //Constants Strings
@@ -79,9 +80,9 @@ function getRandomInt(min, max) {
 
 function setInputValuesRoboterta(arguments){
 	inputBot = arguments;
-	readColor();
-	applyWheelRotationX(inputBot[POSITION_X_INDEX] );
-	//runCircularFinder(inputBot[POSITION_X_INDEX]) ;
+	//readColor();
+	//applyWheelRotationX(inputBot[POSITION_X_INDEX] );
+	runCircularFinder(inputBot[POSITION_X_INDEX]) ;
 	
 	return outPutBot ;
 	
@@ -252,11 +253,11 @@ function runCircularFinder(novaPosition){
 	}else{
 		if(inputBot[LIGHT_COLOR_INDEX] != "000000")
 		{
-			rightMotorSpeed = .3;
-			leftMotorSpeed = .5;
+			rightMotorSpeed = .8;
+			leftMotorSpeed = .9;
 		}else{
-			rightMotorSpeed = 0 ;
-			leftMotorSpeed = 0;
+			rightMotorSpeed = .9 ;
+			leftMotorSpeed = 0.8;
 		}
 	
 		
