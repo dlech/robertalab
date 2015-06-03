@@ -14,8 +14,12 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
+import de.fhg.iais.roberta.ast.hardwarecheck.UsedPortsCheckVisitor;
+import de.fhg.iais.roberta.ast.transformer.JaxbBlocklyProgramTransformer;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.brick.CompilerWorkflow;
+import de.fhg.iais.roberta.codegen.lejos.Helper;
+import de.fhg.iais.roberta.ev3.EV3BrickConfiguration;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.persistence.AccessRightProcessor;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
@@ -80,6 +84,30 @@ public class ClientProgram {
                     response.put("data", program.getProgramText());
                 }
                 Util.addResultInfo(response, pp);
+            } else if ( cmd.equals("checkP") ) {
+                String programText = request.optString("programText");
+                String configurationText = request.optString("configurationText");
+
+                JaxbBlocklyProgramTransformer<Void> programTransformer = null;
+                try {
+                    programTransformer = Helper.generateProgramTransformer(programText);
+                } catch ( Exception e ) {
+                    LOG.error("Transformer failed", e);
+                    //return Key.COMPILERWORKFLOW_ERROR_PROGRAM_TRANSFORM_FAILED;
+                }
+                EV3BrickConfiguration brickConfiguration = null;
+                try {
+                    brickConfiguration = (EV3BrickConfiguration) Helper.generateConfiguration(configurationText);
+                } catch ( Exception e ) {
+                    LOG.error("Generation of the configuration failed", e);
+                    //return Key.COMPILERWORKFLOW_ERROR_CONFIGURATION_TRANSFORM_FAILED;
+                }
+
+                UsedPortsCheckVisitor programChecker = new UsedPortsCheckVisitor(brickConfiguration);
+                int errorCounter = programChecker.check(programTransformer.getTree());
+                response.put("data", Helper.jaxbToXml(Helper.astToJaxb(programChecker.getCheckedProgram())));
+                response.put("errorCounter", errorCounter);
+                Util.addSuccessInfo(response, Key.ROBOT_PUSH_RUN);
 
             } else if ( cmd.equals("shareP") && httpSessionState.isUserLoggedIn() ) {
                 String programName = request.getString("programName");
