@@ -106,7 +106,7 @@ public class ClientProgram {
                 int errorCounter = programChecker.check(programTransformer.getTree());
                 response.put("data", Helper.jaxbToXml(Helper.astToJaxb(programChecker.getCheckedProgram())));
                 response.put("errorCounter", errorCounter);
-                Util.addResultInfo(response, pp);
+                Util.addSuccessInfo(response, Key.ROBOT_PUSH_RUN);
 
             } else if ( cmd.equals("shareP") && httpSessionState.isUserLoggedIn() ) {
                 String programName = request.getString("programName");
