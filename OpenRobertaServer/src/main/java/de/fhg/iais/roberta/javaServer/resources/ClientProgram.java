@@ -1,11 +1,17 @@
 package de.fhg.iais.roberta.javaServer.resources;
 
+import java.io.StringWriter;
+import java.util.ArrayList;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
@@ -15,12 +21,19 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import de.fhg.iais.roberta.ast.hardwarecheck.UsedPortsCheckVisitor;
+import de.fhg.iais.roberta.ast.syntax.Phrase;
+import de.fhg.iais.roberta.ast.syntax.Phrase.Kind;
+import de.fhg.iais.roberta.ast.syntax.tasks.Location;
 import de.fhg.iais.roberta.ast.transformer.JaxbBlocklyProgramTransformer;
+import de.fhg.iais.roberta.ast.transformer.JaxbBrickConfigTransformer;
+import de.fhg.iais.roberta.blockly.generated.BlockSet;
+import de.fhg.iais.roberta.blockly.generated.Instance;
 import de.fhg.iais.roberta.brick.BrickCommunicator;
 import de.fhg.iais.roberta.brick.CompilerWorkflow;
-import de.fhg.iais.roberta.codegen.lejos.Helper;
+import de.fhg.iais.roberta.brickconfiguration.BrickConfiguration;
 import de.fhg.iais.roberta.ev3.EV3BrickConfiguration;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
+import de.fhg.iais.roberta.jaxb.JaxbHelper;
 import de.fhg.iais.roberta.persistence.AccessRightProcessor;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
 import de.fhg.iais.roberta.persistence.bo.Program;
@@ -90,14 +103,14 @@ public class ClientProgram {
 
                 JaxbBlocklyProgramTransformer<Void> programTransformer = null;
                 try {
-                    programTransformer = Helper.generateProgramTransformer(programText);
+                    programTransformer = generateProgramTransformer(programText);
                 } catch ( Exception e ) {
                     LOG.error("Transformer failed", e);
                     //return Key.COMPILERWORKFLOW_ERROR_PROGRAM_TRANSFORM_FAILED;
                 }
                 EV3BrickConfiguration brickConfiguration = null;
                 try {
-                    brickConfiguration = (EV3BrickConfiguration) Helper.generateConfiguration(configurationText);
+                    brickConfiguration = (EV3BrickConfiguration) generateConfiguration(configurationText);
                 } catch ( Exception e ) {
                     LOG.error("Generation of the configuration failed", e);
                     //return Key.COMPILERWORKFLOW_ERROR_CONFIGURATION_TRANSFORM_FAILED;
@@ -105,7 +118,7 @@ public class ClientProgram {
 
                 UsedPortsCheckVisitor programChecker = new UsedPortsCheckVisitor(brickConfiguration);
                 int errorCounter = programChecker.check(programTransformer.getTree());
-                response.put("data", Helper.jaxbToXml(Helper.astToJaxb(programChecker.getCheckedProgram())));
+                response.put("data", jaxbToXml(astToJaxb(programChecker.getCheckedProgram())));
                 response.put("errorCounter", errorCounter);
                 Util.addSuccessInfo(response, Key.ROBOT_PUSH_RUN);
 
@@ -171,5 +184,60 @@ public class ClientProgram {
         }
         Util.addFrontendInfo(response, httpSessionState, this.brickCommunicator);
         return Response.ok(response).build();
+    }
+
+    /**
+     * return the brick configuration for given XML configuration text.
+     *
+     * @param blocklyXml the configuration XML as String
+     * @return brick configuration
+     * @throws Exception
+     */
+    private BrickConfiguration generateConfiguration(String blocklyXml) throws Exception {
+        BlockSet project = JaxbHelper.xml2BlockSet(blocklyXml);
+        JaxbBrickConfigTransformer transformer = new JaxbBrickConfigTransformer();
+        return transformer.transform(project);
+    }
+
+    /**
+     * return the jaxb transformer for a given XML program text.
+     *
+     * @param blocklyXml the program XML as String
+     * @return jaxb the transformer
+     * @throws Exception
+     */
+    public static JaxbBlocklyProgramTransformer<Void> generateProgramTransformer(String blocklyXml) throws Exception {
+        BlockSet project = JaxbHelper.xml2BlockSet(blocklyXml);
+        JaxbBlocklyProgramTransformer<Void> transformer = new JaxbBlocklyProgramTransformer<>();
+        transformer.transform(project);
+        return transformer;
+    }
+
+    public static String jaxbToXml(BlockSet blockSet) throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(BlockSet.class);
+        Marshaller m = jaxbContext.createMarshaller();
+        m.setProperty(Marshaller.JAXB_FRAGMENT, true);
+        StringWriter writer = new StringWriter();
+        m.marshal(blockSet, writer);
+        return writer.toString();
+    }
+
+    public static BlockSet astToJaxb(ArrayList<ArrayList<Phrase<Void>>> astProgram) {
+        BlockSet blockSet = new BlockSet();
+
+        Instance instance = null;
+        for ( ArrayList<Phrase<Void>> tree : astProgram ) {
+            for ( Phrase<Void> phrase : tree ) {
+                if ( phrase.getKind() == Kind.LOCATION ) {
+                    blockSet.getInstance().add(instance);
+                    instance = new Instance();
+                    instance.setX(((Location<Void>) phrase).getX());
+                    instance.setY(((Location<Void>) phrase).getY());
+                }
+                instance.getBlock().add(phrase.astToBlock());
+            }
+        }
+        blockSet.getInstance().add(instance);
+        return blockSet;
     }
 }
