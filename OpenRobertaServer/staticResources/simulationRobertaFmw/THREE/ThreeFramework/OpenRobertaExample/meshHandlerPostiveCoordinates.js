@@ -242,7 +242,7 @@ function instanceMeshes(){
 				var material = new THREE.LineBasicMaterial( { color : 0x000000,  linewidth: 9} ); 
 				curveObject = new THREE.Line( geometry, material );
                 
-				curveObject.position.set(6,6,.001)//  change from  -.4,0,.001 to 6,6, .001, latest y = 2
+				curveObject.position.set(6,13,.001)//  change from  -.4,0,.001 to 6,&, .001, latest y = 13
 				
                 squareMesh = new THREE.Mesh(squareGeometry, squareMaterial); 
                 squareMesh.position.set(-.5, -.5, 1); // change from  -.5.-.5, 0 to -.5.-.5, 1
@@ -270,7 +270,7 @@ function instanceMeshes(){
                 playgroundMesh.position.set(0, 0.0, 0); // change from -1.5 to 0  on z axes 
 				
 				obstacleShepereMesh = new THREE.Mesh(obstacleSphereGeo, sphereMaterial) ;
-				obstacleShepereMesh.position.set(4,8,1) // change form 3,4, 0 to 4, 8 , 1. 
+				obstacleShepereMesh.position.set(4,10,1) // change form 3,4, 0 to 4, 10 , 1. 
 				//The z value is one because Sphere's ratio is one as well.
 				
 				

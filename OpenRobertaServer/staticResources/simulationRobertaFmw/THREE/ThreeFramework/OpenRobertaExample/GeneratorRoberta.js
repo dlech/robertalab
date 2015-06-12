@@ -2,7 +2,7 @@
 var meterCounter = 0 ;
 var specialSituationCounter = 0 ;
 var specialDistance = .5 ; 
-var GOAL_DISTANCE = 5 ;// change from 8 to 5 
+var GOAL_DISTANCE = 5 ;// change from 8 to 3
 var rotationRobot = 0 ;
 var speedRotation = .002 ;// change from .001 to .002 
 var motorRotation = 20 ;
@@ -247,14 +247,14 @@ function runCircularFinder(novaPosition){
  
 	botValues[POSITION_X_INDEX] = novaPosition;
 	if(meterCounter< GOAL_DISTANCE){
-		rightMotorSpeed = .5 ;
+		rightMotorSpeed = 0.5 ;
 		leftMotorSpeed = .5;
 	 
 	}else{
 		if(inputBot[LIGHT_COLOR_INDEX] != "000000")
 		{
-			rightMotorSpeed = .8;
-			leftMotorSpeed = .9;
+			rightMotorSpeed = 0.2;
+			leftMotorSpeed = 0.5;
 		}else{
 			rightMotorSpeed = .9 ;
 			leftMotorSpeed = 0.8;
