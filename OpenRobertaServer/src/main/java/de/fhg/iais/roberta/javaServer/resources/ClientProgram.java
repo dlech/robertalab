@@ -36,7 +36,9 @@ import de.fhg.iais.roberta.javaServer.provider.OraData;
 import de.fhg.iais.roberta.jaxb.JaxbHelper;
 import de.fhg.iais.roberta.persistence.AccessRightProcessor;
 import de.fhg.iais.roberta.persistence.ProgramProcessor;
+import de.fhg.iais.roberta.persistence.UserProcessor;
 import de.fhg.iais.roberta.persistence.bo.Program;
+import de.fhg.iais.roberta.persistence.bo.User;
 import de.fhg.iais.roberta.persistence.util.DbSession;
 import de.fhg.iais.roberta.persistence.util.HttpSessionState;
 import de.fhg.iais.roberta.persistence.util.SessionFactoryWrapper;
@@ -76,6 +78,7 @@ public class ClientProgram {
             response.put("cmd", cmd);
             ProgramProcessor pp = new ProgramProcessor(dbSession, httpSessionState);
             AccessRightProcessor upp = new AccessRightProcessor(dbSession, httpSessionState);
+            UserProcessor up = new UserProcessor(dbSession, httpSessionState);
 
             if ( cmd.equals("saveP") ) {
                 String programName = request.getString("name");
@@ -92,7 +95,10 @@ public class ClientProgram {
 
             } else if ( cmd.equals("loadP") && httpSessionState.isUserLoggedIn() ) {
                 String programName = request.getString("name");
-                Program program = pp.getProgram(programName, userId);
+                String ownerName = request.getString("owner");
+                User user = up.getUser(ownerName);
+                int id = user.getId();
+                Program program = pp.getProgram(programName, id);
                 if ( program != null ) {
                     response.put("data", program.getProgramText());
                 }
