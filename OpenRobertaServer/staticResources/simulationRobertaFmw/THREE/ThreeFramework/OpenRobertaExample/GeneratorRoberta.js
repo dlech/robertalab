@@ -2,7 +2,7 @@
 var meterCounter = 0 ;
 var specialSituationCounter = 0 ;
 var specialDistance = .5 ; 
-var GOAL_DISTANCE = 5 ;// change from 8 to 3
+var GOAL_DISTANCE = 2 ;// change from 8 to 3
 var rotationRobot = 0 ;
 var speedRotation = .002 ;// change from .001 to .002 
 var motorRotation = 20 ;
@@ -94,31 +94,31 @@ function readColor(){
    if(inputBot[LIGHT_COLOR_FLAG_INDEX])
    {		
 		switch(inputBot[LIGHT_COLOR_INDEX]){
-			case "B30006" :
+			case "B30006" :  //179,0,6					Red/ Orange
 				outPutBot[ROTATION_Z_INDEX]= -.15 ; 
 				outPutBot[LIGHT_COLOR_INDEX] = NO_COLOR ;
 				outPutBot[LIGHT_COLOR_FLAG_INDEX] = false ;
 			break ;
-			case "00642E" :
+			case "00642E" :   // 0, 100, 46				Green
 			
 			break ;
-			case "0057A6" :
+			case "0057A6" :		// 0, 87, 166			Blue
 			
 			break ;
-			case "F70117" :
+			case "F70117" :		// 247, 1, 23			Strong REd
 			
 			break ;
-			case "FFFFF" :
+			case "FFFFF" :		// 255,255,255 			White
 			
 			break ;	 
-			case "000000" :
+			case "000000" :						// 0,0,0 Black
 				//speedRotation = -.000001
 				outPutBot[ROTATION_Z_INDEX]= .15 ; 
 				outPutBot[LIGHT_COLOR_INDEX] = NO_COLOR ;
 				outPutBot[LIGHT_COLOR_FLAG_INDEX] = false ;
 			
 			break ;
-			case "532115" :
+			case "532115" :		// 83, 33, 21		Brown
 			
 			break ;
 			default :
@@ -253,8 +253,8 @@ function runCircularFinder(novaPosition){
 	}else{
 		if(inputBot[LIGHT_COLOR_INDEX] != "000000")
 		{
-			rightMotorSpeed = 0.2;
-			leftMotorSpeed = 0.5;
+			rightMotorSpeed = .0;
+			leftMotorSpeed = -.40;
 		}else{
 			rightMotorSpeed = .9 ;
 			leftMotorSpeed = 0.8;

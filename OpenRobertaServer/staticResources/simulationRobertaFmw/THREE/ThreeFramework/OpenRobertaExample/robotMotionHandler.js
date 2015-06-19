@@ -4,13 +4,13 @@ var WHEEL_RATIO  = 2.8/(14.8);// 15 cm scale is equal to 1 unit on the canvas ap
 var theta = 0 ;
 var DISTANCE_BTW_WHEELS = 12/(14.8); // 15 cm scale is equal to  1 unit on the canvas approximation
 var CURRENT_MEASURE = "Degree" ;
-var VOLTAGE_LEVEL = 8; // even the hardware description says 10 v, the maximum shown value on the EV3  is 8 v.
+var VOLTAGE_LEVEL = 7.7; // even the hardware description says 10 v, the maximum shown value on the EV3  is 8 v.
 var deltaX  ;
 var deltaY   ;
 var rightSpdPerFrame ;
 var leftSpdPerFrame ;
 var AVERAGE_FPS = 1/60;
-var DEG_BY_VOLT_SECOND = 60*(Math.PI/180);// Data taken from LEJOS  Documentation
+var DEG_BY_VOLT_SECOND = 70*(Math.PI/180);// Data taken from LEJOS  Documentation
 var robotMotionValues = [] ;
 var deltaFpsSpeed  ;
 var checkSeed ;
@@ -27,10 +27,10 @@ function calculateTheta(){
 		//AVERAGE_FPS	;
 		theta += (rightSpdPerFrame-leftSpdPerFrame)/(DISTANCE_BTW_WHEELS) ; // the WHEEL_RATIO is taken out because it was used wrongly now represent angle and not speed
 	//}else {
-		rotationRatio = DISTANCE_BTW_WHEELS*( rightSpdPerFrame + leftSpdPerFrame)/(2*( rightSpdPerFrame - leftSpdPerFrame)) ; // calculate the ICC ration
+		//rotationRatio = DISTANCE_BTW_WHEELS*( rightSpdPerFrame + leftSpdPerFrame)/(2*( rightSpdPerFrame - leftSpdPerFrame)) ; // calculate the ICC ration // just for debugging reasons
 		//checkSeed = theta*(rotationRatio+(.5*DISTANCE_BTW_WHEELS));
 		//if ()
-		console.log("R" + rotationRatio ) ;
+		//console.log("R" + rotationRatio ) ;  // just for debugging reasons
 		//rightSpdPerFrame = rightMotorSpeed*VOLTAGE_LEVEL*1000/avgFPS
 	//}
 

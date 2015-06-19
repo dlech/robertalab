@@ -15,6 +15,20 @@ var octoedroMesh;
 var playgroundGeometry ;
 var group;
 var curveObject ;
+var returnColors = [0,0,0] ;
+var RED_COLOR_VECTOR  =  	[247, 1, 23	]  ;  // as Robot June2015 Open Robert detects, there are  7 Different Colours Values
+var GREEN_COLOR_VECTOR =  	[ 0, 100, 46]  ;
+var BlUE_COLOR_VECTOR =  	[0, 87, 166	]  ;
+var BLACK_COLOR_VECTOR =  	[255,255,255 ]  ;
+var WHITE_COLOR_VECTOR = 	[0,0,0 ]  ;
+var BROWN_COLOR_VECTOR =  	[83, 33, 21	]  ;
+var ORANGE_COLOR_VECTOR =  	[179,0,6]  ;
+var RED_BASIC_INDEX  = 0 ;
+var GREEN_BASIC_INDEX  = 2" ;
+var BLUE_BASIC_INDEX  = 3 ;
+var WHITE_TRESHOLD   = 700 ;
+var BLACK_TRESHOLD   = 50 ;
+var RED_TRESHOLD   = 179 ;
 
 
 	
@@ -277,3 +291,78 @@ function instanceMeshes(){
 				octoedroMesh = new THREE.Mesh(longboxGeometry, longBoxMaterial);
 				octoedroMesh.position.set(6,7,.5); // change form -4,-3, 0 to 5, 7 , .5.
 }	
+
+
+function getLighBFromRGB(R, G, B){
+	// it is used the approach of HSP Color Model
+	var light ;
+	light =  Math.sqrt((.299*Math.POW(R/255,2)) + (.587*Math.POW(G/255,2)) +(.114*Math.POW(B/255,2)) ); 
+	return light ;
+	
+}
+
+
+
+
+function filterRGB(colorArray){
+	var coloursCounter = 0  ;
+	for(index = 0; index <3 ; index++) {   // Counting the number of basic colours on the RGB
+		if(colorArray[index] >	0){ // positive value
+			coloursCounter++ ; 
+		}
+	}
+	
+	if ((colorArray[RED_BASIC_INDEX]+colorArray[GREEN_BASIC_INDEX]+colorArray[BlUE_BASIC_INDEX]) >WHITE_TRESHOLD){
+		
+		returnColors = WHITE_COLOR_VECTOR ;		// converting to White because the huge amount of colours 
+	}else{
+		if((colorArray[RED_BASIC_INDEX]+colorArray[GREEN_BASIC_INDEX]+colorArray[BLUE_BASIC_INDEX]) <BLACK_TRESHOLD ){
+			if(coloursCounter>1){  // more than one colour 
+					
+				returnColors = BLACK_COLOR_VECTOR ;			// converting to Black
+			}else{
+				
+				returnColors =	BROWN_COLOR_VECTOR ;	// converting to Brown  Because on the list of Seven detected colours by Robot it is the lower later than Black. 
+			}
+			
+		}else{
+			var maxColorIndex = getMaxIndex(colorArray) ; // obtaining the biggest index by amount of basic colour 
+			switch(maxColorIndex){
+				case RED_BASIC_INDEX :
+					if(colorArray[RED_BASIC_INDEX]>RED_TRESHOLD){
+						
+						returnColors = RED_COLOR_VECTOR ;
+					}else{
+						
+						returnColors = ORANGE_COLOR_VECTOR ;
+					}
+				break ;
+				case GREEN_BASIC_INDEX :
+						returnColors = GREEN_COLOR_VECTOR ;
+				break ;
+				case BLUE_BASIC_INDEX :
+						returnColors = BLUE_COLOR_VECTOR ;
+				break ;
+				
+				default:
+						returnColors = GREEN_COLOR_VECTOR ;  // easier to read for human begin . This is just an arbitrary chose.  
+				break ;
+			}
+		}
+	}
+	return returnColors ;
+}
+
+
+
+
+function getMaxIndex(valuesArray) {
+    var i = 1;
+    var mi = 0;
+    while (i < valuesArray.length) {
+        if (!(valuesArray[i] < valuesArray[mi]))
+            mi = i;
+        i += 1;
+    }
+    return mi;
+}
