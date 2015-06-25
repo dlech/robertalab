@@ -15,6 +15,11 @@ var robotMotionValues = [] ;
 var deltaFpsSpeed  ;
 var checkSeed ;
 var rotationRatio ;
+var leftDegreeCounter = 0 ;
+var rightDegreeCounter =  0 ;
+var lastLeftRotatedDegrees =  0 ;
+var lastRightRotatedDegrees =  0 ;
+
 
 
 function calculateTheta(){
@@ -90,3 +95,81 @@ function getRobotMotion( robertaOutPut) {
 	return robotMotionValues ;
 	
 }
+
+function getLeftWheelEncode(){
+	
+	lastLeftRotatedDegrees = leftMotorSpeed*VOLTAGE_LEVEL*DEG_BY_VOLT_SECOND*(180/Math.PI)*deltaFpsSpeed;
+	
+	if((leftDegreeCounter > 0)&&( leftMotorSpeed > 0)){
+		//=+ 
+		 
+		leftDegreeCounter += lastLeftRotatedDegrees ;
+		
+		
+	}else{
+			if((leftDegreeCounter < 0)&&( leftMotorSpeed < 0)){
+			// =+	
+			leftDegreeCounter += lastLeftRotatedDegrees ;
+				
+			}else{
+				if(leftMotorSpeed !=  0){
+					// new value 
+					leftDegreeCounter = lastLeftRotatedDegrees ;
+					
+				}// the if can be removed  in order to restart the counter is up to the logic.
+				
+			}
+		
+	}
+	
+	return leftDegreeCounter ;
+}
+// function just provisional it should be an general function instead of an specific for each wheel
+function getRigthWheelEncode(){
+	
+	lastRightRotatedDegrees = rightMotorSpeed*VOLTAGE_LEVEL*DEG_BY_VOLT_SECOND*(180/Math.PI)*deltaFpsSpeed;
+	
+	if((rightDegreeCounter > 0)&&( rightMotorSpeed > 0)){
+		//=+ 
+		 
+		rightDegreeCounter += lastRightRotatedDegrees ;
+		
+		
+	}else{
+			if((rightDegreeCounter < 0)&&( rightMotorSpeed < 0)){
+			// =+	
+			rightDegreeCounter += lastRightRotatedDegrees ;
+				
+			}else{
+				if(rightMotorSpeed !=  0){
+					// new value 
+					rightDegreeCounter = lastRightRotatedDegrees ;
+					
+				}// the if can be removed  in order to restart the counter is up to the logic.
+				
+			}
+		
+	}
+	
+	return rightDegreeCounter ;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
