@@ -96,7 +96,7 @@ function getRobotMotion( robertaOutPut) {
 	
 }
 
-function getLeftWheelEncode(){
+function calculateSignedLeftWheelEncode(){
 	
 	lastLeftRotatedDegrees = leftMotorSpeed*VOLTAGE_LEVEL*DEG_BY_VOLT_SECOND*(180/Math.PI)*deltaFpsSpeed;
 	
@@ -125,7 +125,7 @@ function getLeftWheelEncode(){
 	return leftDegreeCounter ;
 }
 // function just provisional it should be an general function instead of an specific for each wheel
-function getRigthWheelEncode(){
+function calculateSignedRigthWheelEncode(){
 	
 	lastRightRotatedDegrees = rightMotorSpeed*VOLTAGE_LEVEL*DEG_BY_VOLT_SECOND*(180/Math.PI)*deltaFpsSpeed;
 	
@@ -156,8 +156,27 @@ function getRigthWheelEncode(){
 }
 
 
+function calculateWheelEncoders(){
+	
+	lastRightRotatedDegrees = rightMotorSpeed*VOLTAGE_LEVEL*DEG_BY_VOLT_SECOND*(180/Math.PI)*deltaFpsSpeed;
+	lastLeftRotatedDegrees = leftMotorSpeed*VOLTAGE_LEVEL*DEG_BY_VOLT_SECOND*(180/Math.PI)*deltaFpsSpeed;
+	rightDegreeCounter += lastRightRotatedDegrees ;
+	leftDegreeCounter += lastLeftRotatedDegrees ;
+	
+	
+}
 
+function getRightWheelRotationCounter()
+{
+	return rightDegreeCounter;
+	
+}
 
+function getLeftWheelRotationCounter()
+{
+	return leftDegreeCounter;
+	
+}
 
 
 

@@ -271,7 +271,9 @@
 					group.position.x += valuesBrick[DELTA_X_INDEX];
 				//group.position.y += valuesBrick[POSITION_Y_INDEX] ;
 					group.position.y += valuesBrick[DELTA_Y_INDEX] ;
-					//console.log("right wheel rotation "+getRigthWheelEncode()) ; to check encode
+					calculateWheelEncoders() ;
+					console.log("right wheel rotation "+getRightWheelRotationCounter()) ;// to check encode
+					console.log("left wheel rotation "+getLeftWheelRotationCounter()) ;// to check encode
 				if(valuesBrick[THETA_INDEX]!=0){ // change from ROTATION_Z_INDEX to THETA_INDEX because it comes from robotMotionHandler instead GeneratorRoberta
 				
 					group.rotation.z = valuesBrick[THETA_INDEX] ;

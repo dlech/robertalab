@@ -253,7 +253,7 @@ function runCircularFinder(novaPosition){
 	}else{
 		if(inputBot[LIGHT_COLOR_INDEX] != "000000")
 		{
-			rightMotorSpeed = .40;	
+			rightMotorSpeed = -.40;	
 			leftMotorSpeed = .80;
 		}else{
 			rightMotorSpeed = .9 ;
