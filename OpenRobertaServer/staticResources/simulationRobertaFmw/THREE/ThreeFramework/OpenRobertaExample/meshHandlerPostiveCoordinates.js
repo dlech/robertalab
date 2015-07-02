@@ -289,7 +289,7 @@ function instanceMeshes(){
 				
 				
 				octoedroMesh = new THREE.Mesh(longboxGeometry, longBoxMaterial);
-				octoedroMesh.position.set(6,7,.5); // change form -4,-3, 0 to 5, 7 , .5.
+				octoedroMesh.position.set(6,6,.5); // change form -4,-3, 0 to 5, 7 , .5.
 }	
 
 

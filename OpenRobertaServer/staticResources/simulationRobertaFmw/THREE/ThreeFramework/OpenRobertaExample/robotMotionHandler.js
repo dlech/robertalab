@@ -76,8 +76,8 @@ function calculateDeltaY(){
 
 function getRobotMotion( robertaOutPut) {
 	
-	rightMotorSpeed =  robertaOutPut[RIGHT_MOTOR_SPD_INDEX];
-	leftMotorSpeed =  robertaOutPut[LEFT_MOTOR_SPD_INDEX];
+	rightMotorSpeed =  robertaOutPut.RIGHT_MOTOR_SPD_INDEX;
+	leftMotorSpeed =  robertaOutPut.LEFT_MOTOR_SPD_INDEX;
 	deltaFpsSpeed =   clock.getDelta() ;		
 	//console.log(""+deltaFpsSpeed)
 	calculateTheta() ;
