@@ -20,12 +20,11 @@ var plusTen = createBinaryExpr(ADD, xTimesFour, n10);
 var x1 = createVarDeclaration(NUMERIC, "x", n1);
 var y1 = createVarDeclaration(NUMERIC, "y", xPlusOne);
 
-
 var changeX = createAssignStmt("x", doubleX);
 var changeY = createAssignStmt("y", yPlusOne);
 var finalX = createAssignStmt("x", plusTen);
 
-var w = createRepeatStmt("WHILE", yLessFive, [changeX, changeY])
+var w = createRepeatStmt("WHILE", yLessFive, [ changeX, changeY ])
 var drive = createDriveAction(.80, "FORWARD", 39);
 var drive1 = createDriveAction(-.50, "FORWARD", 39);
 
@@ -33,9 +32,11 @@ var touchSensor = createGetSample(TOUCH);
 var isTouched = createBinaryExpr(EQ, touchSensor, b1);
 var isTouched1 = createBinaryExpr(EQ, b1, b2);
 
-var if0 = createIfStmt([isTouched], [[drive1]]);
-var if1 = createIfStmt([isTouched1], [[drive1]]);
+var if0 = createIfStmt([ isTouched ], [ [ drive1 ] ]);
+var if1 = createIfStmt([ isTouched1 ], [ [ drive1 ] ]);
 
-var waitStmt1 = createWaitStmt([if0]);
+var waitStmt1 = createWaitStmt([ if0 ]);
 
-var waitStmt2 = createWaitStmt([if1]);
+var waitStmt2 = createWaitStmt([ if1 ]);
+
+ initProgram([drive, x1, y1, w, finalX, waitStmt1, waitStmt2]);

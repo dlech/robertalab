@@ -19,23 +19,20 @@
               } 
           </style> 
           <!-- Include Three.js libraries --> 
-		  <!script src = "http://threejs.org/build/three.min.js"></script>
+		<!script src = "http://threejs.org/build/three.min.js"></script>
 		<!script src = "Detector.js"></script> <! one can ask this condition on the site face as well.>
 		
-		<script src="constants.js"></script>
-		<script src="memory.js"></script>
-		<script src="program.js"></script>
-		<script src="actors.js"></script>
-		<script src="sensors.js"></script>
-		<script src="programBuilder.js"></script>
-		<script src="programEval.js"></script>
-		<script src="program1.js"></script>
+		<script src="robertaLogic/constants.js"></script>
+		<script src="robertaLogic/Modules.js"></script>		
+		<script src="robertaLogic/programBuilder.js"></script>
+		<script src="robertaLogic/programEval.js"></script>
+		<script src="robertaLogic/program1.js"></script>
 		
-		<script src = "GeneratorRoberta.js"></script>
-		<script src = "FrameworkManager.js"></script>
-		<!script src = "meshHandler.js"></script>
-		<script src = "meshHandlerPostiveCoordinates.js"></script>
-		<script src = "robotMotionHandler.js"></script>
+		<script src = "simulationLogic/GeneratorRoberta.js"></script>
+		<script src = "simulationLogic/FrameworkManager.js"></script>
+		
+		<script src = "simulationLogic/meshHandlerPostiveCoordinates.js"></script>
+		<script src = "simulationLogic/robotMotionHandler.js"></script>
 		<script src="../build/three.min.js"></script>
 
 		<script src="js/renderers/Projector.js"></script>
@@ -52,63 +49,54 @@
    
           <!-- This JavaScript block encloses the Three.js commands --> 
           <script> 
-            // code for adding a new canvas
-			/**	var canvas = document.createElement("canvas");
-				var context = canvas.getContext("2d");
-			  
-			   var image0 = new Image();
-				var texture = new THREE.Texture(canvas);
-				
-				
-				
-				image0.onload = function() {
-				context.drawImage(image0, 0, 0);
-				texture.needsUpdate = true;
-				};
-				image0.src = 'playground.jpg';
-			  */
-			  
-			  // variables for stats
-			  var startTime	= Date.now();
-			  var stats ;
-			  
-			  // Global scene object 
-              var scene; 
-   
-              // Global camera object  
-              var camera; 
-   
-              
-			  // variables belonging raycasting 
-			  var collidableMeshList = [];
-			  var colorReadableMeshList = [] ;
-			  
-			  
-			  // variables needed for communication with Roberta Server
-			  var inpoutValuesRobot = [];
-			  
-			  
-              
-   
-			  var myMotion ;
-			  var distance ;
-			  
-			  
-			  // Adding Clock object in order to control the fps speed
-			  var  clock  ;
-			  var  time   ;
-			  var  delta  ;
-			  
-              // Initialize the scene 
-              initializeScene(); 
-   
-              // Instead of calling 'renderScene()', we call a new function: 'animateScene()'. It will 
-              // update the rotation values and call 'renderScene()' in a loop. 
-				initProgram([drive, x1, y1, w, finalX, waitStmt1, waitStmt2]);
-	
-				animateScene(); // adding new Timer  NewDate on 26Mai
-   	
-				
+	    // code for adding a new canvas
+	    /**	var canvas = document.createElement("canvas");
+		var context = canvas.getContext("2d");
+	    
+	    var image0 = new Image();
+		var texture = new THREE.Texture(canvas);
+		
+		
+		
+		image0.onload = function() {
+		context.drawImage(image0, 0, 0);
+		texture.needsUpdate = true;
+		};
+		image0.src = 'playground.jpg';
+	    */
+	    
+	    // variables for stats
+	    var startTime	= Date.now();
+	    var stats ;
+	    
+	    // Global scene object 
+	    var scene; 
+	    
+	    // Global camera object  
+	    var camera;	    
+	    
+	    // variables belonging raycasting 
+	    var collidableMeshList = [];
+	    var colorReadableMeshList = [] ;
+	    	    
+	    // variables needed for communication with Roberta Server
+	    var inpoutValuesRobot = [];	    
+	    var myMotion ;
+	    var distance ;	    
+	    
+	    // Adding Clock object in order to control the fps speed
+	    var  clock  ;
+	    var  time   ;
+	    var  delta  ;
+	    
+	    // Initialize the scene 
+	    initializeScene(); 
+	    
+	    // Instead of calling 'renderScene()', we call a new function: 'animateScene()'. It will 
+	    // update the rotation values and call 'renderScene()' in a loop. 
+	   
+	    
+	    animateScene(); // adding new Timer  NewDate on 26Mai				
          </script> 
     </body> 
  </html>
