@@ -88,6 +88,7 @@ function animateScene() { // adding time t 26mai
     if (!PROGRAM.isTerminated()) {
         step();
         updateScene(ACTORS.getLeftMotor().getPower(), ACTORS.getRightMotor().getPower());
+        ACTORS.calculateCoveredDistance();
     }
 }
 
@@ -95,6 +96,10 @@ function updateScene(motorL, motorR) {
     //time = clock.getElapsedTime(); just for debugging 
     //delta = clock.getDelta() ;
     //console.log( "time" + time) ;
+    if (ACTORS.isResetTachoSensor()) {
+        resetWheelRotationCounter();
+        ACTORS.setResetTachoSensor(false);
+    }
     renderScene();
 
     var positionW = new THREE.Vector3();
@@ -139,8 +144,9 @@ function updateScene(motorL, motorR) {
     gatherInputData();  
 
 
-    transformBrick(getRobotMotion(motorL, motorR));
-   
+    var tacho = transformBrick(getRobotMotion(motorL, motorR));
+    ACTORS.getLeftMotor().setCurrentRotations(tacho[0]);
+    ACTORS.getRightMotor().setCurrentRotations(tacho[1]);
 
     requestAnimationFrame(animateScene);
     //console.log();
@@ -184,7 +190,7 @@ function transformBrick(valuesBrick) {
     inpoutValuesRobot[COLLISION_FLAG_INDEX] = true;
 
     inpoutValuesRobot[ROTATION_Z_INDEX] = group.rotation.z;
-
+    return [getLeftWheelRotationCounter(), getRightWheelRotationCounter()];
 }
 
 function gatherInputData() {

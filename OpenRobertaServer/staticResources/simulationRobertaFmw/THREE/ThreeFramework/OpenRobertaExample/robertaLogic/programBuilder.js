@@ -44,6 +44,7 @@ function createRepeatStmt(mode, expr, stmtList) {
         throw "Expression List is not List!"
     }
     var result = {};
+    result[MODE] = mode;
     result[STMT] = REPEAT_STMT;
     result[EXPR] = expr;
     result[STMT_LIST] = stmtList;
@@ -53,9 +54,50 @@ function createRepeatStmt(mode, expr, stmtList) {
 function createDriveAction(speed, direction, distance) {
     var result = {};
     result[STMT] = DRIVE_ACTION;
-    result[SPEED] = speed;
+    result[SPEED] = speed[VALUE] / 100.;
     result[DRIVE_DIRECTION] = direction;
-    result[DISTANCE] = distance;
+    if (distance == undefined) {
+	result[DISTANCE] = undefined;
+    } else {
+	result[DISTANCE] = distance[VALUE];
+    }
+    return result;
+}
+
+function createTurnAction(speed, direction, angle) {
+    var result = {};
+    result[STMT] = TURN_ACTION;
+    result[SPEED] = speed[VALUE] / 100.;
+    result[TURN_DIRECTION] = direction;
+     if (angle == undefined) {
+	result[ANGLE] = undefined;
+    } else {
+	result[ANGLE] = angle[VALUE];
+    }
+    
+    return result;
+}
+
+function createTurnLight(color, mode) {
+    var result = {};
+    result[STMT] = TURN_LIGHT;
+    result[COLOR] = color;
+    result[MODE] = mode;
+     
+    return result;
+}
+
+function createResetLight() {
+    var result = {};
+    result[STMT] = RESET_LIGHT;
+     
+    return result;
+}
+
+function createStopDrive() {
+    var result = {};
+    result[STMT] = STOP_DRIVE;
+       
     return result;
 }
 

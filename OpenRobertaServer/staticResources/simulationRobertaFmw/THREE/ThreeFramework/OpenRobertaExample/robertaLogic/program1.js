@@ -1,42 +1,10 @@
-//include("constants.js");
+var stmt0 = createVarDeclaration(NUMERIC, "x", createConstant(NUM_CONST, 1));
+var stmt1 = createVarDeclaration(NUMERIC, "y", createBinaryExpr(ADD, createVarReference(NUMERIC, "x"), createConstant(NUM_CONST, 1)));
+var stmt2 = createDriveAction(createConstant(NUM_CONST, 30), FOREWARD);
+var stmt3 = createRepeatStmt(WHILE, createBinaryExpr(LT, createVarReference(NUMERIC, "y"), createConstant(NUM_CONST, 5)), [createAssignStmt("x", createBinaryExpr(MULTIPLY, createVarReference(NUMERIC, "x"), createVarReference(NUMERIC, "x"))), createAssignStmt("y", createBinaryExpr(ADD, createVarReference(NUMERIC, "y"), createConstant(NUM_CONST, 1)))]);
+var stmt4 = createAssignStmt("x", createBinaryExpr(ADD, createVarReference(NUMERIC, "x"), createConstant(NUM_CONST, 10)));
+var stmt5 = createWaitStmt([createIfStmt([createBinaryExpr(EQ, createGetSample(TOUCH), createConstant(BOOL_CONST, true))], [])]);
+var stmt6 = createDriveAction(createConstant(NUM_CONST, -50), FOREWARD, createConstant(NUM_CONST, 100));
+var stmt7 = createWaitStmt([createIfStmt([createBinaryExpr(LT, createGetSample(ULTRASONIC), createConstant(NUM_CONST, -30))], [])]);
 
-var n1 = createConstant(NUM_CONST, 1);
-var n4 = createConstant(NUM_CONST, 4);
-var n5 = createConstant(NUM_CONST, 5);
-var n10 = createConstant(NUM_CONST, 10);
-var b1 = createConstant(BOOL_CONST, true);
-var b2 = createConstant(BOOL_CONST, false);
-
-var refX = createVarReference(NUMERIC, "x");
-var refY = createVarReference(NUMERIC, "y");
-
-var xPlusOne = createBinaryExpr(ADD, refX, n1);
-var yPlusOne = createBinaryExpr(ADD, refY, n1);
-var yLessFive = createBinaryExpr(LESS, refY, n5);
-var doubleX = createBinaryExpr(ADD, refX, refX);
-var xTimesFour = createBinaryExpr(MULT, n4, refX);
-var plusTen = createBinaryExpr(ADD, xTimesFour, n10);
-
-var x1 = createVarDeclaration(NUMERIC, "x", n1);
-var y1 = createVarDeclaration(NUMERIC, "y", xPlusOne);
-
-var changeX = createAssignStmt("x", doubleX);
-var changeY = createAssignStmt("y", yPlusOne);
-var finalX = createAssignStmt("x", plusTen);
-
-var w = createRepeatStmt("WHILE", yLessFive, [ changeX, changeY ])
-var drive = createDriveAction(.80, "FORWARD", 39);
-var drive1 = createDriveAction(-.50, "FORWARD", 39);
-
-var touchSensor = createGetSample(TOUCH);
-var isTouched = createBinaryExpr(EQ, touchSensor, b1);
-var isTouched1 = createBinaryExpr(EQ, b1, b2);
-
-var if0 = createIfStmt([ isTouched ], [ [ drive1 ] ]);
-var if1 = createIfStmt([ isTouched1 ], [ [ drive1 ] ]);
-
-var waitStmt1 = createWaitStmt([ if0 ]);
-
-var waitStmt2 = createWaitStmt([ if1 ]);
-
- initProgram([drive, x1, y1, w, finalX, waitStmt1, waitStmt2]);
+initProgram([stmt0, stmt1, stmt2, stmt3, stmt4, stmt4, stmt5, stmt6, stmt7]);

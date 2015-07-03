@@ -1,3 +1,6 @@
+const wheelDiameter = 5.6;
+const TURN_RATIO =  13.5 / 2.8;
+
 var SENSORS = (function() {
     var touchSensor = false;
     var ultrasonicSensor = 0;
@@ -11,19 +14,28 @@ var SENSORS = (function() {
     function setTouchSensor(value) {
         touchSensor = value;
     }
+	
+	function getUltrasonicSensor() {
+        return ultrasonicSensor;
+    }
+	
+	function setUltrasonicSensor(value) {
+        ultrasonicSensor = value;
+    }
 
     return {
         "isPressed" : isPressed,
-        "setTouchSensor" : setTouchSensor
+        "setTouchSensor" : setTouchSensor,
+	"getUltrasonicSensor": getUltrasonicSensor,
+	"setUltrasonicSensor": setUltrasonicSensor
     };
 })();
 
 var ACTORS = (function() {
-    var distanceCovered = 0;
-    var distanceToCover = 0;
-
+    var distanceToCover = false;
     var leftMotor = new Motor();
     var rightMotor = new Motor();
+    var resetTachoSensor = false;
 
     function getLeftMotor() {
         return leftMotor;
@@ -33,31 +45,43 @@ var ACTORS = (function() {
         return rightMotor;
     }
 
-    function setSpeed(speed) {
+    function setSpeed(speed, direction) {
+	if (direction != FOREWARD) {
+		speed = -speed;
+	}
         leftMotor.setPower(speed);
         rightMotor.setPower(speed);
     }
-
-    function getDistanceCovered() {
-        return distanceCovered;
+    
+    function setAngleSpeed(speed, direction) {
+	if (direction == LEFT) {
+		leftMotor.setPower(-speed);
+		rightMotor.setPower(speed);
+	} else {
+		leftMotor.setPower(speed);
+		rightMotor.setPower(-speed);
+	}
     }
-
-    function setDistanceCovered(distance) {
-        distanceCovered = distance;
-    }
-
-    function getDistanceToCover() {
-        return distanceToCover;
-    }
-
-    function setDistanceToCover(distance) {
-        distanceCovered = 0;
-        distanceToCover = distance;
+    
+    function resetTacho() {
+	resetTachoSensor = true;
+	leftMotor.currentRotations = 0;
+        rightMotor.currentRotations = 0;
     }
 
     function Motor() {
         this.power = 0;
         this.stopped = false;
+	this.currentRotations = 0;
+	this.rotations = 0;
+    }
+    
+    function isResetTachoSensor() {
+	return resetTachoSensor;
+    }
+    
+    function setResetTachoSensor(value) {
+	resetTachoSensor = value;
     }
 
     Motor.prototype.getPower = function() {
@@ -76,18 +100,74 @@ var ACTORS = (function() {
         this.stopped = value;
     };
 
+    Motor.prototype.getCurrentRotations = function() {
+        return this.currentRotations;
+    };
+    
+    Motor.prototype.setCurrentRotations = function(value) {
+        this.currentRotations += Math.abs(value/360.) - this.currentRotations;
+    };
+    
+    Motor.prototype.getRotations = function() {
+        return this.rotations;
+    };
+    
+    Motor.prototype.setRotations = function(value) {
+        this.rotations = value;
+    };
+    
     function toString() {
-        return JSON.stringify([ distanceCovered, distanceToCover, leftMotor, rightMotor ]);
+        return JSON.stringify([ distanceCovered, istanceToCover, leftMotor, rightMotor ]);
+    }
+    
+    function calculateCoveredDistance() {
+	if (distanceToCover) {
+		console.log("left " + getLeftMotor().getCurrentRotations());
+		if (getLeftMotor().getCurrentRotations() > getLeftMotor().getRotations()) {
+			getLeftMotor().setPower(0);
+		}
+		
+		console.log("right " + getRightMotor().getCurrentRotations());
+		if (getRightMotor().getCurrentRotations() > getRightMotor().getRotations()) {
+			getRightMotor().setPower(0);
+		}
+		
+		if (getLeftMotor().getCurrentRotations() > getLeftMotor().getRotations() && getRightMotor().getCurrentRotations() > getRightMotor().getRotations()) {
+			distanceToCover = false;
+			PROGRAM.setNextStatement(true);
+		}
+	}
+    }
+    
+    function clculateAngleToCover(angle) {
+	extraRotation =  TURN_RATIO * (angle / 720. );
+	
+	getLeftMotor().setRotations(extraRotation);	
+	getRightMotor().setRotations(extraRotation);
+
+	distanceToCover = true;
+	PROGRAM.setNextStatement(false);
+    }
+    
+    function setDistanceToCover(distance) {
+	var rotations = distance / (wheelDiameter * 3.14);
+	leftMotor.setRotations(rotations);
+	rightMotor.setRotations(rotations);
+	distanceToCover = true;
+	PROGRAM.setNextStatement(false);
     }
 
     return {
         "getLeftMotor" : getLeftMotor,
         "getRightMotor" : getRightMotor,
         "setSpeed" : setSpeed,
-        "getDistanceCovered" : getDistanceCovered,
-        "setDistanceCovered" : setDistanceCovered,
-        "getDistanceToCover" : getDistanceToCover,
-        "setDistanceToCover" : setDistanceToCover,
+	"setAngleSpeed" : setAngleSpeed,
+	"resetTacho" : resetTacho,  
+	"calculateCoveredDistance" : calculateCoveredDistance,
+	"clculateAngleToCover" : clculateAngleToCover,
+	"setDistanceToCover" : setDistanceToCover,
+	"isResetTachoSensor" : isResetTachoSensor,
+	"setResetTachoSensor" : setResetTachoSensor,
         "toString" : toString
     };
 })();
@@ -142,6 +222,7 @@ var MEM = (function() {
 
 var PROGRAM = (function() {
     var program = [];
+    var nextStatement = true;
     var wait = false;
 
     function set(newProgram) {
@@ -149,7 +230,7 @@ var PROGRAM = (function() {
     }
 
     function isTerminated() {
-        return program.length == 0;
+        return program.length == 0 && PROGRAM.isNextStatement();
     }
 
     function get() {
@@ -181,6 +262,14 @@ var PROGRAM = (function() {
     function setWait(value) {
         wait = value;
     }
+    
+    function isNextStatement() {
+	return nextStatement;
+    }
+    
+    function setNextStatement(value) {
+	nextStatement = value;
+    }
 
     function toString() {
         return program;
@@ -194,6 +283,27 @@ var PROGRAM = (function() {
         "prepend" : prepend,
         "isWait" : isWait,
         "setWait" : setWait,
+	"isNextStatement" : isNextStatement,
+	"setNextStatement" : setNextStatement,
         "toString" : toString
+    };
+})();
+
+
+var LIGHT = (function() {
+    var color;
+    var mode = OFF;
+    
+    function setColor(value) {
+	color = value
+    }
+    
+    function setMode(value) {
+	mode = value;
+    }
+    
+    return {
+        "setColor" : setColor,
+        "setMode" : setMode
     };
 })();
