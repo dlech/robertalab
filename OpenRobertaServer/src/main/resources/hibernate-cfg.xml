@@ -24,6 +24,7 @@
 
         <mapping class="de.fhg.iais.roberta.persistence.bo.Program"/>
         <mapping class="de.fhg.iais.roberta.persistence.bo.Configuration"/>
+		<mapping class="de.fhg.iais.roberta.persistence.bo.Toolbox"/>
         <mapping class="de.fhg.iais.roberta.persistence.bo.User"/>
         <mapping class="de.fhg.iais.roberta.persistence.bo.AccessRight"/>
     </session-factory>
