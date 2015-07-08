@@ -34,12 +34,12 @@ function initializeScene() {
     camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
     camera.position.y = 6;
     camera.position.x = 6;
-    camera.position.z = 30; // for testing reasons the camera is change to  50 instead 30 
-    //camera.rotation.y = .90 ;
+    camera.position.z = 50; // for testing reasons the camera is change to  50 instead 30 
+    //camera.rotation.y = .45 ;	
     scene.add(camera);
 
     instanceMeshes(); // calling for meshHandler a method which instances the meshes with their materials and properties.
-    group.position.set(0, 6, 0); // change from -3, 1, -.5 to 0,6,0 to keep positive values 
+    group.position.set(-15, 6, .3); // change from -3, 1, -.5 to 0,6,0 to keep positive values 
 
     var cloneCube = octoedroMesh.clone();
     cloneCube.position.set(3, 5.5, .5);// change from 2, -1.5, 1 to 8,5.5,.5to keep positive values
@@ -55,7 +55,12 @@ function initializeScene() {
 
     group.add(lightSensoMesh);
     group.add(squareMesh);
-    group.add(bumperMesh);
+	if(statusUltraSonicSensor){
+		group.add(semiSphereUltraSonicMesh);
+    }
+	group.add(bumperMesh);
+	// provisional ultrasonic mesh
+	
 
     // first the group should be added on the scene
     scene.add(group);
@@ -140,6 +145,44 @@ function updateScene(motorL, motorR) {
             SENSORS.setTouchSensor(false);
         }
     }
+	
+	if(statusUltraSonicSensor){
+		// Ultrasonic implementation, it should change to a function because the use of recurrent 3 ray-casters.
+		var positionUltraSensor = new THREE.Vector3();
+		positionUltraSensor.setFromMatrixPosition(semiSphereUltraSonicMesh.matrixWorld);
+		var echoeObjects = [] ;
+		var distanceArray = [] ;
+		var minIndex ;
+		var echoCounter = 0 ;
+		var nearestObject ;
+		for (VertexIndex = 0; VertexIndex < semiSphereUltraSonicMesh.geometry.vertices.length; VertexIndex++) {
+			var localVertexUltra = semiSphereUltraSonicMesh.geometry.vertices[VertexIndex].clone();
+			var globalVertexUltra = localVertexUltra.applyMatrix4(semiSphereUltraSonicMesh.matrix);
+			var directionVectorUltra = globalVertexUltra.sub(semiSphereUltraSonicMesh.position);
+			var rayUltra = new THREE.Raycaster(positionUltraSensor, directionVectorUltra.clone().normalize());
+			var collisionResultsUltra = rayUltra.intersectObjects(collidableMeshList);
+			if (collisionResultsUltra.length > 0 && collisionResultsUltra[0].distance < directionVectorUltra.length()) {
+				
+				
+				echoeObjects[echoCounter] = collisionResultsUltra[0] ;
+				distanceArray[echoCounter] = collisionResultsUltra[0].distance ;
+				echoCounter++ ;
+				
+			} else {
+				
+			}
+		}
+		if(echoCounter>0){
+			minIndex = Math.min.apply(null, distanceArray); // sort by short distance
+			minIndex = distanceArray.indexOf(minIndex) ;
+			nearestObject = echoeObjects[minIndex] ;
+			nearestObject.object.material.color.setRGB(Math.random(), Math.random(), Math.random()); // highlighting of closest object form ultrasonic view 
+			echoeDistance = nearestObject.distance*mappingDivideValue  ;	
+			//console.log("distance in cm " + echoeDistance);// to check mapping result distanceS
+		}
+	}
+	
+
 
     gatherInputData();  
 
@@ -172,8 +215,8 @@ function transformBrick(valuesBrick) {
     //group.position.y += valuesBrick[POSITION_Y_INDEX] ;
     group.position.y += valuesBrick[DELTA_Y_INDEX];
     calculateWheelEncoders();
-    console.log("right wheel rotation " + getRightWheelRotationCounter());// to check encode
-    console.log("left wheel rotation " + getLeftWheelRotationCounter());// to check encode
+    //console.log("right wheel rotation " + getRightWheelRotationCounter());// to check encode
+    //console.log("left wheel rotation " + getLeftWheelRotationCounter());// to check encode
     if (valuesBrick[THETA_INDEX] != 0) { // change from ROTATION_Z_INDEX to THETA_INDEX because it comes from robotMotionHandler instead GeneratorRoberta
 
         group.rotation.z = valuesBrick[THETA_INDEX];

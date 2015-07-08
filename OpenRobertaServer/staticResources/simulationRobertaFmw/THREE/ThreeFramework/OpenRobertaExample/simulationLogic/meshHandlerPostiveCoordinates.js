@@ -29,6 +29,10 @@ var BLUE_BASIC_INDEX = 2;
 var WHITE_TRESHOLD = 700;
 var BLACK_TRESHOLD = 50;
 var RED_TRESHOLD = 179;
+var ULTRA_SONIC_RANGE = 170/14.8  ; // based lejos description instead  of Lego. 
+var semiSphereUltraSonicMesh ;
+var RADIANS_CONVERTOR = Math.PI / 180;
+var mappingDivideValue = 14.8 ;
 
 function instanceMeshes() {
 
@@ -182,7 +186,16 @@ function instanceMeshes() {
         color : 0x00642E,
         side : THREE.DoubleSide
     });
-
+	
+	// adding mesh of ultrasonic simulation
+	var semiSphereGeo = new THREE.SphereGeometry(ULTRA_SONIC_RANGE, 10,10 , 0*RADIANS_CONVERTOR,10*RADIANS_CONVERTOR,0*RADIANS_CONVERTOR,50*RADIANS_CONVERTOR);
+	var semiSphereMaterial = new THREE.MeshBasicMaterial({
+        color : 0xF90066,
+        transparent: true ,
+		 opacity: 0.2 , // keep visible just to show how it works but it should be transparent
+		side : THREE.DoubleSide
+    });
+	
     var squareMaterial = new THREE.MeshBasicMaterial({
         color : 0x8080FF,
         // map:neheTexture, 
@@ -252,7 +265,14 @@ function instanceMeshes() {
 
     octoedroMesh = new THREE.Mesh(longboxGeometry, longBoxMaterial);
     octoedroMesh.position.set(6, 6, .5); // change form -4,-3, 0 to 5, 7 , .5.
+	
+	semiSphereUltraSonicMesh = new THREE.Mesh(semiSphereGeo,semiSphereMaterial) ;
+	semiSphereUltraSonicMesh.position.set(0,0,0) ; // a little up from the body
+	semiSphereUltraSonicMesh.rotation.z = -115*RADIANS_CONVERTOR ; 
 }
+
+
+
 
 function getLighBFromRGB(R, G, B) {
     // it is used the approach of HSP Color Model
