@@ -83,6 +83,9 @@ function initializeScene() {
 
     // making new instance of Clock object	
     clock = new THREE.Clock();
+	
+	// adding frame handler
+	  animationFrame = new AnimationFrame(AVG_FRAME_Rate) ;
 }
 
 /**
@@ -191,7 +194,9 @@ function updateScene(motorL, motorR) {
     ACTORS.getLeftMotor().setCurrentRotations(tacho[0]);
     ACTORS.getRightMotor().setCurrentRotations(tacho[1]);
 
-    requestAnimationFrame(animateScene);
+    //requestAnimationFrame(animateScene); //oldest Request
+	// testing frame handler
+	animationFrame.request(animateScene) ;
     //console.log();
     // Map the 3D scene down to the 2D screen (render the frame) 
     //renderScene(); 

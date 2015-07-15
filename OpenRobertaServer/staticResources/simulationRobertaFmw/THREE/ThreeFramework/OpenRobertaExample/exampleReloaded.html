@@ -40,6 +40,7 @@
 		<script src="js/renderers/CanvasRenderer.js"></script>
 
 		<script src="js/libs/stats.min.js"></script>
+		<script src="js/AnimationFrame.js"></script>
   
       </head> 
       <body>
@@ -89,7 +90,9 @@
 	    var  clock  ;
 	    var  time   ;
 	    var  delta  ;
-	    
+	    var  AVG_FRAME_Rate = 30 ;  // 30 frames per second
+		
+		var animationFrame ; // adding frame handler var taken from  implementation of Oleg Slobodskoi MIT lincense
 	    // Initialize the scene 
 	    initializeScene(); 
 	    
