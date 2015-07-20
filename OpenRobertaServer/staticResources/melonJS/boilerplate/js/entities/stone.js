@@ -2,7 +2,6 @@
  * Stone Entity
  */
 game.StoneEntity = me.Entity.extend({
-
     //constructor
     init: function (x, y, settings) {
         // call the constructor
@@ -10,18 +9,10 @@ game.StoneEntity = me.Entity.extend({
 
         this.body.gravity = 0;
         this.alwaysUpdate = true;
-
-       // console.log(me.game.world.getChildByName("mainStone")[0]);
-
     },
 
     //update the entity
     update: function (dt) {
-
-       // console.log(me.game.world.getChildByName("mainStone")[0]);
-        //logic.sleep(3000);
-        //console.log("weiter");
-
         // apply physics to the body (this moves the entity)
         this.body.update(dt);
 

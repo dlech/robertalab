@@ -4,3 +4,5 @@
 Resources/resources/*.jar
 Resources/updateResources/*.jar
 OpenRobertaRuntime/userProjects/*
+OpenRobertaServer/staticResources/melonJS/boilerplate/.idea/
+Thumbs.db

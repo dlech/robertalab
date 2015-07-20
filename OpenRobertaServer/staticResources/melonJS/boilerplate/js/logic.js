@@ -1,107 +1,113 @@
 /**
- * Created by bbagci on 07.07.2015.
+ *
  */
-Math.radians = function(degrees) {
-    return degrees * Math.PI / 180;
+Math.ToRad = function (deg) {
+    return deg * Math.PI / 180;
+};
+Math.ToDeg = function (rad) {
+    return rad * 180 / Math.PI;
+};
+Math.Sinus = function (deg) {
+    return Math.sin(Math.ToRad(deg));
+};
+Math.Cosinus = function (deg) {
+    return Math.cos(Math.ToRad(deg));
 };
 
-// Converts from radians to degrees.
-Math.degrees = function(radians) {
-    return radians * 180 / Math.PI;
-};
-
-Math.Sinus = function(degrees){
-    return Math.sin(degrees * Math.PI / 180);
-};
-
-Math.Cosinus = function(degrees){
-    return Math.cos(degrees * Math.PI / 180);
-};
-
-var zahl = 0;
-var richtungswinkel = -1;
-
-var bewegungswinkel = -1;
-
-var linkerRad = 0.75;
-var rechterRad = 1.0;
+// TODO: global variables are implemented in logic
+// TODO: reasonable variable names
+// TODO: capture distance traveled
 
 var l = 20,
-    Vl = 0.5,
-    Vr = 1,
+    Vl = 300,
+    Vr = 400,
     R = 0,
-    za = 0,
+    agl = 0,
     w = 0,
     ICCx = 0,
     ICCy = 0;
 
+var tp_x = 0, tp_y = 0;
 
-var calcICCx = function (x, R, za){
+var calcICCx = function (x, R, za) {
     var tmp = x - R * Math.Sinus(za);
     return tmp;
-}
+};
 
-var calcICCy = function (y, R, za){
+var calcICCy = function (y, R, za) {
     var tmp = y + R * Math.Cosinus(za);
     return tmp;
-}
+};
 
-var calcR = function (lang, velL, velR){
-    var tmp = (lang/2) * ((velL + velR) / (velR - velL));
+var calcR = function (l, Vl, Vr) {
+    var tmp = (l / 2) * ((Vl + Vr) / (Vr - Vl));
     return tmp;
-}
+};
 
-var calcW = function (lang, velL, velR) {
-    var tmp = (velR - velL) / lang;
+var calcW = function (l, Vl, Vr) {
+    var tmp = (Vr - Vl) / l;
     return tmp;
-}
+};
+
+//--
+
+var beta = true; // for determine one loop cycle
+
+//--
 
 var logic = {
-    "sleep": function (delay) {
+    "sleep_by_date": function (delay) {
         var start = new Date().getTime();
         while (new Date().getTime() < start + delay);
     },
 
-    "beweg_example" : function() {
-        if(mainRoboter.angleTo(mainStone) >= Number.prototype.degToRad(-89)) {
-            _this.body.vel.x += 1;
-            //console.log(mainRoboter.angleTo(mainStone));
-        } else if (_this.renderable.angle >= (-89).degToRad())
-        {
-            _this.renderable.angle += (-1).degToRad();
+    "kurviere": function () {
 
-        } else if (mainRoboter.distanceTo(mainStone) > 0)
-        {
+        //if(agl >= 90) return;
+        //console.log(_this.pos.y);
 
-            _this.body.vel.y -= 1;
-            //console.log(mainRoboter.distanceTo(mainStone));
-            console.log(mainRoboter.distanceTo(mainStone));
+        if (beta) {
+            agl = _this.renderable.angle * (180 / Math.PI);
+            R = calcR(l, Vl, Vr);
+            w = calcW(l, Vl, Vr);
+            ICCx = calcICCx(_this.pos.x, R, agl);
+            ICCy = calcICCy(_this.pos.y, R, agl);
+
+            tp_x = _this.pos.x;
+            tp_y = _this.pos.y;
+
+            beta = false;
         }
 
-    },
+        matrix1 = [
+            [Math.Cosinus(w), -(Math.Sinus(w)), 0],
+            [Math.Sinus(w), Math.Cosinus(w), 0],
+            [0, 0, 1]
+        ];
 
-    "dreh_x" : function(x, y, winkel) {
-        var temp = x * Math.Cosinus(winkel) - y *Math.Sinus(winkel);
-        //console.log(temp);
-        return temp;
-    },
+        matrix2 = [
+            [(tp_x - ICCx)],
+            [(tp_y - ICCy)],
+            [agl]
+        ];
 
-    "dreh_y" : function(x, y, winkel) {
-        var temp = x * Math.Sinus(winkel) + y * Math.Cosinus(winkel);
-        //console.log(temp);
-        return temp;
-    },
+        matrix3 = [
+            [ICCx],
+            [ICCy],
+            [w]
+        ];
 
-    "beweg_example2" : function() {
-        if(zahl < 200) {
-            zahl++;
-            _this.body.vel.x = 1.5;
-            //console.log(mainRoboter.angleTo(mainStone));
-        } else if (_this.renderable.angle >= (richtungswinkel).degToRad())
-        {
-           _this.pos.x += 1;
+        var res = math.add(math.multiply(matrix1, matrix2), matrix3);
 
-        }
+        //_this.pos.x =  res[0][0];
+        //_this.pos.y = res[1][0];
+        tp_x = res[0][0];
+        tp_y = res[1][0];
+        agl = res[2][0];
+
+        _this.body.vel.x = tp_x - _this.pos.x;
+        _this.body.vel.y = tp_y - _this.pos.y;
+        _this.renderable.angle = Math.ToRad(agl);
 
     }
 };

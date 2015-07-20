@@ -39,6 +39,5 @@ var game = {
 
         // Start the game.
         me.state.change(me.state.PLAY);
-        //console.log(me.game.world.getChildByName("mainStone")[0]);
     }
 };
