@@ -56,6 +56,7 @@ var beta = true; // for determine one loop cycle
 //--
 
 var logic = {
+
     "sleep_by_date": function (delay) {
         var start = new Date().getTime();
         while (new Date().getTime() < start + delay);
@@ -63,8 +64,9 @@ var logic = {
 
     "kurviere": function () {
 
-        //if(agl >= 90) return;
-        //console.log(_this.pos.y);
+        if (Vl == Vr) {
+            Vr -= 0.01;
+        }
 
         if (beta) {
             agl = _this.renderable.angle * (180 / Math.PI);
@@ -99,8 +101,6 @@ var logic = {
 
         var res = math.add(math.multiply(matrix1, matrix2), matrix3);
 
-        //_this.pos.x =  res[0][0];
-        //_this.pos.y = res[1][0];
         tp_x = res[0][0];
         tp_y = res[1][0];
         agl = res[2][0];

@@ -5,7 +5,7 @@ game.resources = [{
 }, {
     name: "roboter",
     type: "image",
-    src: "data/img/roboter2.png"
+    src: "data/img/x_Roboter_Bumper.png"
 }, {
     name: "tile",
     type: "image",

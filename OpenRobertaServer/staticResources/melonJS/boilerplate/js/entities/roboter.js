@@ -32,12 +32,16 @@ game.RoboterEntity = me.Entity.extend({
         // this.body.setVelocity(1,1);
         // this.body.setMaxVelocity(10, 10);
         this.body.setFriction(1, 1);
-        //this.renderable.angle = 0.78;
 
         _this = this;
 
-        me.input.bindKey(me.input.KEY.S, "start2");
-        me.input.bindPointer(me.input.KEY.S); // wg touch
+        me.input.bindKey(me.input.KEY.R, "start2");
+
+        me.input.bindKey(me.input.KEY.W, "vorw");
+        me.input.bindKey(me.input.KEY.A, "links");
+        me.input.bindKey(me.input.KEY.D, "rechts");
+
+        me.input.bindPointer(me.input.KEY.R); // wg touch
     },
 
     /**
@@ -45,28 +49,28 @@ game.RoboterEntity = me.Entity.extend({
      */
     update: function (dt) {
 
-        /*if(false) {
-         setTimeout(function () {
-         _this.pos.x += 1;
-         once = true;
-         }, 200);
-         once = false;
-         }*/
-
-        if (Vl == Vr) {
-            // ...
-
-        } else if (Vl == 0) {
-
-            // ...
-
-        } else if (Vr == 0) {
-
-            // ...
-
-        }
-
         if (me.input.isKeyPressed('start2')) {
+            Vl = 300;
+            Vr = 400;
+            beta = true;
+            logic.kurviere();
+        }
+        if (me.input.isKeyPressed('vorw')) {
+            Vl = 400;
+            Vr = 400;
+            beta = true;
+            logic.kurviere();
+        }
+        if (me.input.isKeyPressed('rechts')) {
+            Vl = 300;
+            Vr = 400;
+            beta = true;
+            logic.kurviere();
+        }
+        if (me.input.isKeyPressed('links')) {
+            Vl = 400;
+            Vr = 300;
+            beta = true;
             logic.kurviere();
         }
 
@@ -91,4 +95,3 @@ game.RoboterEntity = me.Entity.extend({
         return true;
     }
 });
-
