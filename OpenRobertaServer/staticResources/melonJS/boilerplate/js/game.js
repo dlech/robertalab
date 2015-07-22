@@ -3,10 +3,17 @@ var game = {
     // Run on page load.
     "onload": function () {
         // Initialize the video.
-        if (!me.video.init(960, 640, {wrapper: "screen", scale: "auto"})) {
+        if (!me.video.init(1920, 1080, {
+                wrapper: "screen",
+                scale: "auto",
+                scaleMethod: "fit",
+                antiAlias: true
+            })) {
             alert("Your browser does not support HTML5 canvas.");
             return;
         }
+
+        me.video.setMaxSize(1920, 1080);
 
         // add "#debug" to the URL to enable the debug Panel
         if (me.game.HASH.debug === true) {

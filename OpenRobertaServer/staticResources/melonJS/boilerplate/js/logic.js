@@ -14,6 +14,14 @@ Math.Cosinus = function (deg) {
     return Math.cos(Math.ToRad(deg));
 };
 
+//--
+
+function setSpeed (left, right) {
+
+}
+
+//--
+
 // TODO: global variables are implemented in logic
 // TODO: reasonable variable names
 // TODO: capture distance traveled
@@ -69,7 +77,7 @@ var logic = {
         }
 
         if (beta) {
-            agl = _this.renderable.angle * (180 / Math.PI);
+            agl = Math.ToDeg(_this.renderable.angle);
             R = calcR(l, Vl, Vr);
             w = calcW(l, Vl, Vr);
             ICCx = calcICCx(_this.pos.x, R, agl);
