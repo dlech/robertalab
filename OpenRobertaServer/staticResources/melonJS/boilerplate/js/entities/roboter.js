@@ -35,13 +35,25 @@ game.RoboterEntity = me.Entity.extend({
 
         _this = this;
 
-        me.input.bindKey(me.input.KEY.R, "start2");
+        me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
+
+        me.input.bindKey(me.input.KEY.T, "start2");
 
         me.input.bindKey(me.input.KEY.W, "vorw");
         me.input.bindKey(me.input.KEY.A, "links");
         me.input.bindKey(me.input.KEY.D, "rechts");
 
-        me.input.bindPointer(me.input.KEY.R); // wg touch
+        me.input.bindKey(me.input.KEY.R, "ani");
+
+        me.input.bindPointer(me.input.KEY.T); // wg touch
+
+        this.renderable.addAnimation("walk", [3, 2, 1, 0]);
+        //this.renderable.addAnimation("walk",  [0, 1, 2, 3]);
+        // define a standing animation (using the first frame)
+        this.renderable.addAnimation("stand", [3]);
+        // set the standing animation as default
+        this.renderable.setCurrentAnimation("stand");
+        //this.renderable.setAnimationFrame(2);
     },
 
     /**
@@ -50,28 +62,48 @@ game.RoboterEntity = me.Entity.extend({
     update: function (dt) {
 
         if (me.input.isKeyPressed('start2')) {
+
+            if (!this.renderable.isCurrentAnimation("walk")) {
+                this.renderable.setCurrentAnimation("walk");
+            }
+
             Vl = 300;
             Vr = 400;
             beta = true;
             logic.kurviere();
         }
         if (me.input.isKeyPressed('vorw')) {
+            if (!this.renderable.isCurrentAnimation("walk")) {
+                this.renderable.setCurrentAnimation("walk");
+            }
             Vl = 400;
             Vr = 400;
             beta = true;
             logic.kurviere();
         }
         if (me.input.isKeyPressed('rechts')) {
+            if (!this.renderable.isCurrentAnimation("walk")) {
+                this.renderable.setCurrentAnimation("walk");
+            }
             Vl = 300;
             Vr = 400;
             beta = true;
             logic.kurviere();
         }
         if (me.input.isKeyPressed('links')) {
+            if (!this.renderable.isCurrentAnimation("walk")) {
+                this.renderable.setCurrentAnimation("walk");
+            }
             Vl = 400;
             Vr = 300;
             beta = true;
             logic.kurviere();
+        }
+
+        if (this.body.vel.x == 0 && this.body.vel.y == 0) {
+            if (!this.renderable.isCurrentAnimation("stand")) {
+                this.renderable.setCurrentAnimation("stand");
+            }
         }
 
         // apply physics to the body (this moves the entity)
@@ -80,9 +112,10 @@ game.RoboterEntity = me.Entity.extend({
         // handle collisions against other shapes
         me.collision.check(this);
 
+
         // return true if we moved or if the renderable was updated
         // return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0 || this.renderable.angle != 0);
-        return true;
+        return (this._super(me.Entity, 'update', [dt])) || true;
     },
 
     /**

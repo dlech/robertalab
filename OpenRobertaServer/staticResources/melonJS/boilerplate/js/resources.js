@@ -3,9 +3,13 @@ game.resources = [{
     type: "image",
     src: "data/img/96x96_roter_baustein.png"
 }, {
-    name: "roboter",
+    name: "roboterXX",
     type: "image",
     src: "data/img/128x128_roboter_bumper.png"
+}, {
+    name: "roboter",
+    type: "image",
+    src: "data/img/128px_4_bilder_sprite.png"
 }, {
     name: "128x128_tile",
     type: "image",

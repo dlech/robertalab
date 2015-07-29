@@ -14,11 +14,16 @@ Math.Cosinus = function (deg) {
     return Math.cos(Math.ToRad(deg));
 };
 
+function pixelToMeter(px) {
+    return (px/10000);
+}
+
 //--
 
-function setSpeed (left, right) {
-
-}
+    /* {because the Y-axis is inverted} */
+function setSpeed (left, right) {Vr = left; Vl = right; beta = true;}
+function getLeftDistance() {return pixelToMeter(right_wheel);}
+function getRightDistance() {return pixelToMeter(left_wheel);}
 
 //--
 
@@ -36,6 +41,7 @@ var l = 20,
     ICCy = 0;
 
 var tp_x = 0, tp_y = 0;
+var left_wheel = 0, right_wheel = 0;
 
 var calcICCx = function (x, R, za) {
     var tmp = x - R * Math.Sinus(za);
@@ -73,7 +79,7 @@ var logic = {
     "kurviere": function () {
 
         if (Vl == Vr) {
-            Vr -= 0.01;
+            Vr -= 0.0001;
         }
 
         if (beta) {
@@ -109,9 +115,15 @@ var logic = {
 
         var res = math.add(math.multiply(matrix1, matrix2), matrix3);
 
+        left_wheel += (R - (l/2)) * (res[2][0] - agl);
+        right_wheel += (R + (l/2)) * (res[2][0] - agl);
+
+        console.log("left_wheel: " + getLeftDistance() + " right_wheel: " + getRightDistance());
+
         tp_x = res[0][0];
         tp_y = res[1][0];
         agl = res[2][0];
+
 
         _this.body.vel.x = tp_x - _this.pos.x;
         _this.body.vel.y = tp_y - _this.pos.y;
