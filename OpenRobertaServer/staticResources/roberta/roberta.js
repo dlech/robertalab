@@ -434,14 +434,7 @@ function startProgram() {
                 }, function(result) {
                     injectBlockly(result, userState.programBlocks, true);
                 });
-
-                // Initialize the scene 
-                initializeScene();
-
-                // Instead of calling 'renderScene()', we call a new function: 'animateScene()'. It will 
-                // update the rotation values and call 'renderScene()' in a loop. 
-
-                animateScene(); // adding new Timer  NewDate on 26Mai
+                game.onload();
             }
         } else {
             displayInformation(result, "", result.message, "");
@@ -1316,7 +1309,7 @@ function initHeadNavigation() {
             $('#simDiv').removeClass('simActive');
             displayMessage("simBack pressed", "TOAST", "simBack");
             window.cancelAnimationFrame(requestId);
-            var myNode = document.getElementById("WebGLCanvas");
+            var myNode = document.getElementById("screen");
             while (myNode.firstChild) {
                 myNode.removeChild(myNode.firstChild);
             }

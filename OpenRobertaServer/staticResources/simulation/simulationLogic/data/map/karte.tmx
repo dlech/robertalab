@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="9" tilewidth="128" tileheight="128" nextobjectid="4">
+ <tileset firstgid="1" name="128x128_tile" tilewidth="128" tileheight="128">
+  <image source="../img/128x128_tile.png" width="128" height="128"/>
+ </tileset>
+ <layer name="Kachelebene 1" width="15" height="9">
+  <data encoding="base64">
+   AQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAA
+  </data>
+ </layer>
+ <objectgroup name="derroboter">
+  <object id="1" name="mainRoboter" x="200" y="400" width="128" height="128">
+   <properties>
+    <property name="framewidth" value="128"/>
+    <property name="image" value="roboter"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="diebausteine">
+  <object id="2" name="mainStone" x="500" y="400" width="96" height="96">
+   <properties>
+    <property name="frameheight" value="96"/>
+    <property name="framewidth" value="96"/>
+    <property name="image" value="roter_baustein"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

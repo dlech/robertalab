@@ -24,19 +24,8 @@ limitations under the License.
 <script type="text/javascript" src="/simulation/robertaLogic/programBuilder.js"></script>
 <script type="text/javascript" src="/simulation/robertaLogic/programEval.js"></script>
 
-<script type="text/javascript" src="/simulation/simulationLogic/GeneratorRoberta.js"></script>
-<script type="text/javascript" src="/simulation/simulationLogic/FrameworkManager.js"></script>
 
-<script type="text/javascript" src="/simulation/simulationLogic/meshHandlerPostiveCoordinates.js"></script>
-<script type="text/javascript" src="/simulation/simulationLogic/robotMotionHandler.js"></script>
-<script type="text/javascript" src="/simulation/simulationLogic/sensorsHandler.js"></script>
-<script type="text/javascript" src="/simulation/build/three.min.js"></script>
 
-<script type="text/javascript" src="/simulation/js/renderers/Projector.js"></script>
-<script type="text/javascript" src="/simulation/js/renderers/CanvasRenderer.js"></script>
-
-<script type="text/javascript" src="/simulation/js/libs/stats.min.js"></script>
-<script type="text/javascript" src="/simulation/js/AnimationFrame.js"></script>
 
 <script type="text/javascript" src="/common/jquery/jquery-2.0.3.js" charset="utf-8"></script>
 <script type="text/javascript" src="/common/ui/jquery-ui.js" charset="utf-8"></script>
@@ -52,6 +41,23 @@ limitations under the License.
 
 <script type="text/javascript" src="/blockly/blockly_compressed.js"></script>
 <script type="text/javascript" src="/blockly/blocks_compressed.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/1.7.0/math.js"></script>
+<!-- melonJS Library -->
+<script type="text/javascript" src="/simulation/simulationLogic/lib/melonJS-2.1.1.js"></script>
+<!-- Plugin(s) -->
+<script type="text/javascript" src="/simulation/simulationLogic/lib/plugins/debug/debugPanel.js"></script>
+<!-- own -->
+<script type="text/javascript" src="/simulation/simulationLogic/js/logic.js"></script>
+<!-- GAME SCRIPTS -->
+<script type="text/javascript" src="/simulation/simulationLogic/js/game.js"></script>
+<script type="text/javascript" src="/simulation/simulationLogic/js/resources.js"></script>
+<!-- Entities -->
+<script type="text/javascript" src="/simulation/simulationLogic/js/entities/roboter.js"></script>
+<script type="text/javascript" src="/simulation/simulationLogic/js/entities/stone.js"></script>
+<!-- Screens -->
+<script type="text/javascript" src="/simulation/simulationLogic/js/screens/title.js"></script>
+<script type="text/javascript" src="/simulation/simulationLogic/js/screens/play.js"></script>
 
 <link rel="stylesheet" type="text/css" href="/common/bootstrap/bootstrap-3.3.1-dist/dist/css/bootstrap.min.css"></link>
 <link rel="stylesheet" type="text/css" href="/common/jquery.dataTables.min.css"></link>
@@ -625,7 +631,7 @@ limitations under the License.
             <div id="blockly">
                 <div id="blocklyDiv"></div>
                 <div id="simDiv">
-                    <div id="WebGLCanvas"></div>
+                    <div id="screen"></div>
                     <div class="navbar navbar-fixed-bottom">
                         <button id="simBack" type="button" class="btn typcn typcn-arrow-back head-navi-icons pull-right"></button>
                         <button id="simStop" type="button" class="btn typcn typcn-media-stop head-navi-icons pull-right"></button>
