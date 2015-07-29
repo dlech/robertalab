@@ -124,6 +124,7 @@ function evalExpr(expr) {
     switch (expr.expr) {
     case NUM_CONST:
     case BOOL_CONST:
+    case COLOR_CONST:
         return expr.value;
     case VAR:
         return MEM.get(expr.name);
