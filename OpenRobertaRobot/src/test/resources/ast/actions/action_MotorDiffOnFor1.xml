@@ -1,7 +1,7 @@
 <block_set  xmlns="http://de.fhg.iais.roberta.blockly">
     <instance x="-667" y="54">
     <block type="robActions_motorDiff_on_for" id="200" inline="true" disabled="true">
-      <field name="DIRECTION">BACKWARD</field>
+      <field name="DIRECTION">BACKWARDS</field>
       <comment pinned="true" h="80" w="160">asdasdasd</comment>
       <value name="POWER">
         <block type="math_number" id="201" disabled="true">

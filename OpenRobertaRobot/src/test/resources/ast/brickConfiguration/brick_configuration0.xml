@@ -16,13 +16,13 @@
       <value name="MA">
         <block type="robBrick_motor_middle" id="5" inline="false" disabled="false" intask="true">
           <field name="MOTOR_REGULATION">TRUE</field>
-          <field name="MOTOR_REVERSE">FOREWARD</field>
+          <field name="MOTOR_REVERSE">OFF</field>
         </block>
       </value>
       <value name="MB">
         <block type="robBrick_motor_big" id="6" inline="false" disabled="false" intask="true">
           <field name="MOTOR_REGULATION">TRUE</field>
-          <field name="MOTOR_REVERSE">FOREWARD</field>
+          <field name="MOTOR_REVERSE">OFF</field>
           <field name="MOTOR_DRIVE">NONE</field>
         </block>
       </value>
