@@ -5,7 +5,7 @@
 
 <hibernate-configuration>
     <session-factory>
-<!-- 
+<!--
         <property name="show_sql">true</property>
 		<property name="format_sql">true</property>
 -->
@@ -17,8 +17,9 @@
         
         <mapping class="de.fhg.iais.roberta.persistence.bo.Program"/>
         <mapping class="de.fhg.iais.roberta.persistence.bo.Configuration"/>
-        <mapping class="de.fhg.iais.roberta.persistence.bo.Toolbox"/>
-        <mapping class="de.fhg.iais.roberta.persistence.bo.User" />
-        <mapping class="de.fhg.iais.roberta.persistence.bo.UserProgram" />
+		<mapping class="de.fhg.iais.roberta.persistence.bo.Toolbox"/>
+		<mapping class="de.fhg.iais.roberta.persistence.bo.Robot"/>
+        <mapping class="de.fhg.iais.roberta.persistence.bo.User"/>
+        <mapping class="de.fhg.iais.roberta.persistence.bo.AccessRight"/>
     </session-factory>
 </hibernate-configuration>
