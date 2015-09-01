@@ -1,0 +1,10 @@
+<block_set xmlns="http://de.fhg.iais.roberta.blockly">
+  <instance x="2" y="46">
+    <block type="robControls_start" id="144" intask="true" deletable="false">
+      <mutation declare="false"></mutation>
+    </block>
+    <block type="sim_motor_stop" id="189" intask="true">
+      <field name="MOTORPORT">C</field>
+    </block>
+  </instance>
+</block_set>

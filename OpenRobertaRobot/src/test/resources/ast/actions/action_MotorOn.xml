@@ -1,6 +1,6 @@
 <block_set  xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="1" y="1">
-    <block type="robActions_motor_on" id="8" inline="false">
+    <block type="robActions_motor_on" id="8" inline="true">
       <field name="MOTORPORT">B</field>
       <value name="POWER">
         <block type="math_number" id="9">
@@ -8,7 +8,7 @@
         </block>
       </value>
     </block>
-    <block type="robActions_motor_on" id="8" inline="false">
+    <block type="robActions_motor_on" id="8" inline="true">
       <field name="MOTORPORT">C</field>
       <value name="POWER">
         <block type="math_number" id="9">
