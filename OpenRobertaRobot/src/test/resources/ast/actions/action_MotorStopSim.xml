@@ -1,10 +1,11 @@
 <block_set xmlns="http://de.fhg.iais.roberta.blockly">
-  <instance x="2" y="46">
-    <block type="robControls_start" id="144" intask="true" deletable="false">
+  <instance x="45" y="117">
+    <block type="robControls_start" id="47" intask="true" deletable="false">
       <mutation declare="false"></mutation>
     </block>
-    <block type="sim_motor_stop" id="189" intask="true">
-      <field name="MOTORPORT">C</field>
+    <block type="sim_motor_stop" id="45" intask="true">
+      <field name="MOTORPORT">B</field>
+      <field name="MODE">FLOAT</field>
     </block>
   </instance>
 </block_set>
