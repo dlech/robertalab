@@ -962,8 +962,8 @@ public class Hal {
      *
      * @param time in milliseconds
      */
-    public void waitFor(long time) {
-        Delay.msDelay(time);
+    public void waitFor(float time) {
+        Delay.msDelay((long)time);
     }
 
     /**
