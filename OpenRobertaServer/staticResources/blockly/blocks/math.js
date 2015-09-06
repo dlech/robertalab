@@ -373,3 +373,146 @@ Blockly.Blocks['math_random_float'] = {
         this.setTooltip(Blockly.Msg.MATH_RANDOM_FLOAT_TOOLTIP);
     }
 };
+
+//Blockly.Blocks['math_arithmetic'] = {
+//	    /**
+//	     * Block for basic arithmetic operator.
+//	     * 
+//	     * @this Blockly.Block
+//	     */
+//	    init : function() {
+//	        var OPERATORS = [ [ Blockly.Msg.MATH_ADDITION_SYMBOL, 'ADD' ], [ Blockly.Msg.MATH_SUBTRACTION_SYMBOL, 'MINUS' ],
+//	                [ Blockly.Msg.MATH_MULTIPLICATION_SYMBOL, 'MULTIPLY' ], [ Blockly.Msg.MATH_DIVISION_SYMBOL, 'DIVIDE' ],
+//	                [ Blockly.Msg.MATH_POWER_SYMBOL, 'POWER' ] ];
+//	        this.setHelpUrl(Blockly.Msg.MATH_ARITHMETIC_HELPURL);
+//	       
+//	        this.setOutput(true, 'Number');
+//	        this.appendValueInput('A').setCheck('Number');
+//	        this.appendValueInput('B').setCheck('Number').appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
+//	        this.setInputsInline(true);
+//	        // Assign 'this' to a variable for use in the tooltip closure below.
+//	        var thisBlock = this;
+//	        this.setTooltip(function() {
+//	            var mode = thisBlock.getFieldValue('OP');
+//	            var TOOLTIPS = {
+//	                'ADD' : Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_ADD,
+//	                'MINUS' : Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MINUS,
+//	                'MULTIPLY' : Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_MULTIPLY,
+//	                'DIVIDE' : Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_DIVIDE,
+//	                'POWER' : Blockly.Msg.MATH_ARITHMETIC_TOOLTIP_POWER
+//	            };
+//	            return TOOLTIPS[mode];
+//	        });
+//	    }
+//	};
+//
+
+Blockly.Blocks['math_chain'] = {
+		
+		init : function() {
+			var OPERATORS = [ [ Blockly.Msg.MATH_ADDITION_SYMBOL, 'ADD' ], 
+			                   [ Blockly.Msg.MATH_SUBTRACTION_SYMBOL, 'MINUS' ],
+				               [ Blockly.Msg.MATH_MULTIPLICATION_SYMBOL, 'MULTIPLY' ], 
+				               [ Blockly.Msg.MATH_DIVISION_SYMBOL, 'DIVIDE' ],
+				               [ Blockly.Msg.MATH_POWER_SYMBOL, 'POWER' ] ];
+			
+			this.setColourRGB(Blockly.CAT_MATH_RGB);
+			this.setOutput(true, 'Number');
+	        this.setMutatorPlus(new Blockly.MutatorPlus(this));
+			this.appendValueInput('A').setCheck('Number');
+			this.appendValueInput('B').setCheck('Number').appendField(new Blockly.FieldDropdown(OPERATORS), 'OP');
+	        this.additionalElements_ = 0;
+	       
+	        
+	        this.setInputsInline(true);
+
+		},
+
+		mutationToDom : function() {
+			if (!this.additionalElements_) {
+				return;
+			}
+			
+			var container = document.createElement('mutation');
+			
+			if (this.additionalElements_ > 0){
+				container.setAttribute('additionalElements', this.additionalElements_);
+			}	
+			
+			return container;
+		},
+		   /**
+	     * Parse XML to restore the chain inputs.
+	     * 
+	     * @param {!Element}
+	     *            xmlElement XML storage element.
+	     * @this Blockly.Block
+	     */
+		domToMutation : function(xmlElement) {
+			
+	    	var OPERATORS = [  [ Blockly.Msg.MATH_ADDITION_SYMBOL, 'ADD' ], 
+			                   [ Blockly.Msg.MATH_SUBTRACTION_SYMBOL, 'MINUS' ],
+				               [ Blockly.Msg.MATH_MULTIPLICATION_SYMBOL, 'MULTIPLY' ], 
+				               [ Blockly.Msg.MATH_DIVISION_SYMBOL, 'DIVIDE' ],
+				               [ Blockly.Msg.MATH_POWER_SYMBOL, 'POWER' ] ];
+	    	
+	    	console.log("test");
+	    	
+	        if (xmlElement.hasAttribute('additionalElements')) {
+	            this.additionalElements_ = parseInt(xmlElement.getAttribute('additionalElements'), 10);
+	            
+	            for (var i = 0; i < this.additionalElements_; i++) {
+		        	this.appendValueInput('E' + i+1).setCheck('Number').appendField(new Blockly.FieldDropdown(OPERATORS), 'OP' + i+1);
+		        }	            
+	        }
+	        	
+	       
+	        
+	        if (this.additionalElements_ > 0) {
+	            this.setMutatorMinus(new Blockly.MutatorMinus(this));
+	        }
+	        
+	    },
+
+	     /* Update the shape according to the number of elseIf inputs.
+	     * 
+	     * @param {Number}
+	     *            number of elseIf inputs.
+	     * @this Blockly.Block
+	     */
+	    updateShape_ : function(num) {
+	    	var OPERATORS = [ [ Blockly.Msg.MATH_ADDITION_SYMBOL, 'ADD' ], 
+			                   [ Blockly.Msg.MATH_SUBTRACTION_SYMBOL, 'MINUS' ],
+				               [ Blockly.Msg.MATH_MULTIPLICATION_SYMBOL, 'MULTIPLY' ], 
+				               [ Blockly.Msg.MATH_DIVISION_SYMBOL, 'DIVIDE' ],
+				               [ Blockly.Msg.MATH_POWER_SYMBOL, 'POWER' ] ];
+	    	
+	    	if (num == 1) {
+	    		
+	    		this.appendValueInput('E' + this.additionalElements_).setCheck('Number').appendField(new Blockly.FieldDropdown(OPERATORS), 'OP' + this.additionalElements_);
+	    		this.additionalElements_++;
+	    		this.setInputsInline(true);
+
+
+	    	} else if (num == -1) {
+	    		this.additionalElements_--;
+	    		this.removeInput('E' + this.additionalElements_);
+	            
+	            
+	        }
+	    	
+	    	if (this.additionalElements_ > 0) {
+	    		if (this.additionalElements_ == 1) {
+	                this.setMutatorMinus(new Blockly.MutatorMinus(this));
+	                this.render();
+	            }
+	    	} else {
+	            this.mutatorMinus.dispose();
+	            this.mutatorMinus = null;
+                this.render();
+
+	      
+	    	}
+	    }
+	    
+}
