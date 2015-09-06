@@ -130,7 +130,7 @@ public class Util {
         return response;
     }
 
-    public static JSONObject addErrorInfo(JSONObject response, Key key) throws JSONException {
+	public static JSONObject addErrorInfo(JSONObject response, Key key) throws JSONException {
         addResultInfo(response, "error", key);
         return response;
     }

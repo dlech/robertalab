@@ -66,7 +66,9 @@ limitations under the License.
 </head>
 
 <body>
-
+	
+	<input id="yourinputname" type="file" name="yourinputname" style="display: none;" />
+	
     <!-- ################## HEAD NAVIGATION ################## -->
 
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="head-navigation">
@@ -91,12 +93,20 @@ limitations under the License.
                         <ul class="dropdown-menu">
                             <li><a href="#" id="menuRunProg" class="typcn typcn-media-play" lkey="Blockly.Msg.MENU_START">starten</a></li>
                             <li><a href="#" id="menuCheckProg" class="typcn typcn-tick" lkey="Blockly.Msg.MENU_CHECK">checken</a></li>
+                            <li class="divider"></li>
                             <li><a href="#" id="menuNewProg" class="typcn typcn-document-add" lkey="Blockly.Msg.MENU_NEW">neu ...</a></li>
-                            <li class="logout"><a href="#" id="menuListProg" class="typcn typcn-th-list" lkey="Blockly.Msg.MENU_LIST">Liste ...</a></li>
+                            <li class="logout"><a href="#" id="menuListProg" class="typcn typcn-th-list" lkey="Blockly.Msg.MENU_OPEN">Liste ...</a></li>
                             <li class="login logout"><a href="#" id="menuSaveProg" class="typcn typcn-cloud-storage" lkey="Blockly.Msg.MENU_SAVE">speichern</a>
                             </li>
-                            <li class="logout"><a href="#" id="menuSaveAsProg" class="typcn typcn-cloud-storage" lkey="Blockly.Msg.MENU_SAVE_AS">speichern
-                                    unter ...</a></li>
+                            <li class="logout"><a href="#"
+								id="menuSaveAsProg" class="typcn typcn-cloud-storage"
+								lkey="Blockly.Msg.MENU_SAVE_AS">speichern unter ...</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" id="menuSaveToDisk" class="typcn typcn-download" lkey="Blockly.Msg.MENU_SAVE_TO_DISK">Auf Festplatte speichern</a>
+                            </li>
+                            <li><a href="#" id="menuLoadFromDisk" class="typcn typcn-upload" lkey="Blockly.Msg.MENU_LOAD_FROM_DISK">Von Festplatte laden</a>
+                            </li>
+                            <li class="divider"></li>
                             <li class=""><a href="#" id="menuShowCode" class="typcn typcn-cloud-storage" lkey="Blockly.Msg.MENU_SHOW_CODE">show code</a></li>
                             <li class="hidden"><a href="#" id="menuAttachProg" class="" lkey="Blockly.Msg.MENU_ATTACH">anhängen ...</a></li>
                             <li class="hidden"><a href="#" id="menuPropertiesProg" class="" lkey="Blockly.Msg.MENU_PROPERTIES">Eigenschaften</a></li>
@@ -119,6 +129,7 @@ limitations under the License.
                             </li>
                             <li class="logout"><a href="#" id="menuSaveAsConfig" class="typcn typcn-cloud-storage" lkey="Blockly.Msg.MENU_SAVE_AS">speichern
                                     unter ...</a></li>
+
                             <li class="hidden"><a href="#" id="menuPropertiesConfig" class="" lkey="Blockly.Msg.MENU_PROPERTIES">Eigenschaften ...</a></li>
                         </ul></li>
                     <!-- Menu Robot -->

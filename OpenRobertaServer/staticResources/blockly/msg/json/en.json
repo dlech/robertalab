@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Ellen Spertus <ellen.spertus@gmail.com>",
-		"lastupdated": "2015-08-28 11:49:41.429000",
+		"lastupdated": "2015-09-06 16:48:13.873000",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -641,6 +641,7 @@
 	"MENU_START": "run",
 	"MENU_CHECK": "check",
 	"MENU_NEW": "new ...",
+	"MENU_OPEN": "open ...",
 	"MENU_LIST": "list ...",
 	"MENU_SAVE": "save",
 	"MENU_SAVE_AS": "save as ...",
@@ -672,6 +673,8 @@
 	"MENU_TITLE_USER": "user",
 	"MENU_TITLE_USER_STATE": "user info",
 	"MENU_TITLE_ROBOT_STATE": "robot info",
+	"MENU_SAVE_TO_DISK": "save to file",
+	"MENU_LOAD_FROM_DISK": "load from file",
 	"MENU_SHOW_CODE": "show code",
 	"TAB_PROGRAM": "Program",
 	"TAB_CONFIGURATION": "Robot configuration",
@@ -757,6 +760,7 @@
 	"ORA_PROGRAM_GET_ALL_SUCCESS": "Programs loaded",
 	"ORA_PROGRAM_DELETE_SUCCESS": "Program deeleted",
 	"ORA_PROGRAM_DELETE_ERROR": "An error error has occured while deleding the configuration. Please try it again!",
+	"ORA_PROGRAM_LOAD_FAILURE": "Couldnt load program",
 	"ORA_USER_GET_ONE_SUCCESS": "Login successfull",
 	"ORA_USER_GET_ONE_ERROR_ID_OR_PASSWORD_WRONG": "An error occured while logging in.",
 	"ORA_USER_CREATE_SUCCESS": "The user was successfully created",

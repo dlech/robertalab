@@ -164,6 +164,7 @@
   "MENU_ATTACH": "liitä ...",
   "MENU_SAVE_AS": "tallenna nimellä ...",
   "MENU_SAVE": "tallenna",
+  "MENU_OPEN": "open",
   "MENU_LIST": "listaa tallennukset",
   "MENU_NEW": "uusi ...",
   "MENU_CHECK": "tarkista",

@@ -1,6 +1,7 @@
 package de.fhg.iais.roberta.javaServer.restServices.all;
 
 import java.io.StringWriter;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -13,6 +14,10 @@ import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.*;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -26,6 +31,7 @@ import de.fhg.iais.roberta.blockly.generated.BlockSet;
 import de.fhg.iais.roberta.blockly.generated.Instance;
 import de.fhg.iais.roberta.components.ev3.Ev3Configuration;
 import de.fhg.iais.roberta.javaServer.provider.OraData;
+import de.fhg.iais.roberta.jaxb.JaxbHelper;
 import de.fhg.iais.roberta.persistence.AbstractProcessor;
 import de.fhg.iais.roberta.persistence.AccessRightProcessor;
 import de.fhg.iais.roberta.persistence.DummyProcessor;
@@ -127,7 +133,31 @@ public class ClientProgram {
                     }
                 }
                 Util.addResultInfo(response, pp);
-
+            } else if ( cmd.equals("openXMLP") ) {
+            	LOG.info("Attempting to open program from user provided XML" );            	
+            	String xmlText = request.getString("program");
+            	LOG.info(xmlText);
+            	
+            	InputStream xsdStream = ClientProgram.class.getClassLoader().getResourceAsStream("blockly.xsd");
+            	SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            	Schema schema = schemaFactory.newSchema(new StreamSource(xsdStream));
+            	Validator validator = schema.newValidator();
+            	
+            	boolean xmlIsValid = true;
+            	try {
+            		validator.validate(new StreamSource(new java.io.StringReader(xmlText)));
+                    ClientProgram.LOG.info("XML is valid");
+            	} catch (org.xml.sax.SAXException e) {
+            		xmlIsValid = false;
+                    ClientProgram.LOG.error("XML is invalid", e);
+            	}
+            	
+            	if (xmlIsValid) {
+                	response.put("data", xmlText);
+                    Util.addSuccessInfo(response, Key.PROGRAM_LOAD_SUCCESS);          		
+            	} else {
+                    Util.addErrorInfo(response, Key.PROGRAM_LOAD_FAILURE);
+            	}
             } else if ( cmd.equals("loadP") && httpSessionState.isUserLoggedIn() ) {
                 String programName = request.getString("name");
                 String ownerName = request.getString("owner");
@@ -207,7 +237,7 @@ public class ClientProgram {
                 RobotDao robotDao = new RobotDao(dbSession);
                 Robot robot = robotDao.get(robotId);
                 String token = httpSessionState.getToken();
-                String programName = request.getString("name");
+                String programName = purifyProgramName(request.getString("name"));
                 String programText = request.optString("programText");
                 String configurationText = request.optString("configurationText");
                 boolean wasRobotWaiting = false;
@@ -289,5 +319,45 @@ public class ClientProgram {
         } else {
             Util.addErrorInfo(response, messageKey);
         }
+    }
+    
+    /**
+     * @param sinfulName
+     * @return a string that can be used as a java class name from @sinfulName 
+     */
+    private String purifyProgramName(String sinfulName)
+    {    	
+    	String pureName = new String();
+    	for (int srcC = 0; srcC < sinfulName.length(); srcC++)
+    	{
+    		char srcChar = sinfulName.charAt(srcC);
+    		
+    		if (srcChar >= 128) // ASCII only
+    		{
+    			continue;
+    		}
+    		
+    		if (pureName.length() == 0) // First char needs to be a letter
+    		{
+    			if (Character.isLetter(srcChar))
+    			{
+    				pureName += srcChar;
+    			}
+    		}
+    		else
+    		{
+    			if ((Character.isLetter(srcChar) || Character.isDigit(srcC)))
+    			{
+    				pureName += srcChar;
+    			}
+    		}
+    	}
+    	
+    	if (pureName.length() == 0)
+    	{
+    		return new String("NEPOProg");
+    	}
+    	
+    	return pureName;
     }
 }

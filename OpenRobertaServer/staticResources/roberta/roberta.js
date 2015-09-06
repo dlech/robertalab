@@ -35,6 +35,35 @@ function initUserState() {
 }
 
 /**
+ * Returns the basename (i.e. "hello" in "C:/folder/hello.txt")
+ */
+function basename(str)
+{
+    var base = new String(str).substring(str.lastIndexOf('/') + 1); 
+    if(base.lastIndexOf(".") != -1) {     
+        base = base.substring(0, base.lastIndexOf("."));
+    }
+    return base;
+}
+
+/**
+ * Opens a "Save As" dialog to save a file
+ * with @content as content
+ */
+function saveAs(content, filename)
+{
+    var blob = new Blob([ content ]);
+    var element = document.createElement('a');
+    var myURL = window.URL || window.webkitURL;
+    element.setAttribute('href', myURL.createObjectURL(blob));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);	
+}
+
+/**
  * Login user
  */
 function login() {
@@ -360,6 +389,39 @@ function saveToServer() {
 }
 
 /**
+ * Open a "Save as" dialog to save the currently loaded program
+ * as a xml file
+ */
+function saveToDisk() {
+    var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+    var xmlText = Blockly.Xml.domToText(xml);
+    saveAs(xmlText, userState.program + ".xml");
+}
+
+/**
+ * Open a file select dialog to load a previsouly 
+ * saved program file (see @saveToDisk)
+ */
+function loadFromDisk() {
+    var input = $(document.createElement('input'));
+    input.attr("type", "file");
+    input.attr("accept", "application/xml");
+    input.trigger('click'); // opening dialog
+    input.change( function(event) {
+    	var file = event.target.files[0]
+    	var reader = new FileReader()
+    	reader.readAsText(file)
+    	reader.onload=function (event){
+            PROGRAM.loadProgramFromXML(basename(file.name), event.target.result, function(result) {
+                console.log("Received validated program")
+                console.log(result.data)
+            	showProgram(result, true, basename(file.name));                
+            });
+    	}
+    } )
+}
+
+/**
  * Save configuration with new name to server
  */
 function saveAsConfigurationToServer() {
@@ -423,7 +485,7 @@ function showJavaProgram() {
 /**
  * Run program
  */
-function runOnBrick() {
+function runOnBrick() {	
     if (userState.robot === 'ev3') {
         if (userState.robotState === '' || userState.robotState === 'disconnected') {
             displayMessage("POPUP_ROBOT_NOT_CONNECTED", "POPUP", "");
@@ -576,6 +638,8 @@ function showProgram(result, load, name) {
         }
         Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
         LOG.info('show program ' + userState.program + ' signed in: ' + userState.id);
+    } else {
+    	LOG.info('show program failed: ' + result)
     }
 };
 
@@ -1199,7 +1263,12 @@ function initHeadNavigation() {
             saveToServer();
         } else if (domId === 'menuSaveAsProg') { //  Submenu 'Program'
             $("#save-program").modal('show');
-        } else if (domId === 'menuShowCode') { //  Submenu 'Program'
+        } else if (domId === 'menuSaveToDisk') { 
+        	saveToDisk();
+        } else if (domId === 'menuLoadFromDisk') { 
+        	loadFromDisk();
+        }          
+        else if (domId === 'menuShowCode') { //  Submenu 'Program'
             showCode();
         } else if (domId === 'menuPropertiesProg') { //  Submenu 'Program'
         } else if (domId === 'menuToolboxBeginner') { // Submenu 'Program'
@@ -1448,15 +1517,7 @@ function initHeadNavigation() {
     }, 'codeBack clicked');
 
     $('#codeDownload').onWrap('click', function(event) {
-        var blob = new Blob([ userState.programCode ]);
-        var element = document.createElement('a');
-        var myURL = window.URL || window.webkitURL;
-        element.setAttribute('href', myURL.createObjectURL(blob));
-        element.setAttribute('download', userState.program + ".java");
-        element.style.display = 'none';
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
+        saveAs(userState.programCode, userState.program + ".java");
     }, 'codeDownload clicked');
 }
 

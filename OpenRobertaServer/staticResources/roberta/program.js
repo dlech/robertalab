@@ -28,6 +28,18 @@ var PROGRAM = {};
     };
     
     /**
+     * Open program from XML
+     * @memberof PROGRAM
+     */
+    PROGRAM.loadProgramFromXML = function(programName, xmlText, successFn) {
+        COMM.json("/program", {
+            "cmd" : "openXMLP",
+            "name" : programName,
+            "program" : xmlText
+        }, successFn, "Open program '" + programName + "' from XML"); 
+    };
+    
+    /**
      * Share program with another user
      * @memberof PROGRAM
      */

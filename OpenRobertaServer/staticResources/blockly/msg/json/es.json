@@ -406,6 +406,7 @@
     "MENU_FAQ" : "Preguntas frequentes",
     "MENU_GENERAL" : "ayuda general",
     "MENU_HELP" : "ayuda",
+    "MENU_OPEN" : "open ...",
     "MENU_LIST" : "lista ...",
     "MENU_LOG_IN" : "iniciar sesión ...",
     "MENU_LOG_OUT" : "cerrar sesión",
