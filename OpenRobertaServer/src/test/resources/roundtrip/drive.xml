@@ -1,104 +1,100 @@
 <block_set xmlns="http://de.fhg.iais.roberta.blockly">
   <instance x="151" y="30">
     <block type="robControls_start" id="21" intask="true" deletable="false">
-      <mutation declare="true"></mutation>
-      <statement name="ST">
-        <block type="robGlobalvariables_declare" id="23" inline="true" intask="true" deletable="false" movable="false">
-          <mutation next="false" declaration_type="Number"></mutation>
-          <field name="VAR">variablenName</field>
-          <field name="TYPE">Number</field>
-          <value name="VALUE">
-            <block type="math_number" id="24" intask="true">
-              <field name="NUM">0</field>
-            </block>
-          </value>
-        </block>
-      </statement>
+      <mutation declare="false"></mutation>
     </block>
-    <block type="robActions_motorDiff_on" id="45" inline="false" intask="true">
-      <field name="DIRECTION">FOREWARD</field>
+    <block type="robActions_motorDiff_turn" id="98" inline="false" intask="true">
+      <field name="DIRECTION">LEFT</field>
       <value name="POWER">
-        <block type="math_number" id="46" intask="true">
+        <block type="math_number" id="99" intask="true">
           <field name="NUM">50</field>
         </block>
       </value>
     </block>
-    <block type="robActions_motorDiff_on" id="60" inline="false" intask="true">
-      <field name="DIRECTION">BACKWARD</field>
+    <block type="robActions_motorDiff_turn" id="105" inline="false" intask="true">
+      <field name="DIRECTION">RIGHT</field>
       <value name="POWER">
-        <block type="math_number" id="46" intask="true">
-          <field name="NUM">10</field>
-        </block>
-      </value>
-    </block>
-    <block type="robActions_motorDiff_on_for" id="65" inline="false" intask="true">
-      <field name="DIRECTION">FOREWARD</field>
-      <value name="POWER">
-        <block type="math_number" id="66" intask="true">
+        <block type="math_number" id="99" intask="true">
           <field name="NUM">50</field>
         </block>
       </value>
-      <value name="DISTANCE">
-        <block type="math_number" id="67" intask="true">
+    </block>
+    <block type="robActions_motorDiff_turn_for" id="116" inline="false" intask="true">
+      <field name="DIRECTION">LEFT</field>
+      <value name="POWER">
+        <block type="math_number" id="117" intask="true">
+          <field name="NUM">50</field>
+        </block>
+      </value>
+      <value name="DEGREE">
+        <block type="math_number" id="118" intask="true">
           <field name="NUM">20</field>
         </block>
       </value>
     </block>
-    <block type="robActions_motorDiff_on_for" id="77" inline="false" intask="true">
-      <field name="DIRECTION">BACKWARDS</field>
+    <block type="robActions_motorDiff_turn_for" id="122" inline="false" intask="true">
+      <field name="DIRECTION">RIGHT</field>
       <value name="POWER">
-        <block type="math_number" id="66" intask="true">
-          <field name="NUM">10</field>
+        <block type="math_number" id="117" intask="true">
+          <field name="NUM">50</field>
         </block>
       </value>
-      <value name="DISTANCE">
-        <block type="math_number" id="67" intask="true">
-          <field name="NUM">200</field>
+      <value name="DEGREE">
+        <block type="math_number" id="118" intask="true">
+          <field name="NUM">20</field>
         </block>
       </value>
     </block>
-    <block type="robActions_motorDiff_stop" id="104" intask="true"></block>
-    <block type="robActions_motorDiff_turn" id="117" inline="false" intask="true">
-      <field name="DIRECTION">RIGHT</field>
+    <block type="robActions_motorDiff_on" id="126" inline="false" intask="true">
+      <field name="DIRECTION">BACKWARD</field>
       <value name="POWER">
-        <block type="math_number" id="118" intask="true">
+        <block type="math_number" id="47" intask="true">
           <field name="NUM">50</field>
         </block>
       </value>
     </block>
-    <block type="robActions_motorDiff_turn" id="124" inline="false" intask="true">
-      <field name="DIRECTION">LEFT</field>
+    <block type="robActions_motorDiff_on" id="46" inline="false" intask="true">
+      <field name="DIRECTION">BACKWARD</field>
       <value name="POWER">
-        <block type="math_number" id="118" intask="true">
-          <field name="NUM">100</field>
+        <block type="math_number" id="47" intask="true">
+          <field name="NUM">50</field>
         </block>
       </value>
     </block>
-    <block type="robActions_motorDiff_turn_for" id="142" inline="false" intask="true">
-      <field name="DIRECTION">RIGHT</field>
+    <block type="robActions_motorDiff_on" id="59" inline="false" intask="true">
+      <field name="DIRECTION">FOREWARD</field>
       <value name="POWER">
-        <block type="math_number" id="143" intask="true">
-          <field name="NUM">100</field>
-        </block>
-      </value>
-      <value name="DEGREE">
-        <block type="math_number" id="144" intask="true">
-          <field name="NUM">200</field>
+        <block type="math_number" id="47" intask="true">
+          <field name="NUM">50</field>
         </block>
       </value>
     </block>
-    <block type="robActions_motorDiff_turn_for" id="148" inline="false" intask="true">
-      <field name="DIRECTION">LEFT</field>
+    <block type="robActions_motorDiff_on_for" id="64" inline="false" intask="true">
+      <field name="DIRECTION">FOREWARD</field>
       <value name="POWER">
-        <block type="math_number" id="143" intask="true">
-          <field name="NUM">100</field>
+        <block type="math_number" id="65" intask="true">
+          <field name="NUM">50</field>
         </block>
       </value>
-      <value name="DEGREE">
-        <block type="math_number" id="144" intask="true">
-          <field name="NUM">1</field>
+      <value name="DISTANCE">
+        <block type="math_number" id="66" intask="true">
+          <field name="NUM">20</field>
         </block>
       </value>
     </block>
+    <block type="robActions_motorDiff_on_for" id="76" inline="false" intask="true">
+      <field name="DIRECTION">BACKWARDS</field>
+      <value name="POWER">
+        <block type="math_number" id="65" intask="true">
+          <field name="NUM">50</field>
+        </block>
+      </value>
+      <value name="DISTANCE">
+        <block type="math_number" id="66" intask="true">
+          <field name="NUM">20</field>
+        </block>
+      </value>
+    </block>
+    <block type="robActions_motorDiff_stop" id="85" intask="true"></block>
   </instance>
 </block_set>
