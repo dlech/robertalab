@@ -40,6 +40,7 @@ limitations under the License.
 <script type="text/javascript" src="/roberta/configuration.js"></script>
 <script type="text/javascript" src="/roberta/util.js"></script>
 <script type="text/javascript" src="/roberta/roberta.js"></script>
+<script type="text/javascript" src="/roberta/thymio.js"></script>
 <!-- <script type="text/javascript" src="/roberta/roberta.min.js"></script> -->
 
 <!-- <script type="text/javascript" src="/simulation/simulationLogic/robot.js"></script>
@@ -50,7 +51,37 @@ limitations under the License.
 
 <script type="text/javascript" src="/blockly/blockly_compressed.js"></script>
 <script type="text/javascript" src="/blockly/blocks_compressed.js"></script>
+<script type="text/javascript" src="/blockly/aesl_compressed.js"></script>
 <script type="text/javascript" src="blockly/msg/js/en.js"></script>
+
+<!-- 
+<script type="text/javascript" src="/blockly/generators/aesl.js"></script>
+<script type="text/javascript" src="/blockly/generators/aesl/logic.js"></script>
+<script type="text/javascript" src="/blockly/generators/aesl/math.js"></script>
+<script type="text/javascript" src="/blockly/generators/aesl/thymio.js"></script>
+<script type="text/javascript" src="/blockly/generators/aesl/loops.js"></script>
+<script type="text/javascript" src="/blockly/generators/aesl/variables.js"></script>
+<script type="text/javascript" src="/blockly/generators/aesl/procedures.js"></script>
+<script type="text/javascript" src="/blockly/generators/aesl/robControls.js"></script>
+<script type="text/javascript" src="/blockly/blocks/colour.js"></script>
+<script type="text/javascript" src="/blockly/blocks/lists.js"></script>
+<script type="text/javascript" src="/blockly/blocks/logic.js"></script>
+<script type="text/javascript" src="/blockly/blocks/loops.js"></script>
+<script type="text/javascript" src="/blockly/blocks/math.js"></script>
+<script type="text/javascript" src="/blockly/blocks/robActions.js"></script>
+<script type="text/javascript" src="/blockly/blocks/robBrick.js"></script>
+<script type="text/javascript" src="/blockly/blocks/robColour.js"></script>
+<script type="text/javascript" src="/blockly/blocks/robCommunication.js"></script>
+<script type="text/javascript" src="/blockly/blocks/robControls.js"></script>
+<script type="text/javascript" src="/blockly/blocks/robProcedures.js"></script>
+<script type="text/javascript" src="/blockly/blocks/robSensors.js"></script>
+<script type="text/javascript" src="/blockly/blocks/simActions.js"></script>
+<script type="text/javascript" src="/blockly/blocks/simSensors.js"></script>
+<script type="text/javascript" src="/blockly/blocks/text.js"></script>
+<script type="text/javascript" src="/blockly/blocks/variables.js"></script>
+<script type="text/javascript" src="/blockly/blocks/thymio.js"></script>
+<script type="text/javascript" src="/blockly/msg/messages.js"></script>
+-->
 
 <link rel="stylesheet" type="text/css" href="/common/bootstrap/bootstrap-3.3.1-dist/dist/css/bootstrap.min.css"></link>
 <!-- <link rel="stylesheet" type="text/css" href="/common/jquery.dataTables.min.css"></link> -->
@@ -133,6 +164,7 @@ limitations under the License.
                             class="head-navi-icons typcn typcn-Roberta"></span><span class="hidden-sm hidden-md hidden-lg" lkey="Blockly.Msg.MENU_ROBOT"></span></a>
                         <ul class="dropdown-menu">
                             <li class="robotType"><a href="#" id="menuEv3" class="typcn typcn-ev3">EV3</a></li>
+                            <li class="robotType"><a href="#" id="menuThymio" class="typcn typcn-Roberta">Thymio</a></li>
                             <li class="robotType"><a href="#" id="menuSim" class="typcn typcn-Roberta">OR Simulation</a></li>
                             <li class="divider"></li>
                             <li><a href="#" id="menuConnect" class="typcn typcn-wi-fi" lkey="Blockly.Msg.MENU_CONNECT">verbinden ...</a></li>
@@ -500,11 +532,15 @@ limitations under the License.
                     <br />
                     <span lkey="Blockly.Msg.POPUP_ROBOT_STATE">Status</span>:&nbsp;<span id="robotStateWait" lkey="Blockly.Msg.POPUP_ROBOT_STATE_WAIT"></span><span
                         id="robotStateDisconnected" lkey="Blockly.Msg.POPUP_ROBOT_STATE_DISCONNECTED"></span><span id="robotStateBusy"
-                        lkey="Blockly.Msg.POPUP_ROBOT_STATE_BUSY"></span>
+                        lkey="Blockly.Msg.POPUP_ROBOT_STATE_BUSY"></span><span id="robotStatus"></span>
                     <br />
                     <span lkey="Blockly.Msg.POPUP_ROBOT_BATTERY">Batteriespannung</span>:&nbsp;<span id="robotBattery"></span>
                     <br />
                     <span lkey="Blockly.Msg.POPUP_ROBOT_WAIT">Wartezeit</span>:&nbsp;<span id="robotWait"></span>
+                    <br />
+                    <span id="robotAseba"></span>
+                    <br />
+                    <span id="robotThymio"></span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn" data-dismiss="modal">OK</button>

@@ -114,7 +114,7 @@ function switchLanguageInBrickly() {
         if (Blockly.getMainWorkspace() !== null) {
             var xmlConfiguration = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
             configurationBlocks = Blockly.Xml.domToText(xmlConfiguration);
-            loadToolboxAndConfiguration({
+            initConfigurationEnvironment({
                 "rc" : "ok",
                 "data" : configurationBlocks
             });
@@ -123,24 +123,28 @@ function switchLanguageInBrickly() {
     }
 }
 
-function loadToolboxAndConfiguration(opt_configurationBlocks) {
+function loadToolboxAndConfiguration(toolboxName, configurationName) {
+    loadToolbox(toolboxName);
+    loadConfiguration(configurationName);
+}
+
+function loadToolbox(name) {
     COMM.json("/toolbox", {
         "cmd" : "loadT",
-        "name" : "ev3Brick", // TODO do not use a hardcoded name!
+        "name" : name,
         "owner" : " "
     }, function(toolbox) {
         showToolbox(toolbox);
-        initConfigurationEnvironment(opt_configurationBlocks);
     });
 }
 
-function loadToolbox() {
-    COMM.json("/toolbox", {
-        "cmd" : "loadT",
-        "name" : "ev3Brick", // TODO do not use a hardcoded name!
+function loadConfiguration(name) {
+    COMM.json("/conf", {
+        "cmd" : "loadC",
+        "name" : name,
         "owner" : " "
-    }, function(toolbox) {
-        showToolbox(toolbox);
+    }, function(configuration) {
+    	initConfigurationEnvironment(configuration);
     });
 }
 

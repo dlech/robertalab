@@ -36,8 +36,13 @@ thymio.reconnectThymio = function()
 {
 	thymio.robot = false;
 	thymio.executing = false;
-	document.getElementById('thymio').innerHTML = 'Connecting...';
-	document.getElementById('thymio').style.color = 'orange';
+	document.getElementById('robotThymio').innerHTML = 'Connecting to Thymio...';
+	document.getElementById('robotThymio').style.color = 'orange';
+	$('#iconDisplayRobotState').removeClass('error');
+    $('#iconDisplayRobotState').removeClass('wait');
+    $('#iconDisplayRobotState').removeClass('busy');
+    $('#menuRunProg').parent().addClass('disabled');
+    Blockly.getMainWorkspace().startButton.disable();
 	
 	thymio.sendRequest('http://localhost:3000/nodes', function(e)
 	{
@@ -49,10 +54,14 @@ thymio.reconnectThymio = function()
 					if(obj[i].name == 'thymio-II') {
 						console.log('Connected to Thymio!');
 						thymio.robot = true;
-						document.getElementById('thymio').innerHTML = 'Connected';
-						document.getElementById('thymio').style.color = 'green';
-						document.getElementById('status').innerHTML = 'Ready';
-						document.getElementById('status').style.color = 'green';
+						document.getElementById('robotThymio').innerHTML = 'Connected to Thymio';
+						document.getElementById('robotThymio').style.color = 'green';
+						document.getElementById('robotStatus').innerHTML = 'Ready';
+						document.getElementById('robotStatus').style.color = 'green';
+						$('#iconDisplayRobotState').removeClass('error');
+					    $('#iconDisplayRobotState').addClass('wait');
+					    $('#menuRunProg').parent().removeClass('disabled');
+					    Blockly.getMainWorkspace().startButton.enable();
 					}
 				}
 			}
@@ -66,10 +75,15 @@ thymio.disconnectThymio = function()
 	thymio.executing = false;
 	
 	console.log('Disconnected from Thymio!');
-	document.getElementById('thymio').innerHTML = 'Connecting...';
-	document.getElementById('thymio').style.color = 'orange';
-	document.getElementById('status').innerHTML = 'Thymio disconnected';
-	document.getElementById('status').style.color = 'red';
+	document.getElementById('robotThymio').innerHTML = 'Connecting to Thymio...';
+	document.getElementById('robotThymio').style.color = 'orange';
+	document.getElementById('robotStatus').innerHTML = 'Thymio disconnected';
+	document.getElementById('robotStatus').style.color = 'red';
+	$('#iconDisplayRobotState').removeClass('error');
+    $('#iconDisplayRobotState').removeClass('wait');
+    $('#iconDisplayRobotState').removeClass('busy');
+    $('#menuRunProg').parent().addClass('disabled');
+    Blockly.getMainWorkspace().startButton.disable();
 }
 
 thymio.connect = function()
@@ -82,10 +96,15 @@ thymio.connect = function()
 	thymio.aseba = false;
 	thymio.robot = false;
 	thymio.executing = false;
-	document.getElementById('aseba').innerHTML = 'Connecting...';
-	document.getElementById('aseba').style.color = 'orange';
-	document.getElementById('thymio').innerHTML = '';
-	document.getElementById('thymio').style.color = 'red';
+	document.getElementById('robotAseba').innerHTML = 'Connecting to Aseba...';
+	document.getElementById('robotAseba').style.color = 'orange';
+	document.getElementById('robotThymio').innerHTML = '';
+	document.getElementById('robotThymio').style.color = 'red';
+	$('#iconDisplayRobotState').addClass('error');
+    $('#iconDisplayRobotState').removeClass('wait');
+    $('#iconDisplayRobotState').removeClass('busy');
+    $('#menuRunProg').parent().addClass('disabled');
+    Blockly.getMainWorkspace().startButton.disable();
 
 	thymio.source = new EventSource('http://localhost:3000/events');
 	
@@ -94,8 +113,10 @@ thymio.connect = function()
 		console.log('Event source connected');
 		
 		thymio.aseba = true;
-		document.getElementById('aseba').innerHTML = 'Connected';
-		document.getElementById('aseba').style.color = 'green';
+		document.getElementById('robotAseba').innerHTML = 'Connected to Aseba';
+		document.getElementById('robotAseba').style.color = 'green';
+		$('#iconDisplayRobotState').removeClass('error');
+	    $('#iconDisplayRobotState').removeClass('wait');
 		
 		thymio.reconnectThymio();
 	});
@@ -134,8 +155,11 @@ thymio.stopExecution = function(reason)
 {
 	thymio.executing = false;
 	
-	document.getElementById('status').innerHTML = 'Execution error: ' + reason;
-	document.getElementById('status').style.color = 'orange';
+	document.getElementById('robotStatus').innerHTML = 'Execution error: ' + reason;
+	document.getElementById('robotStatus').style.color = 'orange';
+	$('#iconDisplayRobotState').addClass('busy');
+	
+	displayMessage("POPUP_ROBOT_EXECUTION_ERROR", "POPUP", reason);
 }
 
 thymio.disconnect = function(reason)
@@ -144,12 +168,17 @@ thymio.disconnect = function(reason)
 	thymio.robot = false;
 	thymio.executing = false;
 	
-	document.getElementById('aseba').innerHTML = 'Disconnected';
-	document.getElementById('aseba').style.color = 'red';
-	document.getElementById('thymio').innerHTML = 'Disconnected';
-	document.getElementById('thymio').style.color = 'red';
-	document.getElementById('status').innerHTML = 'Error (' + reason + ')';
-	document.getElementById('status').style.color = 'red';
+	document.getElementById('robotAseba').innerHTML = 'Disconnected from Aseba';
+	document.getElementById('robotAseba').style.color = 'red';
+	document.getElementById('robotThymio').innerHTML = 'Disconnected from Thymio';
+	document.getElementById('robotThymio').style.color = 'red';
+	document.getElementById('robotStatus').innerHTML = 'Error (' + reason + ')';
+	document.getElementById('robotStatus').style.color = 'red';
+	$('#iconDisplayRobotState').addClass('error');
+    $('#iconDisplayRobotState').removeClass('wait');
+    $('#iconDisplayRobotState').removeClass('busy');
+    $('#menuRunProg').parent().addClass('disabled');
+    Blockly.getMainWorkspace().startButton.disable();
 
 	if(thymio.source) {
 		thymio.source.close();
@@ -163,18 +192,22 @@ thymio.run = function(aesl)
 		return;
 	}
 	
+	$('#iconDisplayRobotState').removeClass('busy');
+	
 	var payload = 'file=' + aesl;
 
 	thymio.sendRequest('http://localhost:3000/nodes/thymio-II', function(e)
 	{
 		if(e.status == 200) {
-			document.getElementById('status').innerHTML = 'Executing program';
-			document.getElementById('status').style.color = 'green';
+			document.getElementById('robotStatus').innerHTML = 'Executing program';
+			document.getElementById('robotStatus').style.color = 'green';
 			thymio.executing = true;
 		} else {
-			document.getElementById('status').innerHTML = 'Compilation error: ' + e.responseText;
-			document.getElementById('status').style.color = 'orange';
+			document.getElementById('robotStatus').innerHTML = 'Compilation error: ' + e.responseText;
+			document.getElementById('robotStatus').style.color = 'orange';
 			thymio.executing = false;
+			
+			displayMessage("POPUP_ROBOT_COMPILER_ERROR", "POPUP", e.responseText);
 		}
 	}, 'PUT', payload);
 }

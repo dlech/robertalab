@@ -174,7 +174,15 @@ function showUserInfo() {
  * Show robot info
  */
 function showRobotInfo() {
-    if (userState.robotName) {
+	if(userState.robot === "thymio") {
+		$("#robotName").text("thymio-II");
+        $("#robotStateWait").css('display', 'none');
+        $("#robotStateDisconnected").css('display', 'none');
+        $("#robotStateBusy").css('display', 'none');
+        $("#robotBattery").text('n/a');
+        $("#robotWait").text('n/a');
+        $("#show-robot-info").modal("show");
+	} else if (userState.robotName) {
         if (userState.robot === "oraSim") {
             $("#robotName").text("ORSim");
         } else {
@@ -249,6 +257,9 @@ function injectBlockly(toolbox, opt_programBlocks, opt_readOnly) {
         }
         if (userState.robot === "ev3") {
             $('#menuShowCode').parent().removeClass('disabled');
+            Blockly.getMainWorkspace().codeButton.enable();
+        } else if (userState.robot === "thymio") {
+        	$('#menuShowCode').parent().removeClass('disabled');
             Blockly.getMainWorkspace().codeButton.enable();
         } else {
             $('#menuShowCode').parent().addClass('disabled');
@@ -458,6 +469,16 @@ function runOnBrick() {
         } else {
             startProgram();
         }
+    } else if (userState.robot === 'thymio') {
+    	var aesl;
+    	try {
+    		aesl = thymio.generateAesl(Blockly.mainWorkspace);
+    	} catch(err) {
+    		console.log('Failed to generate AESL code: ' + err);
+    		return;
+    	}
+    	
+    	thymio.run(aesl);
     } else if (userState.robot === 'oraSim') {
         startProgram();
     }
@@ -493,6 +514,32 @@ function showCode() {
             $(".code").removeClass('hide');
             document.getElementById('codeDiv').innerHTML = '<textarea>' + result.javaSource + '</textarea>';
         });
+    } else if (userState.robot === 'thymio') {
+    	try {
+    		userState.programCode = thymio.generateAesl(Blockly.mainWorkspace);
+    	} catch(err) {
+    		console.log('Failed to generate AESL code: ' + err);
+    		return;
+    	}
+    	
+        $('#blocklyDiv').addClass('codeActive');
+        $('#blocklyDiv').parent().bind('transitionend', function() {
+            Blockly.fireUiEvent(window, 'resize');
+        });
+        $('#codeDiv').addClass('codeActive');
+        $('.nav > li > ul > .robotType').addClass('disabled');
+        $('#head-navigation-program-edit').addClass('disabled');
+        $('#head-navigation-program-edit>ul').addClass('hidden');
+        UTIL.cacheBlocks();
+        COMM.json("/toolbox", {
+            "cmd" : "loadT",
+            "name" : userState.toolbox,
+            "owner" : " "
+        }, function(result) {
+            injectBlockly(result, userState.programBlocks, true);
+        });
+        $(".code").removeClass('hide');
+        document.getElementById('codeDiv').innerHTML = '<textarea>' + userState.programCode + '</textarea>';
     }
 }
 
@@ -1176,12 +1223,18 @@ function switchToBlockly() {
 function switchToBrickly() {
     if (userState.robot === "oraSim") { //simulation has no configuration, TODO add flag to robot in database
         $('#simConfiguration').css('display', 'block');
-    } else {
+    } else if (userState.robot === "ev3") {
         $('#bricklyFrame').css('display', 'inline');
         $('#tabs').css('display', 'none');
         // This is only for firefox necessary, should be removed with new Blockly
         UTIL.getBricklyFrame('#bricklyFrame').Blockly.getMainWorkspace().render();
-        UTIL.getBricklyFrame('#bricklyFrame').loadToolbox();
+        UTIL.getBricklyFrame('#bricklyFrame').loadToolbox("ev3Brick");
+    } else if (userState.robot === "thymio") {
+        $('#bricklyFrame').css('display', 'inline');
+        $('#tabs').css('display', 'none');
+        // This is only for firefox necessary, should be removed with new Blockly
+        UTIL.getBricklyFrame('#bricklyFrame').Blockly.getMainWorkspace().render();
+        UTIL.getBricklyFrame('#bricklyFrame').loadToolbox("Thymio");
     }
     $('#tabBrickly').click();
     bricklyActive = true;
@@ -1193,15 +1246,33 @@ function initRobot() {
     ROBOT.setRobot(userState.robot, function(result) {
         response(result);
         if (result.rc === "ok") {
-            setConfiguration("EV3basis");
-            loadToolbox(userState.toolbox);
-            $('#blocklyDiv').removeClass('simBackground');
-            $('#menuEv3').parent().addClass('disabled');
-            $('#menuSim').parent().removeClass('disabled');
-            $('#menuConnect').parent().removeClass('disabled');
-            $('#iconDisplayRobotState').removeClass('typcn-Roberta');
-            $('#iconDisplayRobotState').addClass('typcn-ev3');
-            $('#menuShowCode').parent().removeClass('disabled');
+        	if (userState.robot === "ev3") {
+	            setConfiguration("EV3basis");
+	            loadToolbox(userState.toolbox);
+	            $('#blocklyDiv').removeClass('simBackground');
+	            $('#menuEv3').parent().addClass('disabled');
+	            $('#menuThymio').parent().removeClass('disabled');
+	            $('#menuSim').parent().removeClass('disabled');
+	            $('#menuConnect').parent().removeClass('disabled');
+	            $('#iconDisplayRobotState').removeClass('typcn-Roberta');
+	            $('#iconDisplayRobotState').addClass('typcn-ev3');
+	            $('#menuRunProg').parent().removeClass('disabled');
+	            $('#menuCheckProg').parent().removeClass('disabled');
+	            $('#menuShowCode').parent().removeClass('disabled');
+        	} else if (userState.robot === "thymio") {
+	            setConfiguration("Thymio");
+	            loadToolbox(userState.toolbox);
+	            $('#blocklyDiv').removeClass('simBackground');
+	            $('#menuEv3').parent().removeClass('disabled');
+	            $('#menuThymio').parent().addClass('disabled');
+	            $('#menuSim').parent().removeClass('disabled');
+	            $('#menuConnect').parent().removeClass('disabled');
+                $('#iconDisplayRobotState').removeClass('typcn-ev3');
+                $('#iconDisplayRobotState').addClass('typcn-Roberta');
+                $('#menuRunProg').parent().addClass('disabled');
+                $('#menuCheckProg').parent().addClass('disabled');
+	            $('#menuShowCode').parent().removeClass('disabled');
+        	}
         }
     });
 }
@@ -1217,33 +1288,69 @@ function switchRobot(robot) {
         if (result.rc === "ok") {
             userState.robot = robot;
             setRobotState(result);
+            
+            if(robot !== "thymio") {
+                thymio.disconnect();
+            }
+            
             if (robot === "ev3") {
                 setConfiguration("EV3basis");
                 $('#blocklyDiv').removeClass('simBackground');
                 $('#menuEv3').parent().addClass('disabled');
+                $('#menuThymio').parent().removeClass('disabled');
                 $('#menuSim').parent().removeClass('disabled');
                 $('#menuConnect').parent().removeClass('disabled');
                 $('#iconDisplayRobotState').removeClass('typcn-Roberta');
                 $('#iconDisplayRobotState').addClass('typcn-ev3');
+                $('#menuRunProg').parent().removeClass('disabled');
+	            $('#menuCheckProg').parent().removeClass('disabled');
                 $('#menuShowCode').parent().removeClass('disabled');
+                $('#robotStatus').html('');
+                $('#robotAseba').html('');
+                $('#robotThymio').html('');
                 Blockly.getMainWorkspace().codeButton.enable();
-                UTIL.getBricklyFrame('#bricklyFrame').loadToolboxAndConfiguration();
+                UTIL.getBricklyFrame('#bricklyFrame').loadToolboxAndConfiguration("ev3Brick", "ev3Brick");
             } else if (robot === "oraSim") {
                 setConfiguration("ORSim");
                 $('#blocklyDiv').addClass('simBackground');
                 $('#menuEv3').parent().removeClass('disabled');
+                $('#menuThymio').parent().removeClass('disabled');
                 $('#menuSim').parent().addClass('disabled');
                 $('#menuConnect').parent().addClass('disabled');
                 $('#iconDisplayRobotState').removeClass('typcn-ev3');
                 $('#iconDisplayRobotState').addClass('typcn-Roberta');
+                $('#menuRunProg').parent().removeClass('disabled');
+	            $('#menuCheckProg').parent().removeClass('disabled');
                 $('#menuShowCode').parent().addClass('disabled');
+                $('#robotStatus').html('');
+                $('#robotAseba').html('');
+                $('#robotThymio').html('');
                 Blockly.getMainWorkspace().codeButton.disable();
                 PROGRAM.loadProgramFromListing('NEPOprog', 'Roberta', function(result) {
                     if (result.rc === 'ok') {
                         showProgram(result, true, 'NEPOprog');
                     }
                 });
+            } else if (robot === "thymio") {
+                setConfiguration("Thymio");
+                $('#blocklyDiv').removeClass('simBackground');
+                $('#menuEv3').parent().removeClass('disabled');
+                $('#menuThymio').parent().addClass('disabled');
+                $('#menuSim').parent().removeClass('disabled');
+                $('#menuConnect').parent().removeClass('disabled');
+                $('#iconDisplayRobotState').removeClass('typcn-ev3');
+                $('#iconDisplayRobotState').addClass('typcn-Roberta');
+                $('#iconDisplayRobotState').addClass('error');
+                $('#iconDisplayRobotState').removeClass('busy');
+                $('#iconDisplayRobotState').removeClass('wait');
+                $('#menuRunProg').parent().addClass('disabled');
+	            $('#menuCheckProg').parent().addClass('disabled');
+                $('#menuShowCode').parent().removeClass('disabled');
+                Blockly.getMainWorkspace().codeButton.enable();
+                Blockly.getMainWorkspace().startButton.disable();
+                UTIL.getBricklyFrame('#bricklyFrame').loadToolboxAndConfiguration("Thymio", "Thymio");
             }
+            
             loadToolbox(userState.toolbox);
         }
     });
@@ -1306,14 +1413,22 @@ function initHeadNavigation() {
             if (newProgram()) {
                 switchRobot('ev3');
             }
+        } else if (domId === 'menuThymio') { // Submenu 'Robot'
+            if (newProgram()) {
+                switchRobot('thymio');
+            }            
         } else if (domId === 'menuSim') { // Submenu 'Robot'
             if (newProgram()) {
                 switchRobot('oraSim');
             }
         } else if (domId === 'menuConnect') { // Submenu 'Robot'
-            $('#buttonCancelFirmwareUpdate').css('display', 'inline');
-            $('#buttonCancelFirmwareUpdateAndRun').css('display', 'none');
-            $("#set-token").modal("show");
+        	if(userState.robot == "thymio") {
+        		thymio.connect();
+        	} else {
+	            $('#buttonCancelFirmwareUpdate').css('display', 'inline');
+	            $('#buttonCancelFirmwareUpdateAndRun').css('display', 'none');
+	            $("#set-token").modal("show");
+        	}
         } else if (domId === 'menuRobotInfo') { // Submenu 'Robot'
             showRobotInfo();
         } else if (domId === 'menuGeneral') { // Submenu 'Help'
@@ -1517,8 +1632,13 @@ function initHeadNavigation() {
         $('#codeDiv').removeClass('codeActive');
         if (userState.robot === "oraSim") {
             $('#menuEv3').parent().removeClass('disabled');
-        } else {
+            $('#menuThymio').parent().removeClass('disabled');
+        } else if (userState.robot === "ev3" ) {
             $('#menuSim').parent().removeClass('disabled');
+            $('#menuThymio').parent().removeClass('disabled');
+        } else if (userState.robot === "thymio" ) {
+        	$('#menuEv3').parent().removeClass('disabled');
+        	$('#menuSim').parent().removeClass('disabled');
         }
         Blockly.fireUiEvent(window, 'resize')
         COMM.json("/toolbox", {
@@ -1539,7 +1659,11 @@ function initHeadNavigation() {
         var element = document.createElement('a');
         var myURL = window.URL || window.webkitURL;
         element.setAttribute('href', myURL.createObjectURL(blob));
-        element.setAttribute('download', userState.program + ".java");
+        if(userState.robot === 'thymio') {
+        	element.setAttribute('download', userState.program + ".aesl");
+        } else {
+        	element.setAttribute('download', userState.program + ".java");
+        }
         element.style.display = 'none';
         document.body.appendChild(element);
         element.click();
@@ -1769,23 +1893,24 @@ function setRobotState(result) {
         $('#iconDisplayLogin').removeClass('ok');
         $('#iconDisplayLogin').addClass('error');
     }
-    if (userState.robotState === 'wait') {
-        $('#iconDisplayRobotState').removeClass('error');
-        $('#iconDisplayRobotState').removeClass('busy');
-        $('#iconDisplayRobotState').addClass('wait');
-        if (Blockly.hasStartButton) {
-            Blockly.getMainWorkspace().startButton.enable();
-        }
-    } else if (userState.robotState === 'busy') {
-        $('#iconDisplayRobotState').removeClass('wait');
-        $('#iconDisplayRobotState').removeClass('error');
-        $('#iconDisplayRobotState').addClass('busy');
-    } else {
-        $('#iconDisplayRobotState').removeClass('busy');
-        $('#iconDisplayRobotState').removeClass('wait');
-        $('#iconDisplayRobotState').addClass('error');
+    if(userState.robot !== 'thymio') {
+	    if (userState.robotState === 'wait') {
+	        $('#iconDisplayRobotState').removeClass('error');
+	        $('#iconDisplayRobotState').removeClass('busy');
+	        $('#iconDisplayRobotState').addClass('wait');
+	        if (Blockly.hasStartButton) {
+	            Blockly.getMainWorkspace().startButton.enable();
+	        }
+	    } else if (userState.robotState === 'busy') {
+	        $('#iconDisplayRobotState').removeClass('wait');
+	        $('#iconDisplayRobotState').removeClass('error');
+	        $('#iconDisplayRobotState').addClass('busy');
+	    } else {
+	        $('#iconDisplayRobotState').removeClass('busy');
+	        $('#iconDisplayRobotState').removeClass('wait');
+	        $('#iconDisplayRobotState').addClass('error');
+	    }
     }
-
 }
 
 /**
