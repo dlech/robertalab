@@ -144,6 +144,13 @@ Blockly.CAT_VARIABLE_RGB = [ 144, 133, 186 ];
  */
 Blockly.CAT_COMMUNICATION_RGB = [ 255, 105, 180 ];
 
+// Thymio categories
+Blockly.CAT_ACTUATORS_RGB = [ 19, 163, 19 ];
+Blockly.CAT_LEDS_RGB = [ 19, 163, 115 ];
+Blockly.CAT_EVENTS_RGB = [ 163, 43, 19 ];
+Blockly.CAT_LOOPS_RGB = [ 235, 106, 10 ];
+Blockly.CAT_ARRAYS_RGB = [ 255, 105, 180 ];
+
 /**
  * ENUM for a right-facing value input. E.g. 'test' or 'return'.
  * 
