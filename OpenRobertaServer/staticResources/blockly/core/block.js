@@ -662,6 +662,7 @@ Blockly.Block.prototype.onMouseUp_ = function(e) {
             // Check if this block is part of a task
             var topBlocks = Blockly.getMainWorkspace().getTopBlocks(true);
             var rootBlock = Blockly.selected.getRootBlock();
+            
             var found = false;
             for (var i = 0; !found && i < topBlocks.length; i++) {
                 var block = topBlocks[i];
@@ -669,7 +670,8 @@ Blockly.Block.prototype.onMouseUp_ = function(e) {
                 while (block) {
                     if (block == rootBlock) {
                         if (block.type == 'robControls_activity' || block.type == 'robControls_start' || block.type == 'robProcedures_defnoreturn'
-                                || block.type == 'robProcedures_defreturn' || block.type == 'robBrick_EV3-Brick') {
+                                || block.type == 'robProcedures_defreturn' || block.type == 'robBrick_EV3-Brick' || block.type.indexOf('thymio_event') === 0
+                                || block.type == 'thymio_declare_array') {
                             intask = true;
                         }
                         found = true;
