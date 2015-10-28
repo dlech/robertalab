@@ -147,7 +147,8 @@ var SIM = (function() {
         light : 0,
         ultrasonic : 0,
         tacho : [ 0, 0 ],
-        time : 0
+        time : 0,
+        frameTime : 0
     };
 
     var output = {
@@ -196,6 +197,7 @@ var SIM = (function() {
         var now = new Date().getTime();
         dt = now - (time || now);
         dt /= 1000;
+        input.frameTime = dt;
 
         time = now;
 
