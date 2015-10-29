@@ -146,6 +146,7 @@ class Gen_compressed(threading.Thread):
   def run(self):
     self.gen_core()
     self.gen_blocks()
+    self.gen_generator("aesl")
 
   def gen_core(self):
     target_filename = 'blockly_compressed.js'
