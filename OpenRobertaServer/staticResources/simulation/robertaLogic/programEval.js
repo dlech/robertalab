@@ -15,6 +15,20 @@ function setSensorActorValues(simulationSensorData) {
     ACTORS.getLeftMotor().setCurrentRotations(simulationSensorData.tacho[0]);
     ACTORS.getRightMotor().setCurrentRotations(simulationSensorData.tacho[1]);
     PROGRAM_SIMULATION.getTimer().setCurrentTime(simulationSensorData.time);
+    PROGRAM_SIMULATION.setNextFrameTimeDuration(simulationSensorData.frameTime);
+}
+
+function handleSpeeds(speeds) {
+    var values = {};
+    values['powerLeft'] = ACTORS.getLeftMotor().getPower();
+    values['powerRight'] = ACTORS.getRightMotor().getPower();
+    if (speeds[0] != undefined) {
+        values['powerLeft'] = speeds[0]
+    }
+    if (speeds[1] != undefined) {
+        values['powerRight'] = speeds[1]
+    }
+    return values;
 }
 
 function step(simulationSensorData) {
@@ -84,8 +98,9 @@ function step(simulationSensorData) {
             throw "Invalid Statement " + stmt.stmt + "!";
         }
     }
-    ACTORS.calculateCoveredDistance();
+    newSpeeds = ACTORS.calculateCoveredDistance();
     PROGRAM_SIMULATION.handleWaitTimer();
+    return handleSpeeds(newSpeeds);
 }
 
 function evalWaitTime(simulationSensorData, stmt) {

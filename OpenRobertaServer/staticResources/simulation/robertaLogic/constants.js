@@ -147,18 +147,28 @@ TIMES = "TIMES";
 const
 COLOR_CONST = "COLOR_CONST";
 
-const PILOT = "pilot";
-const MOTOR_LEFT = "C";
-const MOTOR_RIGHT = "B";
-const MOTOR_SIDE = "motorSide";
-const MOTOR_ON_ACTION = "motorOnAction";
-const MOTOR_STOP = "motorStop";
-const MOTOR_MOVE_MODE = "motorMoveMode";
-const MOTOR_DURATION = "motorDuration";
-const MOTOR_DURATION_VALUE = "motorDurationValue";
-const ROTATIONS = "ROTATIONS";
-const DEGREE = "DEGREE";
-
+const
+PILOT = "pilot";
+const
+MOTOR_LEFT = "C";
+const
+MOTOR_RIGHT = "B";
+const
+MOTOR_SIDE = "motorSide";
+const
+MOTOR_ON_ACTION = "motorOnAction";
+const
+MOTOR_STOP = "motorStop";
+const
+MOTOR_MOVE_MODE = "motorMoveMode";
+const
+MOTOR_DURATION = "motorDuration";
+const
+MOTOR_DURATION_VALUE = "motorDurationValue";
+const
+ROTATIONS = "ROTATIONS";
+const
+DEGREE = "DEGREE";
 
 const
 COLOR_ENUM = {
@@ -181,7 +191,7 @@ WHEEL_DIAMETER = 5.6;
 const
 MAXDIAG = 2500;
 const
-MAXPOWER = 0.35 * 3; // real Robot drives approx. 35 cm / 1 sec -> 105 pix/sec | 3pix = 1cm
+MAXPOWER = 0.351858377 * 3; // real Robot drives approx. 35 cm / 1 sec -> 105 pix/sec | 3pix = 1cm
 const
 ENC = 360.0 / (3.0 * Math.PI * WHEEL_DIAMETER);
 const

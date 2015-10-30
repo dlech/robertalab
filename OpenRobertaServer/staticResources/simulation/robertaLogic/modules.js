@@ -1,3 +1,11 @@
+function round(value, decimals) {
+    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+}
+
+function sgn(x) {
+    return (x > 0) - (x < 0);
+}
+
 var SENSORS = (function() {
     var touchSensor = false;
     var ultrasonicSensor = 0;
@@ -95,39 +103,82 @@ var ACTORS = (function() {
         resetRightTachoMotor(rightMotorValue);
     }
 
+    function leftMotorLFSpeedCorrection() {
+        var roundUP = 3;
+        var correctedSpeed = undefined;
+        var nextFrameDistanceL = Math.abs(getLeftMotor().getPower()) * MAXPOWER * PROGRAM_SIMULATION.getNextFrameTimeDuration() / 3.0;
+        var nextFrameRotationsL = distanceToRotations(nextFrameDistanceL);
+
+        if (round(getLeftMotor().getCurrentRotations(), roundUP) + nextFrameRotationsL > round(getLeftMotor().getRotations(), roundUP)) {
+            var dRotations = getLeftMotor().getRotations() - getLeftMotor().getCurrentRotations();
+            var dDistance = rotationsToDistance(dRotations);
+            correctedSpeed = (3 * dDistance) / (MAXPOWER * PROGRAM_SIMULATION.getNextFrameTimeDuration()) * sgn(getLeftMotor().getPower());
+        }
+        return correctedSpeed;
+    }
+
+    function rightMotorLFSpeedCorrection() {
+        var roundUP = 3;
+        var correctedSpeed = undefined;
+        var nextFrameDistanceR = Math.abs(getRightMotor().getPower()) * MAXPOWER * PROGRAM_SIMULATION.getNextFrameTimeDuration() / 3.0;
+        var nextFrameRotationsR = distanceToRotations(nextFrameDistanceR);
+
+        if (round(getRightMotor().getCurrentRotations(), roundUP) + nextFrameRotationsR > round(getRightMotor().getRotations(), roundUP)) {
+            var dRotations = getRightMotor().getRotations() - getRightMotor().getCurrentRotations();
+            var dDistance = rotationsToDistance(dRotations);
+            correctedSpeed = (3 * dDistance) / (MAXPOWER * PROGRAM_SIMULATION.getNextFrameTimeDuration()) * sgn(getRightMotor().getPower());
+        }
+
+        return correctedSpeed
+    }
+
     function calculateCoveredDistance() {
-        var leftMotorRotationFinished = getLeftMotor().getCurrentRotations() > getLeftMotor().getRotations();
-        var rightMotorRotationFinished = getRightMotor().getCurrentRotations() > getRightMotor().getRotations();
+        var roundUP = 3;
+        var frameCorrLeftMotorPower = undefined;
+        var frameCorrRightMotorPower = undefined;
+
+        var isLeftMotorFinished = round(getLeftMotor().getCurrentRotations(), roundUP) >= round(getLeftMotor().getRotations(), roundUP);
+        var isRightMotorFinished = round(getRightMotor().getCurrentRotations(), roundUP) >= round(getRightMotor().getRotations(), roundUP);
+
         if (distanceToCover) {
+
             switch (driveMode) {
 
             case PILOT:
-                if (leftMotorRotationFinished && rightMotorRotationFinished) {
+                if (isLeftMotorFinished && isRightMotorFinished) {
                     getLeftMotor().setPower(0);
                     getRightMotor().setPower(0);
                     distanceToCover = false;
                     PROGRAM_SIMULATION.setNextStatement(true);
+                } else {
+                    frameCorrLeftMotorPower = leftMotorLFSpeedCorrection();
+                    frameCorrRightMotorPower = rightMotorLFSpeedCorrection();
                 }
                 break;
 
             case MOTOR_LEFT:
-                if (leftMotorRotationFinished) {
+                if (isLeftMotorFinished) {
                     getLeftMotor().setPower(0);
                     distanceToCover = false;
                     PROGRAM_SIMULATION.setNextStatement(true);
+                } else {
+                    frameCorrLeftMotorPower = leftMotorLFSpeedCorrection();
                 }
                 break;
 
             case MOTOR_RIGHT:
-                if (rightMotorRotationFinished) {
+                if (isRightMotorFinished) {
                     getRightMotor().setPower(0);
                     distanceToCover = false;
                     PROGRAM_SIMULATION.setNextStatement(true);
+                } else {
+                    frameCorrRightMotorPower = rightMotorLFSpeedCorrection();
                 }
                 break;
             }
 
         }
+        return [ frameCorrLeftMotorPower, frameCorrRightMotorPower ];
     }
 
     function clculateAngleToCover(angle) {
@@ -140,7 +191,7 @@ var ACTORS = (function() {
     }
 
     function setDistanceToCover(distance) {
-        var rotations = distance / (WHEEL_DIAMETER * 3.14);
+        var rotations = distanceToRotations(distance);
         leftMotor.setRotations(rotations);
         rightMotor.setRotations(rotations);
         distanceToCover = true;
@@ -175,6 +226,14 @@ var ACTORS = (function() {
     function resetMotorsSpeed() {
         leftMotor.setPower(0);
         rightMotor.setPower(0);
+    }
+
+    function distanceToRotations(distance) {
+        return distance / (WHEEL_DIAMETER * Math.PI);
+    }
+
+    function rotationsToDistance(rotations) {
+        return (WHEEL_DIAMETER * Math.PI) * rotations;
     }
 
     function toString() {
@@ -254,6 +313,7 @@ var PROGRAM_SIMULATION = (function() {
     var wait = false;
     var timer = new Timer();
     var runningTimer = false;
+    var nextFrameTimeDuration = 0;
 
     function set(newProgram) {
         program = newProgram;
@@ -333,8 +393,15 @@ var PROGRAM_SIMULATION = (function() {
         runningTimer = value;
     }
 
+    function setNextFrameTimeDuration(value) {
+        nextFrameTimeDuration = value;
+    }
+    function getNextFrameTimeDuration() {
+        return nextFrameTimeDuration;
+    }
+
     function toString() {
-        return JSON.stringify([ program, timer ]);
+        return JSON.stringify([ program, timer, nextFrameTimeDuration ]);
     }
 
     return {
@@ -353,6 +420,8 @@ var PROGRAM_SIMULATION = (function() {
         "getTimer" : getTimer,
         "setTimer" : setTimer,
         "handleWaitTimer" : handleWaitTimer,
+        "setNextFrameTimeDuration" : setNextFrameTimeDuration,
+        "getNextFrameTimeDuration" : getNextFrameTimeDuration,
         "toString" : toString
     };
 })();

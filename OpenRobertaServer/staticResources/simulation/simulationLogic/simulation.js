@@ -209,8 +209,8 @@ var SIM = (function() {
             if (stepCounter === 0) {
                 setPause(true);
             }
-            step(input);
-            setOutput();
+            motorValues = step(input);
+            setOutput(motorValues);
         } else if (PROGRAM_SIMULATION.isTerminated()) {
             reloadProgram();
             eval(userProgram);
@@ -229,14 +229,14 @@ var SIM = (function() {
         $('.simForward').addClass('typcn-media-play');
     }
 
-    function setOutput() {
-        var left = ACTORS.getLeftMotor().getPower();
+    function setOutput(values) {
+        var left = values.powerLeft;
         if (left > 100) {
             left = 100;
         } else if (left < -100) {
             left = -100
         }
-        var right = ACTORS.getRightMotor().getPower();
+        var right = values.powerRight;
         if (right > 100) {
             right = 100;
         } else if (right < -100) {
@@ -488,7 +488,7 @@ var SIM = (function() {
     function getAverageTimeStep() {
         return averageTimeStep;
     }
-    
+
     function isIE() {
         var ua = window.navigator.userAgent;
         var ie = ua.indexOf('MSIE ');
@@ -499,7 +499,7 @@ var SIM = (function() {
         }
         return false;
     }
-    
+
     return {
         "init" : init,
         "setPause" : setPause,

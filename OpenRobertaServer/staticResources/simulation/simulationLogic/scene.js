@@ -82,8 +82,8 @@ Scene.prototype.drawRobot = function() {
         this.rCtx.font = "10px Verdana";
         var x, y;
         if (SIM.getBackground() === 5) {
-            x = (this.robot.pose.x + this.robot.pose.transX) / 3;
-            y = (-this.robot.pose.y - this.robot.pose.transY) / 3;
+            x = round((this.robot.pose.x + this.robot.pose.transX) / 3, 1);
+            y = round((-this.robot.pose.y - this.robot.pose.transY) / 3, 1);
             this.rCtx.fillStyle = "#ffffff";
 
         } else {
@@ -98,19 +98,19 @@ Scene.prototype.drawRobot = function() {
         this.rCtx.fillText(Math.round(this.robot.time * 10) / 10, endValue, line);
         line += 15;
         this.rCtx.fillText("Robot X", endLabel, line);
-        this.rCtx.fillText(Math.round(x), endValue, line);
+        this.rCtx.fillText(x, endValue, line);
         line += 15;
         this.rCtx.fillText("Robot Y", endLabel, line);
-        this.rCtx.fillText(Math.round(y), endValue, line);
+        this.rCtx.fillText(y, endValue, line);
         line += 15;
         this.rCtx.fillText("Robot θ", endLabel, line);
-        this.rCtx.fillText(Math.round(Math.round(SIMATH.toDegree(this.robot.pose.theta))), endValue, line);
+        this.rCtx.fillText(round(round(SIMATH.toDegree(this.robot.pose.theta), 0), 0), endValue, line);
         line += 25;
         this.rCtx.fillText("Motor left", endLabel, line);
-        this.rCtx.fillText(Math.round(this.robot.encoder.left * ENC), endValue, line);
+        this.rCtx.fillText(round(this.robot.encoder.left * ENC, 0), endValue, line);
         line += 15;
         this.rCtx.fillText("Motor right", endLabel, line);
-        this.rCtx.fillText(Math.round(this.robot.encoder.right * ENC), endValue, line);
+        this.rCtx.fillText(round(this.robot.encoder.right * ENC, 0), endValue, line);
         line += 15;
         this.rCtx.fillText("Touch Sensor", endLabel, line);
         this.rCtx.fillText(Math.round(this.robot.touchSensor.value), endValue, line);
