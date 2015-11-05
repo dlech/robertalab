@@ -28,5 +28,6 @@
 		<mapping class="de.fhg.iais.roberta.persistence.bo.Robot"/>
         <mapping class="de.fhg.iais.roberta.persistence.bo.User"/>
         <mapping class="de.fhg.iais.roberta.persistence.bo.AccessRight"/>
+        <mapping class="de.fhg.iais.roberta.persistence.bo.TmpPassword"/>
     </session-factory>
 </hibernate-configuration>
