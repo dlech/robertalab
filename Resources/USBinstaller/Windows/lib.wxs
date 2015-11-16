@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="LIB" />
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="LibGroupID">
+            <Component Id="cmp6A80CD1EE1483EE0D519882792703D09" Directory="LIB" Guid="{7F481E2C-931B-411C-9254-18058EB0C7C9}">
+                <File Id="filE65171E0DB58A761E63326FFB003A337" KeyPath="yes" Source="SourceDir\annotations-2.0.1.jar" />
+            </Component>
+            <Component Id="cmpC15F7A9153C6E83848050B2BEFC396CD" Directory="LIB" Guid="{B6CEEBFD-11DA-4A64-8B86-5724844905AC}">
+                <File Id="fil5691088589EF00DBB0669AF136E5AA34" KeyPath="yes" Source="SourceDir\commons-codec-1.10.jar" />
+            </Component>
+            <Component Id="cmp26C05B9A22EB1BF272566BC3450EEAC8" Directory="LIB" Guid="{06B35790-220D-48C1-BD77-656338DADFE4}">
+                <File Id="filF064D868292376CB6C5BA054ED489BA9" KeyPath="yes" Source="SourceDir\commons-logging-1.2.jar" />
+            </Component>
+            <Component Id="cmp4F74FCFA5144426B92537401B566A56E" Directory="LIB" Guid="{C293B7CE-4874-4C9D-B879-66A1A455BB2C}">
+                <File Id="fil6FC90EC411294C953CB960994DEF886C" KeyPath="yes" Source="SourceDir\httpclient-4.5.1.jar" />
+            </Component>
+            <Component Id="cmpB906B0C1CF43FB604B51304C299B0C47" Directory="LIB" Guid="{C88F3C1C-D9AA-42D1-A71F-D9488489D3A7}">
+                <File Id="fil194175EF3C26F21A3D86ED3B1A77DDAE" KeyPath="yes" Source="SourceDir\httpcore-4.4.3.jar" />
+            </Component>
+            <Component Id="cmpE3D19440F3CB8771847E16D9A6D0596F" Directory="LIB" Guid="{7EACF1BE-8817-44AB-902D-FE4CCED86222}">
+                <File Id="fil8B6109EAACFC64F21176ABC43EC9589F" KeyPath="yes" Source="SourceDir\json-20140107.jar" />
+            </Component>
+            <Component Id="cmpC4C2297B4524E1D04C9D88639B4CEB0D" Directory="LIB" Guid="{85DD4ECD-7C00-49A9-9EC5-DCB190490527}">
+                <File Id="fil03E406B8E03A1123BE30FB6A3BFD1CE7" KeyPath="yes" Source="SourceDir\logback-classic-1.0.13.jar" />
+            </Component>
+            <Component Id="cmp43F4F5460E242890E4868EF97D7C2D79" Directory="LIB" Guid="{6E013571-20AD-4CD5-BC2B-663E7AEB005C}">
+                <File Id="filAC0CF40076D9993351384A5E097B78F3" KeyPath="yes" Source="SourceDir\logback-core-1.0.13.jar" />
+            </Component>
+            <Component Id="cmp1D0F1D4D9CC80F8B19B38541DCF8A4E7" Directory="LIB" Guid="{A21642D8-1E16-4541-9D4E-016424E6B2E0}">
+                <File Id="fil42ACF0B2093754551566C522C15994B5" KeyPath="yes" Source="SourceDir\slf4j-api-1.7.5.jar" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>
